@@ -6,7 +6,7 @@ import api from '../api';
 export default function SidebarLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { logout } = useAuthStore();
+  const { logout, role } = useAuthStore();
 
   const handleLogout = async () => {
     try {
@@ -23,6 +23,10 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
     { name: 'Session History', path: '/history' },
     { name: 'Appointments', path: '/appointments' },
   ];
+
+  if (role === 'admin') {
+    navLinks.push({ name: 'Admin Panel', path: '/admin' });
+  }
 
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">

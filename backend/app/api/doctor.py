@@ -63,6 +63,7 @@ async def upload_and_process_cv(
     
     # Extract text using PyMuPDF (fitz)
     try:
+        # pyrefly: ignore [missing-import]
         import fitz # PyMuPDF
         doc = fitz.open(stream=content, filetype="pdf")
         text = ""
@@ -99,8 +100,9 @@ async def extract_keywords_from_text(text: str) -> CVKeywords:
             years_experience=5,
             summary="This is a mock summary extracted from the CV because no API key is provided."
         )
-    
+    # pyrefly: ignore [missing-import]
     import openai
+    # pyrefly: ignore [missing-import]
     from openai import AsyncOpenAI
     
     if settings.GROQ_API_KEY:

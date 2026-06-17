@@ -1,8 +1,22 @@
-# CareBridge AI
+# CareBridge AI 🩺
 
-Welcome to the CareBridge AI project! This repository contains the foundation for the Triage + Doctor Marketplace platform.
+> ⚠️ **Note:** This application is currently under active development. Features and endpoints may change frequently as we continue building out the core platform.
 
-## Getting Started (Phase 1)
+Welcome to the **CareBridge AI** project! This repository contains the foundation for an intelligent Triage and Doctor Marketplace platform, designed to accurately evaluate patient symptoms using AI and connect them with the right specialists.
+
+## Tech Stack
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+<br>
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![OpenAI](https://img.shields.io/badge/OpenAI-412991.svg?style=for-the-badge&logo=OpenAI&logoColor=white)
+
+## Getting Started
 
 Follow these instructions to get the project up and running locally. We are running the Backend and Frontend manually and using a local PostgreSQL installation.
 
@@ -54,6 +68,9 @@ Follow these instructions to get the project up and running locally. We are runn
    # Run Database Migrations
    alembic upgrade head
    
+   # Seed the default Admin User
+   python seed_admin.py
+   
    # Start the Backend Server
    uvicorn app.main:app --reload
    ```
@@ -70,8 +87,9 @@ Follow these instructions to get the project up and running locally. We are runn
 
 ### Accessing the Application
 
-- **Frontend Interface:** Open your browser and navigate to [http://localhost:5173](http://localhost:5173). You should see the "CareBridge AI — coming soon" placeholder page.
-- **Backend API:** The FastAPI backend is running on [http://localhost:8000](http://localhost:8000).
+- **Frontend Interface:** Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
+  - **Admin Access:** You can log in using `admin@carebridge.ai` and `admin123` to access the Admin Panel to approve doctor applications.
+- **Backend API Docs:** The FastAPI interactive documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
 - **Backend Health Check:** Visit [http://localhost:8000/health](http://localhost:8000/health) to verify the backend is successfully connected to the database (it should return `{"status": "ok"}`).
 
 ---

@@ -20,12 +20,14 @@ app.add_middleware(
 from app.api.auth import router as auth_router
 from app.api.patient import router as patient_router
 from app.api.doctor import router as doctor_router
+from app.api.admin import router as admin_router
 from app.api.deps import get_current_user, require_role, require_approved_doctor
 from app.db.models import User, UserRole
 
 app.include_router(auth_router, prefix="/api/auth", tags=["auth"])
 app.include_router(patient_router, prefix="/api/patients", tags=["patients"])
 app.include_router(doctor_router, prefix="/api/doctors", tags=["doctors"])
+app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 
 @app.get("/api/test-patient")
 def test_patient(current_user: User = Depends(require_role([UserRole.PATIENT]))):

@@ -8,6 +8,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { useAuthStore } from './store/authStore';
 import api from './api';
 
+import AdminPanel from './pages/AdminPanel';
+
 function App() {
   const setUser = useAuthStore(state => state.setUser);
   const [loading, setLoading] = useState(true);
@@ -52,6 +54,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } 
+        />
+        
+        <Route 
+          path="/admin" 
+          element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminPanel />
             </ProtectedRoute>
           } 
         />

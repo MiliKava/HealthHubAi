@@ -22,7 +22,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    doctor_profile = relationship("DoctorProfile", back_populates="user", uselist=False)
+    doctor_profile = relationship("DoctorProfile", back_populates="user", uselist=False, foreign_keys="DoctorProfile.user_id")
     patient_profile = relationship("PatientProfile", back_populates="user", uselist=False)
     refresh_tokens = relationship("RefreshToken", back_populates="user")
 
@@ -42,9 +42,12 @@ class DoctorProfile(Base):
     years_experience = Column(sqlalchemy.Integer, nullable=False)
     cv_keywords = Column(sqlalchemy.JSON, nullable=True, default={})
     approval_status = Column(Enum(ApprovalStatus), nullable=False, default=ApprovalStatus.PENDING)
+    approved_by = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=True)
+    approved_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="doctor_profile")
+    user = relationship("User", back_populates="doctor_profile", foreign_keys=[user_id])
+    approved_by_user = relationship("User", foreign_keys=[approved_by])
 
 class PatientProfile(Base):
     __tablename__ = "patient_profiles"

@@ -5,6 +5,21 @@ export default function Dashboard() {
   const { user, role } = useAuthStore();
 
   const isPendingDoctor = role === 'doctor' && user?.doctor_profile?.approval_status === 'pending';
+  const isRejectedDoctor = role === 'doctor' && user?.doctor_profile?.approval_status === 'rejected';
+
+  if (isRejectedDoctor) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="bg-white p-8 rounded-xl border border-red-200 shadow-sm max-w-md w-full text-center">
+          <div className="text-red-500 text-4xl mb-4">✗</div>
+          <h2 className="text-xl font-bold text-slate-900 mb-2">Application Rejected</h2>
+          <p className="text-slate-600 mb-6">
+            We're sorry, but your application to join CareBridge AI as a doctor has been rejected. You cannot access the doctor dashboard.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <SidebarLayout>
