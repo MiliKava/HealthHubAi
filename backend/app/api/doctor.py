@@ -89,7 +89,7 @@ async def upload_and_process_cv(
     return extracted
 
 async def extract_keywords_from_text(text: str) -> CVKeywords:
-    if not settings.OPENAI_API_KEY or settings.OPENAI_API_KEY == "dummy":
+    if not settings.GROQ_API_KEY and (not settings.OPENAI_API_KEY or settings.OPENAI_API_KEY in ["dummy", "your_openai_api_key_here"]):
         # Return mock data if no real key
         return CVKeywords(
             specialty="General Practice (Mock)",
@@ -103,7 +103,12 @@ async def extract_keywords_from_text(text: str) -> CVKeywords:
     import openai
     from openai import AsyncOpenAI
     
-    client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+    if settings.GROQ_API_KEY:
+        client = AsyncOpenAI(api_key=settings.GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+        model_name = "llama-3.1-8b-instant"
+    else:
+        client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        model_name = "gpt-3.5-turbo"
     
     prompt = """
     You are a medical CV parsing assistant. Extract the following information from the provided CV text.
@@ -120,7 +125,7 @@ async def extract_keywords_from_text(text: str) -> CVKeywords:
     
     try:
         response = await client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model=model_name,
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": f"CV Text:\n\n{text}"}

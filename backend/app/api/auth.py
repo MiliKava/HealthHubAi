@@ -114,6 +114,7 @@ def register_doctor(
 
     # Extract text using PyMuPDF (fitz)
     try:
+        # pyrefly: ignore [missing-import]
         import fitz # PyMuPDF
         with open(file_path, "rb") as f:
             doc = fitz.open(stream=f.read(), filetype="pdf")
