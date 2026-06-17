@@ -1,5 +1,9 @@
+import os
 from pydantic_settings import BaseSettings
 from typing import Optional
+
+# Get the path to the root directory
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "CareBridge AI"
@@ -10,7 +14,7 @@ class Settings(BaseSettings):
     DAILY_API_KEY: Optional[str] = None
     
     class Config:
-        env_file = ".env"
+        env_file = os.path.join(ROOT_DIR, ".env")
         env_file_encoding = 'utf-8'
         case_sensitive = True
 

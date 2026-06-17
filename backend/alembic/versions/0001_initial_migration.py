@@ -19,8 +19,8 @@ depends_on: Union[str, Sequence[str], None] = None
 
 
 def upgrade() -> None:
-    # Enable pgvector extension
-    op.execute("CREATE EXTENSION IF NOT EXISTS vector")
+    # Enable pgvector extension (Commented out for local Windows setup)
+    # op.execute("CREATE EXTENSION IF NOT EXISTS vector")
 
     # Create UserRole Enum
     user_role = sa.Enum('PATIENT', 'DOCTOR', 'ADMIN', name='userrole')
@@ -45,4 +45,4 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
     op.execute("DROP TYPE userrole")
-    op.execute("DROP EXTENSION IF EXISTS vector")
+    # op.execute("DROP EXTENSION IF EXISTS vector")
