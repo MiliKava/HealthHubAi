@@ -24,9 +24,11 @@ class DoctorProfileUpdate(BaseModel):
     years_experience: Optional[int] = None
     cv_keywords: Optional[CVKeywords] = None
 
+import uuid
+
 class DoctorProfile(DoctorProfileBase):
-    id: str
-    user_id: str
+    id: uuid.UUID
+    user_id: uuid.UUID
     approval_status: str
     created_at: datetime
 

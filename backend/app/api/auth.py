@@ -112,13 +112,38 @@ def register_doctor(
     db.commit()
     db.refresh(user)
 
+    # Extract text using PyMuPDF (fitz)
+    try:
+        import fitz # PyMuPDF
+        with open(file_path, "rb") as f:
+            doc = fitz.open(stream=f.read(), filetype="pdf")
+            text = ""
+            for page in doc:
+                text += page.get_text()
+    except Exception as e:
+        print(f"Error parsing PDF during registration: {e}")
+        text = ""
+
+    from app.api.doctor import extract_keywords_from_text
+    import asyncio
+    
+    cv_keywords_data = {}
+    if text.strip():
+        # Because we're in a sync route, we need to run the async function
+        try:
+            extracted = asyncio.run(extract_keywords_from_text(text))
+            cv_keywords_data = extracted.model_dump()
+        except Exception as e:
+            print(f"Error during async LLM call: {e}")
+            cv_keywords_data = {}
+
     doctor_profile = DoctorProfile(
         user_id=user.id,
         specialty=specialty,
         license_number=license_number,
         bio=bio,
         years_experience=years_experience,
-        cv_keywords={} # Placeholder
+        cv_keywords=cv_keywords_data
     )
     db.add(doctor_profile)
     db.commit()

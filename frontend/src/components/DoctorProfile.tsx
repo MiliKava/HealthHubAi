@@ -25,6 +25,8 @@ export default function DoctorProfile() {
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
   
+  const [isEditing, setIsEditing] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<DoctorProfileData>({
@@ -77,6 +79,7 @@ export default function DoctorProfile() {
       await api.put('/doctors/me/profile', formData);
       setToast({ message: 'Profile saved successfully!', type: 'success' });
       setTimeout(() => setToast(null), 3000);
+      setIsEditing(false);
     } catch (err) {
       console.error(err);
       setToast({ message: 'Failed to save profile. Please try again.', type: 'error' });
@@ -93,6 +96,7 @@ export default function DoctorProfile() {
       if (cvKeywords) {
         const updatedCv = { ...cvKeywords, summary: cvSummary };
         await api.put('/doctors/me/profile', { cv_keywords: updatedCv });
+        setCvKeywords(updatedCv);
         setToast({ message: 'CV Keywords saved successfully!', type: 'success' });
         setTimeout(() => setToast(null), 3000);
       }
@@ -142,6 +146,95 @@ export default function DoctorProfile() {
     return <div className="text-slate-500">Loading profile...</div>;
   }
 
+  if (!isEditing) {
+    return (
+      <div className="max-w-3xl relative">
+        {toast && (
+          <div className={`fixed top-4 right-4 px-4 py-2 rounded-md shadow-sm text-sm font-medium z-50 ${
+            toast.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+          }`}>
+            {toast.message}
+          </div>
+        )}
+
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-slate-900">Doctor Profile</h2>
+          <button
+            onClick={() => setIsEditing(true)}
+            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors text-sm"
+          >
+            Edit Details
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
+          <h3 className="text-xl font-bold text-slate-900 mb-6">Professional Profile</h3>
+          <div className="space-y-6">
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <span className="block text-sm font-medium text-slate-500 mb-1">Specialty</span>
+                <p className="text-slate-900">{formData.specialty || 'Not provided'}</p>
+              </div>
+              <div>
+                <span className="block text-sm font-medium text-slate-500 mb-1">License Number</span>
+                <p className="text-slate-900">{formData.license_number || 'Not provided'}</p>
+              </div>
+            </div>
+            <div>
+              <span className="block text-sm font-medium text-slate-500 mb-1">Years of Experience</span>
+              <p className="text-slate-900">{formData.years_experience} years</p>
+            </div>
+            <div>
+              <span className="block text-sm font-medium text-slate-500 mb-1">Bio</span>
+              <p className="text-slate-900">{formData.bio || 'Not provided'}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+          <h3 className="text-lg font-bold text-slate-800 mb-6">CV / Credentials</h3>
+          {cvKeywords ? (
+            <div className="space-y-6">
+              <div>
+                <span className="block text-xs font-medium text-slate-500 mb-2">Qualifications</span>
+                <div className="flex flex-wrap gap-2">
+                  {cvKeywords.qualifications.map((q, i) => (
+                    <span key={i} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-xs font-medium border border-sky-100">{q}</span>
+                  ))}
+                  {cvKeywords.qualifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
+                </div>
+              </div>
+              <div>
+                <span className="block text-xs font-medium text-slate-500 mb-2">Certifications</span>
+                <div className="flex flex-wrap gap-2">
+                  {cvKeywords.certifications.map((c, i) => (
+                    <span key={i} className="bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-xs font-medium border border-amber-100">{c}</span>
+                  ))}
+                  {cvKeywords.certifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
+                </div>
+              </div>
+              <div>
+                <span className="block text-xs font-medium text-slate-500 mb-2">Languages</span>
+                <div className="flex flex-wrap gap-2">
+                  {cvKeywords.languages.map((l, i) => (
+                    <span key={i} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-medium border border-emerald-100">{l}</span>
+                  ))}
+                  {cvKeywords.languages.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
+                </div>
+              </div>
+              <div>
+                <span className="block text-xs font-medium text-slate-500 mb-1">Professional Summary</span>
+                <p className="text-slate-900 text-sm leading-relaxed">{cvSummary || 'None extracted'}</p>
+              </div>
+            </div>
+          ) : (
+            <div className="text-sm text-slate-500 italic">No CV keywords extracted yet.</div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-3xl relative">
       {toast && (
@@ -151,6 +244,16 @@ export default function DoctorProfile() {
           {toast.message}
         </div>
       )}
+
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-slate-900">Edit Doctor Profile</h2>
+        <button
+          onClick={() => setIsEditing(false)}
+          className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors text-sm"
+        >
+          Cancel
+        </button>
+      </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
         <h2 className="text-xl font-bold text-slate-900 mb-6">Professional Profile</h2>
