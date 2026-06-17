@@ -5,6 +5,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
+import sys
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app.db.database import Base
 from app.db.models import User # Ensure models are imported
 from app.core.config import settings
