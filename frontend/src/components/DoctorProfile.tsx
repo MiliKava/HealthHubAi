@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import api from '../api';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Stethoscope, FileText, UploadCloud, Edit3, Save, X, CheckCircle, AlertCircle, Award, Globe, BookOpen } from 'lucide-react';
 
 interface CVKeywords {
   specialty: string;
@@ -18,24 +20,21 @@ interface DoctorProfileData {
   cv_keywords?: CVKeywords;
 }
 
+const inputCls = "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-teal/20 focus:border-brand-teal outline-none transition-all text-slate-700 font-medium";
+const labelCls = "block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5";
+
 export default function DoctorProfile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savingCv, setSavingCv] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState<{ message: string, type: 'success' | 'error' } | null>(null);
-  
   const [isEditing, setIsEditing] = useState(false);
-  
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState<DoctorProfileData>({
-    specialty: '',
-    license_number: '',
-    years_experience: 0,
-    bio: ''
+    specialty: '', license_number: '', years_experience: 0, bio: ''
   });
-
   const [cvKeywords, setCvKeywords] = useState<CVKeywords | null>(null);
   const [cvSummary, setCvSummary] = useState('');
 
@@ -44,352 +43,221 @@ export default function DoctorProfile() {
       try {
         const { data } = await api.get('/doctors/me/profile');
         setFormData({
-          specialty: data.specialty || '',
-          license_number: data.license_number || '',
-          years_experience: data.years_experience || 0,
-          bio: data.bio || ''
+          specialty: data.specialty || '', license_number: data.license_number || '',
+          years_experience: data.years_experience || 0, bio: data.bio || ''
         });
-        if (data.cv_keywords) {
-          setCvKeywords(data.cv_keywords);
-          setCvSummary(data.cv_keywords.summary || '');
-        }
-      } catch (err) {
-        console.error('Failed to load profile', err);
-      } finally {
-        setLoading(false);
-      }
+        if (data.cv_keywords) { setCvKeywords(data.cv_keywords); setCvSummary(data.cv_keywords.summary || ''); }
+      } catch (err) { console.error('Failed to load profile', err); }
+      finally { setLoading(false); }
     };
     fetchProfile();
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'years_experience' ? parseInt(value) || 0 : value
-    }));
+    setFormData(prev => ({ ...prev, [name]: name === 'years_experience' ? parseInt(value) || 0 : value }));
+  };
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
   };
 
   const handleSaveProfile = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSaving(true);
-    setToast(null);
-
-    try {
-      await api.put('/doctors/me/profile', formData);
-      setToast({ message: 'Profile saved successfully!', type: 'success' });
-      setTimeout(() => setToast(null), 3000);
-      setIsEditing(false);
-    } catch (err) {
-      console.error(err);
-      setToast({ message: 'Failed to save profile. Please try again.', type: 'error' });
-    } finally {
-      setSaving(false);
-    }
+    e.preventDefault(); setSaving(true);
+    try { await api.put('/doctors/me/profile', formData); showToast('Profile saved successfully!', 'success'); setIsEditing(false); }
+    catch (err) { showToast('Failed to save profile.', 'error'); }
+    finally { setSaving(false); }
   };
 
   const handleSaveCv = async () => {
+    if (!cvKeywords) return;
     setSavingCv(true);
-    setToast(null);
-
     try {
-      if (cvKeywords) {
-        const updatedCv = { ...cvKeywords, summary: cvSummary };
-        await api.put('/doctors/me/profile', { cv_keywords: updatedCv });
-        setCvKeywords(updatedCv);
-        setToast({ message: 'CV Keywords saved successfully!', type: 'success' });
-        setTimeout(() => setToast(null), 3000);
-      }
-    } catch (err) {
-      console.error(err);
-      setToast({ message: 'Failed to save CV keywords. Please try again.', type: 'error' });
-    } finally {
-      setSavingCv(false);
-    }
+      const updatedCv = { ...cvKeywords, summary: cvSummary };
+      await api.put('/doctors/me/profile', { cv_keywords: updatedCv });
+      setCvKeywords(updatedCv);
+      showToast('CV Keywords saved!', 'success');
+    } catch (err) { showToast('Failed to save CV keywords.', 'error'); }
+    finally { setSavingCv(false); }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files || e.target.files.length === 0) return;
-    
     const file = e.target.files[0];
-    if (file.type !== 'application/pdf') {
-      setToast({ message: 'Please upload a valid PDF file.', type: 'error' });
-      return;
-    }
-
+    if (file.type !== 'application/pdf') { showToast('Please upload a valid PDF file.', 'error'); return; }
     setUploading(true);
-    setToast(null);
-
-    const formData = new FormData();
-    formData.append('file', file);
-
+    const fd = new FormData(); fd.append('file', file);
     try {
-      const { data } = await api.post('/doctors/cv', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      setCvKeywords(data);
-      setCvSummary(data.summary || '');
-      setToast({ message: 'CV processed successfully!', type: 'success' });
-      setTimeout(() => setToast(null), 3000);
-    } catch (err) {
-      console.error(err);
-      setToast({ message: 'Failed to process CV. Please try again.', type: 'error' });
-    } finally {
-      setUploading(false);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
+      const { data } = await api.post('/doctors/cv', fd, { headers: { 'Content-Type': 'multipart/form-data' } });
+      setCvKeywords(data); setCvSummary(data.summary || '');
+      showToast('CV processed successfully!', 'success');
+    } catch (err) { showToast('Failed to process CV.', 'error'); }
+    finally { setUploading(false); if (fileInputRef.current) fileInputRef.current.value = ''; }
   };
 
-  if (loading) {
-    return <div className="text-slate-500">Loading profile...</div>;
-  }
-
-  if (!isEditing) {
-    return (
-      <div className="max-w-3xl relative">
-        {toast && (
-          <div className={`fixed top-4 right-4 px-4 py-2 rounded-md shadow-sm text-sm font-medium z-50 ${
-            toast.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-          }`}>
-            {toast.message}
-          </div>
-        )}
-
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-slate-900">Doctor Profile</h2>
-          <button
-            onClick={() => setIsEditing(true)}
-            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors text-sm"
-          >
-            Edit Details
-          </button>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
-          <h3 className="text-xl font-bold text-slate-900 mb-6">Professional Profile</h3>
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <span className="block text-sm font-medium text-slate-500 mb-1">Specialty</span>
-                <p className="text-slate-900">{formData.specialty || 'Not provided'}</p>
-              </div>
-              <div>
-                <span className="block text-sm font-medium text-slate-500 mb-1">License Number</span>
-                <p className="text-slate-900">{formData.license_number || 'Not provided'}</p>
-              </div>
-            </div>
-            <div>
-              <span className="block text-sm font-medium text-slate-500 mb-1">Years of Experience</span>
-              <p className="text-slate-900">{formData.years_experience} years</p>
-            </div>
-            <div>
-              <span className="block text-sm font-medium text-slate-500 mb-1">Bio</span>
-              <p className="text-slate-900">{formData.bio || 'Not provided'}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-          <h3 className="text-lg font-bold text-slate-800 mb-6">CV / Credentials</h3>
-          {cvKeywords ? (
-            <div className="space-y-6">
-              <div>
-                <span className="block text-xs font-medium text-slate-500 mb-2">Qualifications</span>
-                <div className="flex flex-wrap gap-2">
-                  {cvKeywords.qualifications.map((q, i) => (
-                    <span key={i} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-xs font-medium border border-sky-100">{q}</span>
-                  ))}
-                  {cvKeywords.qualifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
-                </div>
-              </div>
-              <div>
-                <span className="block text-xs font-medium text-slate-500 mb-2">Certifications</span>
-                <div className="flex flex-wrap gap-2">
-                  {cvKeywords.certifications.map((c, i) => (
-                    <span key={i} className="bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-xs font-medium border border-amber-100">{c}</span>
-                  ))}
-                  {cvKeywords.certifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
-                </div>
-              </div>
-              <div>
-                <span className="block text-xs font-medium text-slate-500 mb-2">Languages</span>
-                <div className="flex flex-wrap gap-2">
-                  {cvKeywords.languages.map((l, i) => (
-                    <span key={i} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-medium border border-emerald-100">{l}</span>
-                  ))}
-                  {cvKeywords.languages.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
-                </div>
-              </div>
-              <div>
-                <span className="block text-xs font-medium text-slate-500 mb-1">Professional Summary</span>
-                <p className="text-slate-900 text-sm leading-relaxed">{cvSummary || 'None extracted'}</p>
-              </div>
-            </div>
-          ) : (
-            <div className="text-sm text-slate-500 italic">No CV keywords extracted yet.</div>
-          )}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return (
+    <div className="flex items-center justify-center py-20">
+      <div className="w-8 h-8 border-4 border-brand-teal/30 border-t-brand-teal rounded-full animate-spin" />
+    </div>
+  );
 
   return (
-    <div className="max-w-3xl relative">
-      {toast && (
-        <div className={`fixed top-4 right-4 px-4 py-2 rounded-md shadow-sm text-sm font-medium z-50 ${
-          toast.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-        }`}>
-          {toast.message}
+    <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="max-w-3xl relative">
+      {/* Toast */}
+      <AnimatePresence>
+        {toast && (
+          <motion.div initial={{ opacity: 0, y: -20, x: 20 }} animate={{ opacity: 1, y: 0, x: 0 }} exit={{ opacity: 0, x: 20 }}
+            className={`fixed top-6 right-6 px-5 py-3 rounded-2xl shadow-xl text-sm font-bold z-50 flex items-center gap-2 ${toast.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
+            {toast.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+            {toast.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Header */}
+      <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-2xl bg-brand-teal/10 flex items-center justify-center">
+            <Stethoscope className="w-8 h-8 text-brand-teal" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Doctor Profile</h2>
+            <p className="text-slate-500 text-sm mt-0.5">Your professional credentials & information</p>
+          </div>
         </div>
-      )}
-
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-slate-900">Edit Doctor Profile</h2>
-        <button
-          onClick={() => setIsEditing(false)}
-          className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-lg transition-colors text-sm"
-        >
-          Cancel
-        </button>
+        {!isEditing && (
+          <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}
+            onClick={() => setIsEditing(true)}
+            className="flex items-center gap-2 px-5 py-2.5 bg-brand-teal/10 hover:bg-brand-teal/20 text-brand-teal rounded-xl text-sm font-bold transition-all">
+            <Edit3 className="w-4 h-4" /> Edit Details
+          </motion.button>
+        )}
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
-        <h2 className="text-xl font-bold text-slate-900 mb-6">Professional Profile</h2>
-        <form onSubmit={handleSaveProfile} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Specialty</label>
-            <input
-              type="text"
-              name="specialty"
-              value={formData.specialty}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
-              data-element-id="specialty"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">License Number</label>
-            <input
-              type="text"
-              name="license_number"
-              value={formData.license_number}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
-              data-element-id="license"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Years of Experience</label>
-            <input
-              type="number"
-              name="years_experience"
-              value={formData.years_experience}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
-              data-element-id="years-exp"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Bio</label>
-            <textarea
-              name="bio"
-              value={formData.bio}
-              onChange={handleChange}
-              rows={3}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
-              data-element-id="bio"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={saving}
-            className="px-6 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
-            data-element-id="save-profile"
-          >
-            {saving ? 'Saving...' : 'Save Profile'}
-          </button>
-        </form>
-      </div>
+      <AnimatePresence mode="wait">
+        {!isEditing ? (
+          <motion.div key="view" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-4 mb-6">
+            <div className="grid grid-cols-2 gap-4">
+              {[
+                { label: 'Specialty', value: formData.specialty || '—' },
+                { label: 'License Number', value: formData.license_number || '—' },
+              ].map(({ label, value }) => (
+                <div key={label} className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+                  <span className={labelCls}>{label}</span>
+                  <p className="text-slate-800 font-semibold">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+              <span className={labelCls}>Years of Experience</span>
+              <p className="text-slate-800 font-semibold">{formData.years_experience} years</p>
+            </div>
+            <div className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+              <span className={labelCls}>Bio</span>
+              <p className="text-slate-700 leading-relaxed">{formData.bio || 'Not provided'}</p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.form key="edit" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onSubmit={handleSaveProfile} className="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm space-y-5 mb-6">
+            <h3 className="text-lg font-bold text-slate-800 border-b border-slate-100 pb-4">Edit Professional Profile</h3>
+            <div>
+              <label className={labelCls}>Specialty</label>
+              <input type="text" name="specialty" value={formData.specialty} onChange={handleChange} className={inputCls} data-element-id="specialty" />
+            </div>
+            <div>
+              <label className={labelCls}>License Number</label>
+              <input type="text" name="license_number" value={formData.license_number} onChange={handleChange} className={inputCls} data-element-id="license" />
+            </div>
+            <div>
+              <label className={labelCls}>Years of Experience</label>
+              <input type="number" name="years_experience" value={formData.years_experience} onChange={handleChange} className={inputCls} data-element-id="years-exp" />
+            </div>
+            <div>
+              <label className={labelCls}>Bio</label>
+              <textarea name="bio" value={formData.bio} onChange={handleChange} rows={4} className={`${inputCls} resize-none`} data-element-id="bio" />
+            </div>
+            <div className="flex gap-3 pt-2 border-t border-slate-100">
+              <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }} type="submit" disabled={saving}
+                className="flex items-center gap-2 px-6 py-3 bg-brand-teal hover:bg-brand-teal-dark text-white font-bold rounded-xl transition-all shadow-md shadow-brand-teal/20 disabled:opacity-70" data-element-id="save-profile">
+                {saving ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
+                {saving ? 'Saving...' : 'Save Profile'}
+              </motion.button>
+              <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }} type="button" onClick={() => setIsEditing(false)}
+                className="flex items-center gap-2 px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-all">
+                <X className="w-4 h-4" /> Cancel
+              </motion.button>
+            </div>
+          </motion.form>
+        )}
+      </AnimatePresence>
 
-      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
-        <h3 className="text-lg font-bold text-slate-800 mb-2">CV / Credentials</h3>
-        <p className="text-sm text-slate-500 mb-6">Extracted keywords from your CV. Edit directly or re-upload a new PDF.</p>
+      {/* CV Keywords Section */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-8 shadow-sm">
+        <div className="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
+          <FileText className="w-5 h-5 text-brand-teal" />
+          <div>
+            <h3 className="text-lg font-bold text-slate-800">CV / Credentials</h3>
+            <p className="text-xs text-slate-400 mt-0.5">Extracted from your uploaded PDF — edit below or re-upload.</p>
+          </div>
+        </div>
 
         {cvKeywords ? (
-          <div className="space-y-4 mb-6">
-            <div>
-              <label className="block text-xs font-medium text-slate-500 mb-2">Qualifications</label>
-              <div className="flex flex-wrap gap-2" data-element-id="qualifications-tags">
-                {cvKeywords.qualifications.map((q, i) => (
-                  <span key={i} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-xs font-medium border border-sky-100">{q}</span>
-                ))}
-                {cvKeywords.qualifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
+          <div className="space-y-5 mb-6">
+            {[
+              { label: 'Qualifications', icon: BookOpen, items: cvKeywords.qualifications, tagClass: 'bg-brand-teal/10 text-brand-teal', id: 'qualifications-tags' },
+              { label: 'Certifications', icon: Award, items: cvKeywords.certifications, tagClass: 'bg-amber-100 text-amber-700', id: 'certifications-tags' },
+              { label: 'Languages', icon: Globe, items: cvKeywords.languages, tagClass: 'bg-emerald-100 text-emerald-700', id: 'languages-tags' },
+            ].map(({ label, icon: Icon, items, tagClass, id }) => (
+              <div key={label}>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <Icon className="w-3.5 h-3.5 text-slate-400" />
+                  <span className={labelCls}>{label}</span>
+                </div>
+                <div className="flex flex-wrap gap-2" data-element-id={id}>
+                  {items.length > 0 ? items.map((item, i) => (
+                    <span key={i} className={`${tagClass} px-3 py-1 rounded-full text-xs font-semibold`}>{item}</span>
+                  )) : <span className="text-xs text-slate-400 italic">None extracted</span>}
+                </div>
               </div>
-            </div>
+            ))}
             <div>
-              <label className="block text-xs font-medium text-slate-500 mb-2">Certifications</label>
-              <div className="flex flex-wrap gap-2" data-element-id="certifications-tags">
-                {cvKeywords.certifications.map((c, i) => (
-                  <span key={i} className="bg-amber-50 text-amber-700 px-3 py-1 rounded-full text-xs font-medium border border-amber-100">{c}</span>
-                ))}
-                {cvKeywords.certifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
-              </div>
+              <label className={labelCls}>Professional Summary</label>
+              <textarea value={cvSummary} onChange={e => setCvSummary(e.target.value)} rows={3}
+                className={`${inputCls} resize-none`} data-element-id="cv-summary" />
             </div>
-            <div>
-              <label className="block text-xs font-medium text-slate-500 mb-2">Languages</label>
-              <div className="flex flex-wrap gap-2" data-element-id="languages-tags">
-                {cvKeywords.languages.map((l, i) => (
-                  <span key={i} className="bg-emerald-50 text-emerald-700 px-3 py-1 rounded-full text-xs font-medium border border-emerald-100">{l}</span>
-                ))}
-                {cvKeywords.languages.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
-              </div>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-slate-500 mb-1">Professional Summary</label>
-              <textarea
-                value={cvSummary}
-                onChange={(e) => setCvSummary(e.target.value)}
-                rows={3}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
-                data-element-id="cv-summary"
-              />
-            </div>
-            <button
-              onClick={handleSaveCv}
-              disabled={savingCv}
-              className="px-4 py-2 border border-sky-500 text-sky-600 hover:bg-sky-50 font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
-              data-element-id="save-cv"
-            >
+            <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.97 }}
+              onClick={handleSaveCv} disabled={savingCv}
+              className="flex items-center gap-2 px-5 py-2.5 border-2 border-brand-teal text-brand-teal hover:bg-brand-teal hover:text-white font-bold rounded-xl text-sm transition-all disabled:opacity-70" data-element-id="save-cv">
+              {savingCv ? <div className="w-4 h-4 border-2 border-brand-teal/30 border-t-brand-teal rounded-full animate-spin" /> : <Save className="w-4 h-4" />}
               {savingCv ? 'Saving...' : 'Save CV Keywords'}
-            </button>
+            </motion.button>
           </div>
         ) : (
-          <div className="text-sm text-slate-500 mb-6 italic">No CV keywords extracted yet.</div>
+          <p className="text-sm text-slate-400 italic mb-6">No CV keywords extracted yet. Upload your PDF below to get started.</p>
         )}
 
-        <div className="mt-4 pt-6 border-t border-slate-100">
-          <input
-            type="file"
-            accept=".pdf"
-            className="hidden"
-            ref={fileInputRef}
-            onChange={handleFileUpload}
-          />
-          <div 
+        <div className="pt-5 border-t border-slate-100">
+          <input type="file" accept=".pdf" className="hidden" ref={fileInputRef} onChange={handleFileUpload} />
+          <motion.div whileHover={{ borderColor: '#0d9488', backgroundColor: '#f0fdfb' }}
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center cursor-pointer hover:border-sky-400 hover:bg-sky-50 transition-colors"
-            data-element-id="cv-reupload"
-          >
-            {uploading ? (
-              <span className="text-sm text-sky-600 font-medium">Processing PDF...</span>
-            ) : (
-              <span className="text-sm text-slate-500 font-medium">📄 Re-upload CV PDF to re-extract keywords</span>
-            )}
-          </div>
+            className="border-2 border-dashed border-slate-200 rounded-2xl p-8 text-center cursor-pointer transition-colors flex flex-col items-center gap-3"
+            data-element-id="cv-reupload">
+            <UploadCloud className={`w-10 h-10 ${uploading ? 'text-brand-teal animate-bounce' : 'text-slate-300'}`} />
+            <div>
+              {uploading ? (
+                <span className="text-sm text-brand-teal font-bold">Processing PDF — please wait...</span>
+              ) : (
+                <>
+                  <p className="text-sm font-bold text-slate-600">{cvKeywords ? 'Re-upload CV' : 'Upload CV'} <span className="text-brand-teal">(PDF)</span></p>
+                  <p className="text-xs text-slate-400 mt-1">Click to browse or drag & drop your credentials file here</p>
+                </>
+              )}
+            </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
