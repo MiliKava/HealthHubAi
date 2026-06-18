@@ -8,7 +8,7 @@ import shutil
 from app.core.config import settings, ROOT_DIR
 from app.core.security import get_password_hash, verify_password, create_access_token
 from app.db.database import get_db
-from app.db.models import User, UserRole, DoctorProfile, RefreshToken
+from app.db.models import User, UserRole, DoctorProfile, RefreshToken, ApprovalStatus
 from app.schemas.user import PatientCreate, UserResponse, UserDoctorResponse
 from app.api.deps import get_current_user
 
@@ -178,6 +178,11 @@ def login(
     user = db.query(User).filter(User.email == form_data.username).first()
     if not user or not verify_password(form_data.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Incorrect email or password")
+        
+    if not user.is_active:
+        if user.role == UserRole.DOCTOR and user.doctor_profile and user.doctor_profile.approval_status == ApprovalStatus.REJECTED:
+            raise HTTPException(status_code=403, detail="Rejected by admin")
+        raise HTTPException(status_code=403, detail="Account has been deactivated")
     
     access_token = create_access_token(user.id, user.role, user.email)
     refresh_token_str = str(uuid.uuid4())
