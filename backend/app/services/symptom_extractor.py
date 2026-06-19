@@ -3,6 +3,7 @@ import os
 import difflib
 import re
 from typing import List, Dict, Any
+# pyrefly: ignore [missing-import]
 from openai import OpenAI
 from app.core.config import settings
 from app.schemas.symptom import ExtractedSymptom
