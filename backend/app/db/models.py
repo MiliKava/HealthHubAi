@@ -6,6 +6,8 @@ from app.db.database import Base
 import enum
 import sqlalchemy
 from sqlalchemy.orm import relationship
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import Index
 class UserRole(str, enum.Enum):
     PATIENT = "patient"
     DOCTOR = "doctor"
@@ -74,3 +76,19 @@ class RefreshToken(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="refresh_tokens")
+
+class KBDocument(Base):
+    __tablename__ = "kb_documents"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    source = Column(String, nullable=False)
+    title = Column(String, nullable=True)
+    url = Column(String, nullable=True)
+    content_chunk = Column(String, nullable=False)
+    embedding = Column(Vector(384))
+    chunk_metadata = Column(sqlalchemy.JSON, nullable=True, default={})
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index('ix_kb_documents_embedding_ivfflat', 'embedding', postgresql_using='ivfflat', postgresql_with={'lists': 100}, postgresql_ops={'embedding': 'vector_cosine_ops'}),
+    )
