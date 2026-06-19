@@ -1,145 +1,188 @@
 import os
-import sys
-from typing import List
+import glob
+import xml.etree.ElementTree as ET
+import uuid
+from typing import List, Dict, Any
 from bs4 import BeautifulSoup
 from sentence_transformers import SentenceTransformer
-from datasets import load_dataset
 from sqlalchemy.orm import Session
-from sqlalchemy import text
-
-# Add the backend directory to sys.path to import app modules
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+from sqlalchemy import create_engine
 from app.db.database import SessionLocal, engine
-from app.db.models import KBDocument, Base
+from app.db.models import KBDocument
+from dotenv import load_dotenv
 
-# Configuration
-CHUNK_SIZE_WORDS = 350
-OVERLAP_WORDS = 50
-TARGET_ROWS = 5000  # Target number of chunks to generate
-EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+load_dotenv()
+
+# We will use the all-MiniLM-L6-v2 model which produces 384-dimensional embeddings
+MODEL_NAME = "all-MiniLM-L6-v2"
+model = SentenceTransformer(MODEL_NAME)
+
+DATASET_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "MedQuAD", "MedQuAD-master")
 
 def clean_text(html_text: str) -> str:
     if not html_text:
         return ""
     soup = BeautifulSoup(html_text, "lxml")
-    text = soup.get_text(separator=" ")
-    # Normalize whitespace
+    text = soup.get_text(separator=" ", strip=True)
+    # Simple normalization
     text = " ".join(text.split())
     return text
 
-def chunk_text(text: str, chunk_size: int = CHUNK_SIZE_WORDS, overlap: int = OVERLAP_WORDS) -> List[str]:
+def chunk_text(text: str, max_tokens: int = 300, overlap: int = 50) -> List[str]:
+    # Approximating tokens by words (1 token ~ 1 word for simplicity, though actual tokenizer would be better)
     words = text.split()
     chunks = []
-    if not words:
-        return chunks
-    
     i = 0
     while i < len(words):
-        chunk_words = words[i:i + chunk_size]
-        chunks.append(" ".join(chunk_words))
-        i += chunk_size - overlap
+        chunk = " ".join(words[i:i + max_tokens])
+        chunks.append(chunk)
+        i += max_tokens - overlap
+        if i >= len(words) - overlap:
+            # Add remaining words if not covered and break
+            if i < len(words):
+                 chunks.append(" ".join(words[i:]))
+            break
     return chunks
 
-def init_db():
-    print("Ensuring pgvector extension is enabled...")
-    with engine.connect() as conn:
-        conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
-        conn.commit()
-    print("Creating tables if not exist...")
-    Base.metadata.create_all(bind=engine)
+def process_file(filepath: str) -> List[Dict[str, Any]]:
+    docs = []
+    try:
+        tree = ET.parse(filepath)
+        root = tree.getroot()
+        
+        source = root.attrib.get('source', 'Unknown')
+        url = root.attrib.get('url', '')
+        focus_elem = root.find('Focus')
+        title = focus_elem.text if focus_elem is not None else "Medical Information"
+        
+        qapairs = root.find('QAPairs')
+        if qapairs is not None:
+            for qapair in qapairs.findall('QAPair'):
+                question_elem = qapair.find('Question')
+                answer_elem = qapair.find('Answer')
+                
+                if question_elem is not None and answer_elem is not None:
+                    q_text = clean_text(question_elem.text)
+                    a_text = clean_text(answer_elem.text)
+                    q_type = question_elem.attrib.get('qtype', 'unknown')
+                    
+                    combined_text = f"Question: {q_text}\nAnswer: {a_text}"
+                    
+                    chunks = chunk_text(combined_text, max_tokens=300, overlap=50)
+                    for chunk in chunks:
+                        docs.append({
+                            "source": source,
+                            "title": title,
+                            "url": url,
+                            "content_chunk": chunk,
+                            "metadata": {
+                                "question": q_text,
+                                "qtype": q_type,
+                            }
+                        })
+    except Exception as e:
+        print(f"Error parsing {filepath}: {e}")
+    return docs
 
-def ingest_data():
-    init_db()
-
-    print(f"Loading embedding model: {EMBEDDING_MODEL_NAME}...")
-    model = SentenceTransformer(EMBEDDING_MODEL_NAME)
-
-    print("Loading MedQuAD dataset from HuggingFace...")
-    # Using a popular medical Q&A dataset
-    dataset = load_dataset("keivalya/MedQuad-MedicalQnADataset", split="train")
+def main():
+    global DATASET_PATH
+    print(f"Starting corpus ingestion from {DATASET_PATH}")
     
+    # Check if dataset path exists
+    if not os.path.exists(DATASET_PATH):
+        # We might be in docker with a mounted volume at /app/MedQuAD
+        DATASET_PATH = "/app/MedQuAD/MedQuAD-master"
+        if not os.path.exists(DATASET_PATH):
+            print(f"Dataset path {DATASET_PATH} not found.")
+            return
+
     db: Session = SessionLocal()
     
-    try:
-        # Check if we already have data
-        existing_count = db.query(KBDocument).count()
-        if existing_count > 0:
-            print(f"Found {existing_count} existing documents in kb_documents.")
-            if existing_count >= TARGET_ROWS:
-                print(f"Already reached target of {TARGET_ROWS} rows. Exiting.")
-                return
-
-        processed_chunks = 0
-        batch_size = 100
-        batch_records = []
-        
-        print("Processing and inserting records...")
-        
-        # Keep track of unique questions to avoid duplicates in this run
-        seen_qna = set()
-
-        for row in dataset:
-            if processed_chunks >= TARGET_ROWS:
-                break
+    # We will process a subset to keep ingestion fast for this demo (e.g. limit to 500 files ~ 5000 chunks)
+    xml_files = glob.glob(os.path.join(DATASET_PATH, "*", "*.xml"))
+    print(f"Found {len(xml_files)} XML files.")
+    
+    MAX_CHUNKS = 100000
+    chunks_inserted = 0
+    batch_size = 100
+    batch = []
+    
+    for filepath in xml_files:
+        if chunks_inserted >= MAX_CHUNKS:
+            break
+            
+        file_docs = process_file(filepath)
+        for doc in file_docs:
+            batch.append(doc)
+            
+            if len(batch) >= batch_size:
+                texts = [b["content_chunk"] for b in batch]
+                embeddings = model.encode(texts)
                 
-            qtype = row.get("qtype", "unknown")
-            question = row.get("Question", "")
-            answer = row.get("Answer", "")
-            
-            if not question or not answer:
-                continue
+                db_docs = []
+                for i, b in enumerate(batch):
+                    db_docs.append(KBDocument(
+                        source=b["source"],
+                        title=b["title"],
+                        url=b["url"],
+                        content_chunk=b["content_chunk"],
+                        embedding=embeddings[i].tolist(),
+                        chunk_metadata=b["metadata"]
+                    ))
                 
-            qna_pair = f"Q: {question} A: {answer}"
-            
-            if qna_pair in seen_qna:
-                continue
-            seen_qna.add(qna_pair)
-            
-            # Clean
-            clean_qna = clean_text(qna_pair)
-            
-            # Chunk
-            chunks = chunk_text(clean_qna)
-            
-            for chunk in chunks:
-                if processed_chunks >= TARGET_ROWS:
-                    break
+                try:
+                    # Check for duplicates by content chunk? Let's assume table might be empty, or we use unique constraints.
+                    # Given acceptance criteria "script is idempotent", we should check if they exist or just rely on a simple check.
+                    # A better way is to check the first document's title/chunk in the DB.
+                    # For simplicity, we just insert. To be truly idempotent, we can check if source/chunk exists.
+                    for d in db_docs:
+                        exists = db.query(KBDocument).filter(
+                            KBDocument.source == d.source,
+                            KBDocument.content_chunk == d.content_chunk
+                        ).first()
+                        if not exists:
+                            db.add(d)
+                            chunks_inserted += 1
                     
-                # Embed
-                embedding = model.encode(chunk).tolist()
-                
-                doc = KBDocument(
-                    source="MedQuAD",
-                    title=f"{qtype} - {question[:50]}...",
-                    url="https://huggingface.co/datasets/keivalya/MedQuad-MedicalQnADataset",
-                    content_chunk=chunk,
-                    embedding=embedding,
-                    chunk_metadata={"qtype": qtype, "original_question": question}
-                )
-                
-                batch_records.append(doc)
-                processed_chunks += 1
-                
-                if len(batch_records) >= batch_size:
-                    db.add_all(batch_records)
                     db.commit()
-                    print(f"Inserted {processed_chunks} chunks...")
-                    batch_records = []
-                    
-        # Insert remaining
-        if batch_records:
-            db.add_all(batch_records)
+                    print(f"Inserted up to {chunks_inserted} chunks.")
+                except Exception as e:
+                    print(f"Error inserting batch: {e}")
+                    db.rollback()
+                
+                batch = []
+                if chunks_inserted >= MAX_CHUNKS:
+                    break
+
+    # Process remaining in batch
+    if batch and chunks_inserted < MAX_CHUNKS:
+        texts = [b["content_chunk"] for b in batch]
+        embeddings = model.encode(texts)
+        
+        for i, b in enumerate(batch):
+            db_doc = KBDocument(
+                source=b["source"],
+                title=b["title"],
+                url=b["url"],
+                content_chunk=b["content_chunk"],
+                embedding=embeddings[i].tolist(),
+                chunk_metadata=b["metadata"]
+            )
+            exists = db.query(KBDocument).filter(
+                KBDocument.source == db_doc.source,
+                KBDocument.content_chunk == db_doc.content_chunk
+            ).first()
+            if not exists:
+                db.add(db_doc)
+                chunks_inserted += 1
+        try:
             db.commit()
-            print(f"Inserted {processed_chunks} chunks...")
+            print(f"Inserted remaining, total {chunks_inserted} chunks.")
+        except Exception as e:
+            db.rollback()
 
-        print(f"Successfully ingested {processed_chunks} chunks into the knowledge base.")
-
-    except Exception as e:
-        print(f"Error during ingestion: {e}")
-        db.rollback()
-    finally:
-        db.close()
+    db.close()
+    print("Ingestion complete.")
 
 if __name__ == "__main__":
-    ingest_data()
+    main()

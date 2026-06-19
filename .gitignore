@@ -45,3 +45,7 @@ frontend/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Datasets & DB
+MedQuAD/
+postgres_data/
