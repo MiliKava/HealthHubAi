@@ -18,13 +18,11 @@ Welcome to the **CareBridge AI** project! This repository contains the foundatio
 
 ## Getting Started
 
-Follow these instructions to get the project up and running locally. We are running the Backend and Frontend manually and using a local PostgreSQL installation.
+This application has been fully containerized using Docker, making it incredibly easy to spin up the Frontend, Backend, and Database with a single command. 
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) installed for the frontend.
-- [Python 3.8+](https://www.python.org/) installed for the backend.
-- [PostgreSQL](https://www.postgresql.org/download/) installed locally (we recommend using **pgAdmin 4** to manage the database).
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
 
 ### Setup Instructions
 
@@ -34,55 +32,33 @@ Follow these instructions to get the project up and running locally. We are runn
    cd HealthHubAi
    ```
 
-2. **Database Setup (pgAdmin 4):**
-   - Open pgAdmin 4 and connect to your local PostgreSQL server (usually `localhost:5432`, user `postgres`).
-   - Create a new database named `carebridge`.
-   - Update your password in `.env` if it's different from `password`.
-
-3. **Set up Environment Variables:**
-   Duplicate the `.env.example` file and rename it to `.env`:
+2. **Set up Environment Variables:**
+   Duplicate the `.env.example` file inside the `backend` folder and rename it to `.env`:
    ```bash
-   # On Windows (Command Prompt)
-   copy .env.example .env
+   # On Windows
+   copy backend\.env.example backend\.env
    
-   # On macOS/Linux/Git Bash
-   cp .env.example .env
+   # On macOS/Linux
+   cp backend/.env.example backend/.env
    ```
-   *Make sure `DATABASE_URL` in `.env` matches your local Postgres credentials (e.g., `postgresql://postgres:yourpassword@localhost:5432/carebridge`).*
+   *(Note: The `docker-compose.yml` automatically passes the correct `DATABASE_URL` to the containers, so you do not need to manually configure the database URL unless you are running it outside of Docker).*
 
-4. **Backend Setup:**
-   Open a new terminal and run:
+3. **Start the Application:**
+   Spin up the entire stack (PostgreSQL with `pgvector`, FastAPI Backend, and Vite Frontend) in the background:
    ```bash
-   cd backend
-   python -m venv health-env
-   
-   # Activate the virtual environment
-   # Windows: 
-   health-env\Scripts\activate
-   # Mac/Linux: 
-   source health-env/bin/activate
-   
-   # Install dependencies
-   pip install -r requirements.txt
-   
-   # Run Database Migrations
-   alembic upgrade head
-   
-   # Seed the default Admin User
-   python seed_admin.py
-   
-   # Start the Backend Server
-   uvicorn app.main:app --reload
+   docker-compose up -d --build
    ```
 
-5. **Frontend Setup:**
-   Open another new terminal and run:
+4. **Seed the Database (Optional):**
+   To add the default Admin user, run this command inside the running backend container:
    ```bash
-   cd frontend
-   npm install
-   
-   # Start the Frontend Development Server
-   npm run dev
+   docker-compose exec backend python seed_admin.py
+   ```
+
+5. **Ingest Medical Knowledge (Phase 6):**
+   To test the AI Vector Database, you can ingest the MedQuAD dataset into `pgvector` by running:
+   ```bash
+   docker-compose exec backend python scripts/ingest_corpus.py
    ```
 
 ### Accessing the Application
@@ -90,7 +66,7 @@ Follow these instructions to get the project up and running locally. We are runn
 - **Frontend Interface:** Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
   - **Admin Access:** You can log in using `admin@carebridge.ai` and `admin123` to access the Admin Panel to approve doctor applications.
 - **Backend API Docs:** The FastAPI interactive documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
-- **Backend Health Check:** Visit [http://localhost:8000/health](http://localhost:8000/health) to verify the backend is successfully connected to the database (it should return `{"status": "ok"}`).
+- **Database Access:** The PostgreSQL database is mapped to your local port `5433` (to avoid conflicts with local installations). You can connect via pgAdmin using `localhost:5433`, user `postgres`, password `password`, and database `carebridge`.
 
 ---
 
