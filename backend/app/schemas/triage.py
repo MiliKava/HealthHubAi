@@ -29,7 +29,7 @@ class TriageMessageResponse(TriageMessageBase):
 
 class TriageSessionResponse(BaseModel):
     id: uuid.UUID
-    patient_id: uuid.UUID
+    patient_id: Optional[uuid.UUID] = None
     current_state: str
     is_completed: bool
     created_at: datetime
@@ -45,3 +45,13 @@ class IntakeResponse(BaseModel):
     next_question: str
     is_completed: bool
     result: Optional[TriageResult] = None
+
+class TriageSessionSummary(BaseModel):
+    id: uuid.UUID
+    created_at: datetime
+    is_completed: bool
+    risk_level: Optional[str] = None
+    recommended_specialist: Optional[str] = None
+
+    class Config:
+        from_attributes = True

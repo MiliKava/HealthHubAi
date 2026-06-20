@@ -10,6 +10,8 @@ import api from './api';
 
 import AdminPanel from './pages/AdminPanel';
 import TriageChat from './pages/TriageChat';
+import SessionHistory from './pages/SessionHistory';
+import SessionDetail from './pages/SessionDetail';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -63,6 +65,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/history" 
+          element={
+            <ProtectedRoute>
+              <SessionHistory />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/history/:id" 
+          element={
+            <ProtectedRoute>
+              <SessionDetail />
             </ProtectedRoute>
           } 
         />

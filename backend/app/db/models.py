@@ -97,7 +97,7 @@ class TriageSession(Base):
     __tablename__ = "triage_sessions"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
-    patient_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    patient_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=True)
     current_state = Column(String, nullable=False, default="initial_complaint")
     is_completed = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.utcnow)

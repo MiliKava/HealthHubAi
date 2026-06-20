@@ -65,6 +65,31 @@ def require_role(roles: List[UserRole]) -> Callable:
         return current_user
     return role_checker
 
+from typing import Optional
+
+def get_current_user_optional(
+    request: Request, db: Session = Depends(get_db)
+) -> Optional[User]:
+    if not request:
+        return None
+    token = request.cookies.get("access_token")
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(
+            token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
+        )
+        token_data = TokenPayload(**payload)
+        if token_data.sub is None:
+            return None
+    except JWTError:
+        return None
+    
+    user = db.query(User).filter(User.id == token_data.sub).first()
+    if user and user.is_active:
+        return user
+    return None
+
 def require_approved_doctor(current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.DOCTOR:
         raise HTTPException(
