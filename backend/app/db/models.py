@@ -139,6 +139,8 @@ class TriageResultModel(Base):
     score_breakdown = Column(sqlalchemy.JSON, nullable=True)
     recommended_specialist = Column(String, nullable=False)
     emergency_flag = Column(Boolean, default=False)
+    response_text = Column(String, nullable=True)
+    citations = Column(sqlalchemy.JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
     session = relationship("TriageSession", back_populates="result")

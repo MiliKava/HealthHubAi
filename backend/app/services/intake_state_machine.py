@@ -4,6 +4,8 @@ from app.db.models import TriageSession, TriageMessage, TriageResultModel, Extra
 from app.schemas.triage import IntakeResponse, TriageResult
 from app.services.symptom_extractor import extract_symptoms
 from app.services.scoring_engine import score_triage
+from app.services.retrieval import retrieve_chunks
+from app.services.llm_generator import generate_triage_response
 import re
 
 QUESTIONS = {
@@ -60,7 +62,9 @@ def process_message(db: Session, session_id: uuid.UUID, user_content: str) -> In
                 risk_level=result_model.risk_level,
                 score_breakdown=result_model.score_breakdown,
                 recommended_specialist=result_model.recommended_specialist,
-                emergency_flag=result_model.emergency_flag
+                emergency_flag=result_model.emergency_flag,
+                response_text=result_model.response_text,
+                citations=result_model.citations
             )
         return IntakeResponse(
             session_id=session.id,
@@ -139,13 +143,37 @@ def process_message(db: Session, session_id: uuid.UUID, user_content: str) -> In
         # Scoring
         result = score_triage(extracted_symptoms, severity, duration, patient)
         
+        # RAG Retrieval
+        rag_query = f"{complaint} {associated}"
+        raw_chunks = retrieve_chunks(db, rag_query, top_k=3)
+        rag_chunks = []
+        for rc in raw_chunks:
+            rag_chunks.append({
+                "source": rc.source,
+                "title": rc.title,
+                "content_chunk": rc.content
+            })
+            
+        # LLM Generation
+        conv_summary = {
+            "symptoms": [es.canonical_symptom for es in extracted_symptoms],
+            "severity": severity,
+            "duration": duration,
+            "history": history
+        }
+        response_text, citations = generate_triage_response(result, rag_chunks, conv_summary)
+        result.response_text = response_text
+        result.citations = citations
+        
         # Save result
         res_model = TriageResultModel(
             session_id=session.id,
             risk_level=result.risk_level,
             score_breakdown=result.score_breakdown,
             recommended_specialist=result.recommended_specialist,
-            emergency_flag=result.emergency_flag
+            emergency_flag=result.emergency_flag,
+            response_text=response_text,
+            citations=citations
         )
         db.add(res_model)
         db.commit()

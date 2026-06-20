@@ -59,6 +59,8 @@ def upgrade() -> None:
     sa.Column('score_breakdown', sa.JSON(), nullable=True),
     sa.Column('recommended_specialist', sa.String(), nullable=False),
     sa.Column('emergency_flag', sa.Boolean(), nullable=True),
+    sa.Column('response_text', sa.String(), nullable=True),
+    sa.Column('citations', sa.JSON(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.ForeignKeyConstraint(['session_id'], ['triage_sessions.id'], ),
     sa.PrimaryKeyConstraint('id'),

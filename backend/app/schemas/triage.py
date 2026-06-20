@@ -8,6 +8,8 @@ class TriageResult(BaseModel):
     score_breakdown: Dict[str, Any] = Field(description="Breakdown of factors contributing to the score")
     recommended_specialist: str = Field(description="The recommended specialist based on symptom categories")
     emergency_flag: bool = Field(default=False, description="Whether this constitutes an emergency (always False here, caught in Phase 9)")
+    response_text: Optional[str] = Field(default=None, description="The LLM generated triage response")
+    citations: Optional[List[Dict[str, str]]] = Field(default=None, description="List of citations used in the response")
 
 class TriageMessageBase(BaseModel):
     content: str
