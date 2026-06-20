@@ -23,6 +23,7 @@ from app.api.doctor import router as doctor_router
 from app.api.admin import router as admin_router
 from app.api.internal import router as internal_router
 from app.api.triage import router as triage_router
+from app.api.appointments import router as appointments_router
 from app.api.deps import get_current_user, require_role, require_approved_doctor
 from app.db.models import User, UserRole
 
@@ -31,6 +32,7 @@ app.include_router(patient_router, prefix="/api/patients", tags=["patients"])
 app.include_router(doctor_router, prefix="/api/doctors", tags=["doctors"])
 app.include_router(admin_router, prefix="/api/admin", tags=["admin"])
 app.include_router(triage_router, prefix="/api/triage", tags=["triage"])
+app.include_router(appointments_router, prefix="/api/appointments", tags=["appointments"])
 app.include_router(internal_router, prefix="/internal", tags=["internal"])
 
 @app.get("/api/test-patient")

@@ -1,5 +1,6 @@
 import { useAuthStore } from '../store/authStore';
 import SidebarLayout from '../components/SidebarLayout';
+import { Navigate } from 'react-router-dom';
 
 export default function Dashboard() {
   const { user, role } = useAuthStore();
@@ -20,6 +21,13 @@ export default function Dashboard() {
       </div>
     );
   }
+
+  if (role === 'doctor' && !isPendingDoctor && !isRejectedDoctor) {
+    console.log("Dashboard redirecting to /doctor/dashboard");
+    return <Navigate to="/doctor/dashboard" replace />;
+  }
+
+  console.log("Dashboard rendering normally", { role, isPendingDoctor, isRejectedDoctor, profile: user?.doctor_profile });
 
   return (
     <SidebarLayout>

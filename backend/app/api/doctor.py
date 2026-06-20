@@ -3,7 +3,8 @@ from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.db.models import User, UserRole, DoctorProfile, ApprovalStatus
+from app.db.models import User, UserRole, DoctorProfile, ApprovalStatus, AppointmentRequest, AppointmentRequestStatus, TriageResultModel, ExtractedSymptomModel, PatientProfile
+from app.schemas.appointment import AppointmentRequestWithSummary
 from app.api.deps import get_current_user, require_role, get_current_user_optional
 from app.schemas.doctor import DoctorProfile as DoctorProfileSchema, DoctorProfileUpdate, CVKeywords, DoctorPublic
 from app.core.config import settings
@@ -171,3 +172,115 @@ async def extract_keywords_from_text(text: str) -> CVKeywords:
     except Exception as e:
         print(f"Error extracting keywords with LLM: {e}")
         return CVKeywords(summary="Error during LLM extraction. Please fill manually.")
+
+@router.get("/me/requests", response_model=List[AppointmentRequestWithSummary])
+def get_doctor_requests(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.DOCTOR]))
+):
+    profile = current_user.doctor_profile
+    if not profile or profile.approval_status != ApprovalStatus.APPROVED:
+        raise HTTPException(status_code=403, detail="Doctor is not approved to access this resource")
+
+    requests = db.query(AppointmentRequest).filter(
+        AppointmentRequest.doctor_id == current_user.id
+    ).order_by(AppointmentRequest.created_at.desc()).all()
+
+    result = []
+    for req in requests:
+        triage_result = db.query(TriageResultModel).filter(TriageResultModel.session_id == req.triage_session_id).first()
+        symptoms = db.query(ExtractedSymptomModel).filter(ExtractedSymptomModel.session_id == req.triage_session_id).all()
+        
+        patient_user = db.query(User).filter(User.id == req.patient_id).first()
+        patient_profile = db.query(PatientProfile).filter(PatientProfile.user_id == req.patient_id).first()
+        
+        triage_summary = None
+        if triage_result:
+            symptom_list = [s.symptom_name for s in symptoms]
+            triage_summary = {
+                "risk_level": triage_result.risk_level,
+                "symptoms": ", ".join(symptom_list),
+                "specialist_recommendation": triage_result.recommended_specialist
+            }
+            
+        patient_details = None
+        if patient_user:
+            patient_details = {
+                "name": patient_user.full_name or "Unknown Patient",
+            }
+            if patient_profile:
+                patient_details["gender"] = patient_profile.gender
+                patient_details["phone"] = patient_profile.phone
+
+        req_dict = {
+            "id": req.id,
+            "patient_id": req.patient_id,
+            "doctor_id": req.doctor_id,
+            "triage_session_id": req.triage_session_id,
+            "status": req.status,
+            "proposed_slot": req.proposed_slot,
+            "created_at": req.created_at,
+            "updated_at": req.updated_at,
+            "triage_summary": triage_summary,
+            "patient_details": patient_details
+        }
+        result.append(req_dict)
+
+    return result
+
+@router.get("/me/appointments", response_model=List[AppointmentRequestWithSummary])
+def get_doctor_appointments(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.DOCTOR]))
+):
+    profile = current_user.doctor_profile
+    if not profile or profile.approval_status != ApprovalStatus.APPROVED:
+        raise HTTPException(status_code=403, detail="Doctor is not approved to access this resource")
+
+    # Confirmed appointments
+    requests = db.query(AppointmentRequest).filter(
+        AppointmentRequest.doctor_id == current_user.id,
+        AppointmentRequest.status == AppointmentRequestStatus.CONFIRMED
+    ).order_by(AppointmentRequest.proposed_slot.asc()).all()
+
+    result = []
+    for req in requests:
+        triage_result = db.query(TriageResultModel).filter(TriageResultModel.session_id == req.triage_session_id).first()
+        symptoms = db.query(ExtractedSymptomModel).filter(ExtractedSymptomModel.session_id == req.triage_session_id).all()
+        
+        patient_user = db.query(User).filter(User.id == req.patient_id).first()
+        patient_profile = db.query(PatientProfile).filter(PatientProfile.user_id == req.patient_id).first()
+        
+        triage_summary = None
+        if triage_result:
+            symptom_list = [s.symptom_name for s in symptoms]
+            triage_summary = {
+                "risk_level": triage_result.risk_level,
+                "symptoms": ", ".join(symptom_list),
+                "specialist_recommendation": triage_result.recommended_specialist
+            }
+            
+        patient_details = None
+        if patient_user:
+            patient_details = {
+                "name": patient_user.full_name or "Unknown Patient",
+            }
+            if patient_profile:
+                patient_details["gender"] = patient_profile.gender
+                patient_details["phone"] = patient_profile.phone
+
+        req_dict = {
+            "id": req.id,
+            "patient_id": req.patient_id,
+            "doctor_id": req.doctor_id,
+            "triage_session_id": req.triage_session_id,
+            "status": req.status,
+            "proposed_slot": req.proposed_slot,
+            "created_at": req.created_at,
+            "updated_at": req.updated_at,
+            "triage_summary": triage_summary,
+            "patient_details": patient_details
+        }
+        result.append(req_dict)
+
+    return result

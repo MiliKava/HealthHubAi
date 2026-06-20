@@ -144,3 +144,25 @@ class TriageResultModel(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     session = relationship("TriageSession", back_populates="result")
+
+class AppointmentRequestStatus(str, enum.Enum):
+    REQUESTED = "requested"
+    PROPOSED = "proposed"
+    CONFIRMED = "confirmed"
+    REJECTED = "rejected"
+
+class AppointmentRequest(Base):
+    __tablename__ = "appointment_requests"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    patient_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    doctor_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    triage_session_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("triage_sessions.id"), nullable=False)
+    status = Column(Enum(AppointmentRequestStatus), nullable=False, default=AppointmentRequestStatus.REQUESTED)
+    proposed_slot = Column(DateTime, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    patient = relationship("User", foreign_keys=[patient_id])
+    doctor = relationship("User", foreign_keys=[doctor_id])
+    triage_session = relationship("TriageSession")

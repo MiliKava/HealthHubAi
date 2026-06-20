@@ -13,6 +13,9 @@ import TriageChat from './pages/TriageChat';
 import SessionHistory from './pages/SessionHistory';
 import SessionDetail from './pages/SessionDetail';
 import Doctors from './pages/Doctors';
+import Appointments from './pages/Appointments';
+import RequestAppointment from './pages/RequestAppointment';
+import DoctorDashboard from './pages/DoctorDashboard';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -93,12 +96,37 @@ function App() {
             </ProtectedRoute>
           } 
         />
+        <Route 
+          path="/appointments" 
+          element={
+            <ProtectedRoute>
+              <Appointments />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/appointments/request" 
+          element={
+            <ProtectedRoute>
+              <RequestAppointment />
+            </ProtectedRoute>
+          } 
+        />
         
         <Route 
           path="/admin" 
           element={
             <ProtectedRoute allowedRoles={['admin']}>
               <AdminPanel />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/doctor/dashboard" 
+          element={
+            <ProtectedRoute allowedRoles={['doctor']}>
+              <DoctorDashboard />
             </ProtectedRoute>
           } 
         />
