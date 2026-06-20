@@ -1,6 +1,7 @@
 import sys
 import os
 from sqlalchemy import create_engine, text
+# pyrefly: ignore [missing-import]
 from sentence_transformers import SentenceTransformer
 
 # Setup database connection
