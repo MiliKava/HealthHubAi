@@ -9,6 +9,7 @@ import { useAuthStore } from './store/authStore';
 import api from './api';
 
 import AdminPanel from './pages/AdminPanel';
+import TriageChat from './pages/TriageChat';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -46,6 +47,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/triage" 
+          element={
+            <ProtectedRoute>
+              <TriageChat />
             </ProtectedRoute>
           } 
         />

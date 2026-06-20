@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import api from '../api';
 
-export default function SidebarLayout({ children }: { children: React.ReactNode }) {
+export default function SidebarLayout({ children, noPadding = false }: { children: React.ReactNode, noPadding?: boolean }) {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout, role } = useAuthStore();
@@ -56,7 +56,7 @@ export default function SidebarLayout({ children }: { children: React.ReactNode 
           </button>
         </div>
       </div>
-      <div className="flex-1 p-10 overflow-auto">
+      <div className={`flex-1 flex flex-col ${noPadding ? '' : 'p-10'} overflow-hidden`}>
         {children}
       </div>
     </div>
