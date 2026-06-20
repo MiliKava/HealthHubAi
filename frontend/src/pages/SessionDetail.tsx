@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import SidebarLayout from '../components/SidebarLayout';
 import api from '../api';
 
@@ -125,7 +125,7 @@ export default function SessionDetail() {
                   </div>
                   
                   {result.citations && result.citations.length > 0 && (
-                    <div className="text-xs text-slate-500">
+                    <div className="text-xs text-slate-500 mb-6">
                       <span className="font-semibold text-slate-600">📚 Sources:</span>{' '}
                       {result.citations.map((c, i) => (
                         <React.Fragment key={i}>
@@ -136,6 +136,16 @@ export default function SessionDetail() {
                         </React.Fragment>
                       ))}
                     </div>
+                  )}
+                  
+                  {!result.emergency_flag && (
+                    <Link 
+                      to={`/doctors?specialty=${encodeURIComponent(result.recommended_specialist || '')}${id ? `&triage_session_id=${id}` : ''}`}
+                      className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm block text-center" 
+                      data-element-id="talk-to-doctor-btn"
+                    >
+                      🩺 Talk to a Doctor
+                    </Link>
                   )}
                 </div>
               )}

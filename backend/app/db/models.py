@@ -48,8 +48,8 @@ class DoctorProfile(Base):
     approved_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-    user = relationship("User", back_populates="doctor_profile", foreign_keys=[user_id])
-    approved_by_user = relationship("User", foreign_keys=[approved_by])
+    user = relationship("User", back_populates="doctor_profile", foreign_keys="[DoctorProfile.user_id]")
+    approved_by_user = relationship("User", foreign_keys="[DoctorProfile.approved_by]")
 
 class PatientProfile(Base):
     __tablename__ = "patient_profiles"

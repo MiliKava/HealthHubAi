@@ -12,6 +12,7 @@ import AdminPanel from './pages/AdminPanel';
 import TriageChat from './pages/TriageChat';
 import SessionHistory from './pages/SessionHistory';
 import SessionDetail from './pages/SessionDetail';
+import Doctors from './pages/Doctors';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -81,6 +82,14 @@ function App() {
           element={
             <ProtectedRoute>
               <SessionDetail />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/doctors" 
+          element={
+            <ProtectedRoute>
+              <Doctors />
             </ProtectedRoute>
           } 
         />

@@ -33,3 +33,13 @@ class DoctorProfile(DoctorProfileBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+class DoctorPublic(BaseModel):
+    id: UUID
+    full_name: str
+    specialty: str
+    bio: Optional[str] = None
+    years_experience: int
+    cv_summary: Optional[str] = None
+
+    model_config = ConfigDict(from_attributes=True)

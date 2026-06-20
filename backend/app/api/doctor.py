@@ -1,14 +1,44 @@
 import json
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.db.models import User, UserRole, DoctorProfile
-from app.api.deps import get_current_user, require_role
-from app.schemas.doctor import DoctorProfile as DoctorProfileSchema, DoctorProfileUpdate, CVKeywords
+from app.db.models import User, UserRole, DoctorProfile, ApprovalStatus
+from app.api.deps import get_current_user, require_role, get_current_user_optional
+from app.schemas.doctor import DoctorProfile as DoctorProfileSchema, DoctorProfileUpdate, CVKeywords, DoctorPublic
 from app.core.config import settings
 
 router = APIRouter()
+
+@router.get("", response_model=List[DoctorPublic])
+def get_approved_doctors(
+    specialty: Optional[str] = None,
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_current_user_optional)
+):
+    query = db.query(DoctorProfile).filter(
+        DoctorProfile.approval_status == ApprovalStatus.APPROVED,
+        DoctorProfile.user.has(User.is_active == True)
+    )
+    if specialty:
+        query = query.filter(DoctorProfile.specialty.ilike(f"%{specialty}%"))
+    
+    profiles = query.all()
+    results = []
+    for profile in profiles:
+        summary = ""
+        if profile.cv_keywords and isinstance(profile.cv_keywords, dict):
+            summary = profile.cv_keywords.get("summary", "")
+            
+        results.append(DoctorPublic(
+            id=profile.id,
+            full_name=profile.user.full_name or "Unknown Doctor",
+            specialty=profile.specialty,
+            bio=profile.bio,
+            years_experience=profile.years_experience,
+            cv_summary=summary
+        ))
+    return results
 
 @router.get("/me/profile", response_model=DoctorProfileSchema)
 def get_my_profile(

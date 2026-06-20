@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import SidebarLayout from '../components/SidebarLayout';
 import api from '../api';
 
@@ -45,13 +46,7 @@ export default function TriageChat() {
     scrollToBottom();
   }, [messages, isLoading, result]);
 
-  useEffect(() => {
-    if (sessionId) {
-      loadSession(sessionId);
-    } else {
-      startNewSession();
-    }
-  }, []);
+
 
   const loadSession = async (id: string) => {
     try {
@@ -97,6 +92,14 @@ export default function TriageChat() {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (sessionId) {
+      loadSession(sessionId);
+    } else {
+      startNewSession();
+    }
+  }, [sessionId]);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim() || !sessionId || isLoading || isCompleted) return;
@@ -237,9 +240,13 @@ export default function TriageChat() {
               )}
               
               {!result.emergency_flag && (
-                <button className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm" data-element-id="talk-to-doctor-btn">
+                <Link 
+                  to={`/doctors?specialty=${encodeURIComponent(result.recommended_specialist || '')}${sessionId ? `&triage_session_id=${sessionId}` : ''}`}
+                  className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm block text-center" 
+                  data-element-id="talk-to-doctor-btn"
+                >
                   🩺 Talk to a Doctor
-                </button>
+                </Link>
               )}
             </div>
           )}
