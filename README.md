@@ -16,6 +16,79 @@ Welcome to the **CareBridge AI** project! This repository contains the foundatio
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-412991.svg?style=for-the-badge&logo=OpenAI&logoColor=white)
 
+## Current Progress (Phases 1-10 Completed)
+
+The application is being built in phases. The following core foundational and AI engine features are fully implemented:
+1. **Foundation & Auth:** Full infrastructure setup with Docker, JWT Authentication, and RBAC (Patient, Doctor, Admin).
+2. **Profile Management:** Patient profile configurations and comprehensive Doctor Onboarding workflows (including automated CV PDF extraction).
+3. **Admin Controls:** Secure admin dashboard for evaluating and approving/rejecting doctor applications.
+4. **Medical RAG System:** Implementation of the `pgvector` database, MedQuAD dataset ingestion pipeline, and RAG retrieval service for contextual medical knowledge.
+5. **Intelligent Triage Engine:** 
+   - **Symptom Extraction:** Uses Groq/Gemini/OpenAI to extract and map natural language to a canonical medical vocabulary.
+   - **Emergency Detection:** Analyzes symptoms to catch high-risk red flags before proceeding.
+   - **Triage Scoring Engine:** Assigns automated risk levels (`low`, `medium`, `high`) and calculates specialist recommendations based on age, duration, severity, and symptom categories.
+
+## System Architecture
+
+```mermaid
+graph TD
+    %% Frontend Layer
+    subgraph Frontend ["React / Vite Frontend"]
+        UI["User Interface"]
+        PatientDash["Patient Dashboard"]
+        DoctorDash["Doctor Dashboard"]
+        AdminDash["Admin Panel"]
+    end
+
+    %% Backend Layer
+    subgraph Backend ["FastAPI Backend"]
+        API["API Router"]
+        AuthSvc["Auth & RBAC Service"]
+        DocSvc["Doctor Onboarding & PDF Service"]
+        
+        %% Triage Pipeline
+        subgraph TriagePipeline ["Intelligent Triage Pipeline"]
+            SympExt["Symptom Extraction (LLM)"]
+            RedFlag["Red-Flag Emergency Detection"]
+            TriageScore["Triage Scoring Engine"]
+        end
+        
+        %% RAG System
+        subgraph KnowledgeSystem ["RAG Knowledge System"]
+            CorpusPipe["Corpus Ingestion Pipeline"]
+            RAG["RAG Retrieval Service"]
+        end
+    end
+
+    %% Database Layer
+    subgraph Database ["PostgreSQL + pgvector"]
+        UsersDB[("Users & Roles")]
+        ProfilesDB[("Profiles & Applications")]
+        VectorDB[("Medical Embeddings")]
+    end
+
+    %% External APIs
+    LLM["External LLM APIs<br>(Groq, Gemini, OpenAI)"]
+
+    %% Connections
+    UI <--> API
+    API <--> AuthSvc
+    API <--> DocSvc
+    API <--> SympExt
+    
+    AuthSvc <--> UsersDB
+    DocSvc <--> ProfilesDB
+    
+    SympExt --> |"Raw Text"| LLM
+    LLM --> |"Canonical JSON"| SympExt
+    
+    SympExt --> |"Canonical Symptoms"| RedFlag
+    RedFlag --> |"If safe (No Red-Flags)"| TriageScore
+    
+    CorpusPipe --> |"Chunking & Embeddings"| VectorDB
+    RAG <--> |"Similarity Search"| VectorDB
+```
+
 ## Getting Started
 
 This application has been fully containerized using Docker, making it incredibly easy to spin up the Frontend, Backend, and Database with a single command. 
