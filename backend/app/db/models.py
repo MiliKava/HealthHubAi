@@ -92,3 +92,53 @@ class KBDocument(Base):
     __table_args__ = (
         Index('ix_kb_documents_embedding_ivfflat', 'embedding', postgresql_using='ivfflat', postgresql_with={'lists': 100}, postgresql_ops={'embedding': 'vector_cosine_ops'}),
     )
+
+class TriageSession(Base):
+    __tablename__ = "triage_sessions"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    patient_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    current_state = Column(String, nullable=False, default="initial_complaint")
+    is_completed = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    messages = relationship("TriageMessage", back_populates="session", order_by="TriageMessage.created_at")
+    extracted_symptoms = relationship("ExtractedSymptomModel", back_populates="session")
+    result = relationship("TriageResultModel", back_populates="session", uselist=False)
+
+class TriageMessage(Base):
+    __tablename__ = "triage_messages"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    session_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("triage_sessions.id"), nullable=False)
+    sender = Column(String, nullable=False) # "user" or "assistant"
+    content = Column(String, nullable=False)
+    step_type = Column(String, nullable=False) 
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    session = relationship("TriageSession", back_populates="messages")
+
+class ExtractedSymptomModel(Base):
+    __tablename__ = "extracted_symptoms"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    session_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("triage_sessions.id"), nullable=False)
+    symptom_name = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    session = relationship("TriageSession", back_populates="extracted_symptoms")
+
+class TriageResultModel(Base):
+    __tablename__ = "triage_results"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    session_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("triage_sessions.id"), nullable=False, unique=True)
+    risk_level = Column(String, nullable=False)
+    score_breakdown = Column(sqlalchemy.JSON, nullable=True)
+    recommended_specialist = Column(String, nullable=False)
+    emergency_flag = Column(Boolean, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    session = relationship("TriageSession", back_populates="result")
