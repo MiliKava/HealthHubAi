@@ -16,6 +16,7 @@ const VideoCall: React.FC = () => {
   const peerRef = useRef<Peer | null>(null);
   const [connected, setConnected] = useState(false);
   const connectedRef = useRef(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   useEffect(() => {
     const initCall = async () => {
@@ -123,6 +124,16 @@ const VideoCall: React.FC = () => {
     navigate('/dashboard');
   };
 
+  const toggleMute = () => {
+    if (localStream) {
+      const audioTrack = localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        setIsMuted(!audioTrack.enabled);
+      }
+    }
+  };
+
   return (
     <SidebarLayout>
       <div className="max-w-6xl mx-auto py-8 px-4 relative z-10">
@@ -195,10 +206,31 @@ const VideoCall: React.FC = () => {
               </div>
             </div>
 
-            <div className="mt-8 flex justify-center pb-2">
+            <div className="mt-8 flex justify-center items-center gap-4 pb-2">
+              <button
+                onClick={toggleMute}
+                className={`flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl transition-all shadow-md ${
+                  isMuted 
+                    ? 'bg-red-50 text-red-600 hover:bg-red-100 border-2 border-red-200' 
+                    : 'bg-slate-800 text-white hover:bg-slate-700'
+                }`}
+                title={isMuted ? "Unmute Microphone" : "Mute Microphone"}
+              >
+                {isMuted ? (
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4l16 16" />
+                  </svg>
+                ) : (
+                  <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                  </svg>
+                )}
+              </button>
+
               <button
                 onClick={endCall}
-                className="group relative px-10 py-4 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2xl font-bold transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5 overflow-hidden"
+                className="group relative px-6 sm:px-10 py-4 h-14 sm:h-16 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-2xl font-bold transition-all shadow-[0_4px_14px_0_rgba(225,29,72,0.39)] hover:shadow-[0_6px_20px_rgba(225,29,72,0.23)] hover:-translate-y-0.5 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 transform -skew-x-12 -ml-10 w-8 transition-transform group-hover:translate-x-[300px] duration-500"></div>
                 <div className="flex items-center gap-3 relative z-10">
