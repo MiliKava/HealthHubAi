@@ -208,3 +208,62 @@ def decline_appointment_request(
     # Note: Trigger patient notification logic here
 
     return req
+
+@router.post("/requests/{request_id}/confirm", response_model=AppointmentRequestResponse)
+def confirm_appointment_request(
+    request_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.PATIENT]))
+):
+    req = db.query(AppointmentRequest).filter(
+        AppointmentRequest.id == request_id,
+        AppointmentRequest.patient_id == current_user.id
+    ).first()
+
+    if not req:
+        raise HTTPException(status_code=404, detail="Appointment request not found")
+
+    if req.status != AppointmentRequestStatus.PROPOSED:
+        raise HTTPException(status_code=400, detail="Only 'proposed' appointments can be confirmed")
+
+    from app.db.models import Appointment, AppointmentStatus
+
+    req.status = AppointmentRequestStatus.CONFIRMED
+    
+    appointment = Appointment(
+        request_id=req.id,
+        patient_id=req.patient_id,
+        doctor_id=req.doctor_id,
+        scheduled_time=req.proposed_slot,
+        status=AppointmentStatus.SCHEDULED
+    )
+    db.add(appointment)
+    
+    db.commit()
+    db.refresh(req)
+
+    return req
+
+@router.post("/requests/{request_id}/reject-slot", response_model=AppointmentRequestResponse)
+def reject_appointment_request_slot(
+    request_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.PATIENT]))
+):
+    req = db.query(AppointmentRequest).filter(
+        AppointmentRequest.id == request_id,
+        AppointmentRequest.patient_id == current_user.id
+    ).first()
+
+    if not req:
+        raise HTTPException(status_code=404, detail="Appointment request not found")
+
+    if req.status != AppointmentRequestStatus.PROPOSED:
+        raise HTTPException(status_code=400, detail="Only 'proposed' appointments can have their slots rejected")
+
+    req.status = AppointmentRequestStatus.REQUESTED
+    req.proposed_slot = None
+    db.commit()
+    db.refresh(req)
+
+    return req

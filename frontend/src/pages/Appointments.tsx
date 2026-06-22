@@ -47,6 +47,27 @@ export default function Appointments() {
     }
   };
 
+  const handleConfirm = async (id: string) => {
+    try {
+      await api.post(`/appointments/requests/${id}/confirm`);
+      fetchRequests();
+    } catch (err) {
+      console.error(err);
+      setError('Failed to confirm appointment.');
+    }
+  };
+
+  const handleRejectSlot = async (id: string) => {
+    try {
+      await api.post(`/appointments/requests/${id}/reject-slot`);
+      fetchRequests();
+    } catch (err) {
+      console.error(err);
+      setError('Failed to reject proposed slot.');
+    }
+  };
+
+
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -117,19 +138,33 @@ export default function Appointments() {
                   </div>
                 )}
                 
-                {req.proposed_slot && (
+                {req.proposed_slot && req.status !== 'requested' && (
                   <div className="text-sm text-slate-700 mb-4 font-medium">
-                    📅 Proposed slot: {formatSlot(req.proposed_slot)}
+                    📅 {req.status === 'confirmed' ? 'Confirmed slot:' : 'Proposed slot:'} {formatSlot(req.proposed_slot)}
+                  </div>
+                )}
+                
+                {req.status === 'requested' && (
+                  <div className="text-sm text-amber-600 mb-4 font-medium italic">
+                    Waiting for a new time proposal.
                   </div>
                 )}
                 
                 {req.status === 'proposed' && (
                   <div className="flex gap-3">
-                    <button className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-medium transition-colors" data-element-id="accept-slot">
+                    <button onClick={() => handleConfirm(req.id)} className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg text-sm font-medium transition-colors" data-element-id="accept-slot">
                       Accept
                     </button>
-                    <button className="px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors" data-element-id="reject-slot">
+                    <button onClick={() => handleRejectSlot(req.id)} className="px-4 py-2 bg-white border border-red-500 text-red-500 hover:bg-red-50 rounded-lg text-sm font-medium transition-colors" data-element-id="reject-slot">
                       Propose Another Time
+                    </button>
+                  </div>
+                )}
+
+                {req.status === 'confirmed' && (
+                  <div className="mt-4">
+                    <button disabled className="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-medium opacity-50 cursor-not-allowed">
+                      Join Call
                     </button>
                   </div>
                 )}
