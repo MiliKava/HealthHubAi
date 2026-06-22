@@ -11,7 +11,7 @@ from app.core.security import get_password_hash
 def seed_admin():
     db = SessionLocal()
     try:
-        admin_email = "admin@carebridge.ai"
+        admin_email = "admin@gmail.com"
         admin = db.query(User).filter(User.email == admin_email).first()
         if not admin:
             admin_user = User(

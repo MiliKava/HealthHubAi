@@ -8,7 +8,7 @@ from alembic import context
 import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from app.db.database import Base
-from app.db.models import User, DoctorProfile, RefreshToken # Ensure models are imported
+from app.db.models import User, DoctorProfile, RefreshToken, Appointment # Ensure models are imported
 from app.core.config import settings
 
 # this is the Alembic Config object, which provides

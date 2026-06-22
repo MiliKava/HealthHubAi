@@ -6,6 +6,8 @@ from app.db.database import Base
 import enum
 import sqlalchemy
 from sqlalchemy.orm import relationship
+from pgvector.sqlalchemy import Vector
+from sqlalchemy import Index
 class UserRole(str, enum.Enum):
     PATIENT = "patient"
     DOCTOR = "doctor"
@@ -25,6 +27,8 @@ class User(Base):
     doctor_profile = relationship("DoctorProfile", back_populates="user", uselist=False, foreign_keys="DoctorProfile.user_id")
     patient_profile = relationship("PatientProfile", back_populates="user", uselist=False)
     refresh_tokens = relationship("RefreshToken", back_populates="user")
+    appointments_as_patient = relationship("Appointment", back_populates="patient", foreign_keys="[Appointment.patient_id]")
+    appointments_as_doctor = relationship("Appointment", back_populates="doctor", foreign_keys="[Appointment.doctor_id]")
 
 class ApprovalStatus(str, enum.Enum):
     PENDING = "pending"
@@ -74,3 +78,35 @@ class RefreshToken(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship("User", back_populates="refresh_tokens")
+
+class KBDocument(Base):
+    __tablename__ = "kb_documents"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    source = Column(String, nullable=False)
+    title = Column(String, nullable=True)
+    url = Column(String, nullable=True)
+    content_chunk = Column(String, nullable=False)
+    embedding = Column(Vector(384))
+    chunk_metadata = Column(sqlalchemy.JSON, nullable=True, default={})
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index('ix_kb_documents_embedding_ivfflat', 'embedding', postgresql_using='ivfflat', postgresql_with={'lists': 100}, postgresql_ops={'embedding': 'vector_cosine_ops'}),
+    )
+
+class Appointment(Base):
+    __tablename__ = "appointments"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
+    patient_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    doctor_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
+    status = Column(String, default="pending", nullable=False)
+    confirmed_slot = Column(DateTime, nullable=False)
+    call_room_id = Column(String, nullable=True)
+    call_provider = Column(String, nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    patient = relationship("User", foreign_keys=[patient_id], back_populates="appointments_as_patient")
+    doctor = relationship("User", foreign_keys=[doctor_id], back_populates="appointments_as_doctor")

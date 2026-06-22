@@ -68,7 +68,7 @@ export default function Dashboard() {
             </h2>
             <p className="text-slate-500 mt-1 flex items-center gap-2">
               <User className="w-4 h-4" />
-              {role.charAt(0).toUpperCase() + role.slice(1)} Portal
+              {(role || '').charAt(0).toUpperCase() + (role || '').slice(1)} Portal
             </p>
           </div>
         </div>
@@ -99,7 +99,7 @@ export default function Dashboard() {
             <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-medium">Developer Mode</span>
           </div>
           <p className="text-slate-600 mb-6 text-lg">
-            This is a placeholder for the Phase 2 dashboard. Based on your role (<strong className="text-health-blue">{role}</strong>), you'll see specific features here in future phases.
+            This is a placeholder for the Phase 2 dashboard. Based on your role (<strong className="text-health-blue">{role || ''}</strong>), you'll see specific features here in future phases.
           </p>
 
           <div className="mt-6 p-6 bg-slate-900/5 backdrop-blur-sm rounded-xl border border-slate-200/50">

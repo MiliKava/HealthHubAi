@@ -10,6 +10,7 @@ import { useAuthStore } from './store/authStore';
 import api from './api';
 
 import AdminPanel from './pages/AdminPanel';
+import AppointmentsPage from './pages/AppointmentsPage';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -56,6 +57,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path="/appointments" 
+          element={
+            <ProtectedRoute>
+              <AppointmentsPage />
             </ProtectedRoute>
           } 
         />

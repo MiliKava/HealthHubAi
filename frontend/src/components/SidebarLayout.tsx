@@ -5,7 +5,7 @@ import api from '../api';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Activity, Bell, Home, User, Clock, Calendar,
-  Stethoscope, ShieldCheck, LogOut, ChevronUp, X
+  Stethoscope, ShieldCheck, LogOut, X
 } from 'lucide-react';
 
 interface NavLink { name: string; path: string; icon: React.ElementType }

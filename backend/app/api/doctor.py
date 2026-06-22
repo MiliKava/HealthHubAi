@@ -1,14 +1,26 @@
 import json
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from sqlalchemy.orm import Session
 from app.db.database import get_db
-from app.db.models import User, UserRole, DoctorProfile
+from app.db.models import User, UserRole, DoctorProfile, ApprovalStatus
 from app.api.deps import get_current_user, require_role
 from app.schemas.doctor import DoctorProfile as DoctorProfileSchema, DoctorProfileUpdate, CVKeywords
+from app.schemas.user import UserDoctorResponse
 from app.core.config import settings
 
 router = APIRouter()
+
+@router.get("", response_model=List[UserDoctorResponse])
+def list_approved_doctors(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return db.query(User).join(User.doctor_profile).filter(
+        User.role == UserRole.DOCTOR,
+        User.is_active == True,
+        DoctorProfile.approval_status == ApprovalStatus.APPROVED
+    ).all()
 
 @router.get("/me/profile", response_model=DoctorProfileSchema)
 def get_my_profile(

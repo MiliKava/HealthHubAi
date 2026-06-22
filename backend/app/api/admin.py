@@ -61,11 +61,12 @@ def reject_doctor(
         raise HTTPException(status_code=404, detail="Doctor not found")
         
     user.doctor_profile.approval_status = ApprovalStatus.REJECTED
+    user.is_active = False
     
     db.commit()
     
     # TODO: Send email
-    return {"message": "Doctor rejected successfully"}
+    return {"message": "Doctor rejected and deactivated successfully"}
 
 @router.post("/doctors/{user_id}/deactivate")
 def deactivate_doctor(
@@ -81,3 +82,21 @@ def deactivate_doctor(
     db.commit()
     
     return {"message": "Doctor deactivated successfully"}
+
+@router.post("/doctors/{user_id}/activate")
+def activate_doctor(
+    user_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.ADMIN]))
+):
+    user = db.query(User).filter(User.id == user_id, User.role == UserRole.DOCTOR).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="Doctor not found")
+        
+    user.is_active = True
+    if user.doctor_profile and user.doctor_profile.approval_status == ApprovalStatus.REJECTED:
+        user.doctor_profile.approval_status = ApprovalStatus.PENDING
+        
+    db.commit()
+    
+    return {"message": "Doctor activated successfully"}

@@ -14,8 +14,11 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     OPENAI_API_KEY: Optional[str] = None
     GROQ_API_KEY: Optional[str] = None
+    GROQ_API_KEY_TWO: Optional[str] = None
+    GEMINI_API_KEY: Optional[str] = None
     RESEND_API_KEY: Optional[str] = None
     DAILY_API_KEY: Optional[str] = None
+    DAILY_DOMAIN: str = "carebridge.daily.co"
     
     class Config:
         env_file = os.path.join(ROOT_DIR, ".env")

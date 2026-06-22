@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform } from "framer-motion"
 import { Button } from "../components/ui/button"
-import { ShieldCheck, Activity, Stethoscope, PhoneCall, ArrowRight, Pill, Syringe, Thermometer } from "lucide-react"
+import { ShieldCheck, Activity, Stethoscope, Pill, Syringe, Thermometer } from "lucide-react"
 import { Navbar } from "../components/layout/Navbar"
 import { Footer } from "../components/layout/Footer"
 import { Link } from "react-router-dom"

@@ -1,0 +1,679 @@
+[
+    {
+        "canonical": "dyspnea",
+        "synonyms": [
+            "can't breathe",
+            "winded",
+            "short of breath",
+            "difficulty breathing",
+            "breathless",
+            "shortness of breath",
+            "gasping",
+            "trouble breathing",
+            "catch my breath"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "cough",
+        "synonyms": [
+            "coughing",
+            "hacking",
+            "chesty cough",
+            "dry cough",
+            "cough up"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "wheezing",
+        "synonyms": [
+            "wheeze",
+            "whistling breath",
+            "squeaky breathing",
+            "noisy breathing"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "chest tightness",
+        "synonyms": [
+            "tight chest",
+            "heavy chest",
+            "pressure in chest",
+            "chest feels tight"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "hemoptysis",
+        "synonyms": [
+            "coughing up blood",
+            "spitting blood",
+            "bloody phlegm"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "sputum production",
+        "synonyms": [
+            "phlegm",
+            "mucus",
+            "coughing up stuff",
+            "spit"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "stridor",
+        "synonyms": [
+            "high-pitched breathing",
+            "noisy inhalation",
+            "crowing sound"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "apnea",
+        "synonyms": [
+            "stopped breathing",
+            "pauses in breathing",
+            "not breathing"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "chest pain",
+        "synonyms": [
+            "heart hurts",
+            "pain in chest",
+            "angina",
+            "chest ache",
+            "sharp pain in chest",
+            "crushing chest pain"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "palpitations",
+        "synonyms": [
+            "heart pounding",
+            "heart racing",
+            "heart fluttering",
+            "fast heartbeat",
+            "irregular heartbeat",
+            "skipped beats"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "syncope",
+        "synonyms": [
+            "fainting",
+            "passed out",
+            "blacked out",
+            "swoon",
+            "lost consciousness",
+            "fainted"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "edema",
+        "synonyms": [
+            "swelling",
+            "swollen legs",
+            "swollen ankles",
+            "puffy",
+            "fluid retention",
+            "water retention"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "orthopnea",
+        "synonyms": [
+            "can't breathe lying down",
+            "need pillows to sleep",
+            "breathless when flat"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "cyanosis",
+        "synonyms": [
+            "blue lips",
+            "blue fingers",
+            "turning blue",
+            "bluish skin"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "claudication",
+        "synonyms": [
+            "leg pain when walking",
+            "calf cramps walking",
+            "leg cramping"
+        ],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "headache",
+        "synonyms": [
+            "head hurts",
+            "migraine",
+            "pounding head",
+            "splitting headache",
+            "head ache",
+            "tension in head"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "dizziness",
+        "synonyms": [
+            "dizzy",
+            "lightheaded",
+            "room spinning",
+            "vertigo",
+            "faint",
+            "woozy",
+            "unsteady",
+            "spinning around me"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "numbness",
+        "synonyms": [
+            "numb",
+            "can't feel",
+            "loss of sensation",
+            "dead feeling",
+            "tingling",
+            "pins and needles"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "weakness",
+        "synonyms": [
+            "weak",
+            "loss of strength",
+            "feeble",
+            "can't move",
+            "paralysis",
+            "limp"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "confusion",
+        "synonyms": [
+            "confused",
+            "disoriented",
+            "mixed up",
+            "muddled",
+            "altered mental status",
+            "delirious",
+            "not making sense"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "seizure",
+        "synonyms": [
+            "fit",
+            "convulsion",
+            "shaking uncontrollably",
+            "epileptic fit"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "tremor",
+        "synonyms": [
+            "shaking",
+            "trembling",
+            "hands shaking",
+            "quivering"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "memory loss",
+        "synonyms": [
+            "forgetting things",
+            "amnesia",
+            "can't remember",
+            "poor memory"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "slurred speech",
+        "synonyms": [
+            "can't speak clearly",
+            "mumbling",
+            "speech difficulty",
+            "dysarthria"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "vision changes",
+        "synonyms": [
+            "blurry vision",
+            "double vision",
+            "can't see",
+            "blind spots",
+            "loss of vision"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "nausea",
+        "synonyms": [
+            "nauseous",
+            "sick to stomach",
+            "queasy",
+            "feel like vomiting"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "vomiting",
+        "synonyms": [
+            "throw up",
+            "throwing up",
+            "puking",
+            "barfing",
+            "heaving",
+            "emesis"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "diarrhea",
+        "synonyms": [
+            "loose stools",
+            "the runs",
+            "watery poop",
+            "bowel issues",
+            "frequent bowel movements"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "abdominal pain",
+        "synonyms": [
+            "stomach ache",
+            "belly hurts",
+            "tummy ache",
+            "cramps",
+            "stomach pain",
+            "gut pain",
+            "abdomen hurts"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "constipation",
+        "synonyms": [
+            "can't poop",
+            "hard stool",
+            "blocked up",
+            "no bowel movement"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "heartburn",
+        "synonyms": [
+            "acid reflux",
+            "chest burning",
+            "indigestion",
+            "pyrosis",
+            "burning in chest"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "melena",
+        "synonyms": [
+            "black stools",
+            "tarry stools",
+            "blood in poop",
+            "dark poop"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "hematemesis",
+        "synonyms": [
+            "vomiting blood",
+            "throwing up blood",
+            "bloody vomit"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "bloating",
+        "synonyms": [
+            "stomach swollen",
+            "gassy",
+            "full stomach",
+            "distended belly"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "dysphagia",
+        "synonyms": [
+            "difficulty swallowing",
+            "food getting stuck",
+            "can't swallow"
+        ],
+        "category": "gastrointestinal"
+    },
+    {
+        "canonical": "joint pain",
+        "synonyms": [
+            "joints hurt",
+            "achy joints",
+            "arthralgia",
+            "sore knees",
+            "sore wrists",
+            "joint ache",
+            "joints are aching"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "muscle pain",
+        "synonyms": [
+            "muscles hurt",
+            "body aches",
+            "myalgia",
+            "sore muscles",
+            "muscle ache",
+            "muscle spasms",
+            "muscle cramps"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "back pain",
+        "synonyms": [
+            "backache",
+            "lower back hurts",
+            "spine hurts",
+            "lumbar pain",
+            "sore back",
+            "back hurts"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "stiffness",
+        "synonyms": [
+            "stiff",
+            "can't bend",
+            "tight muscles",
+            "rigid",
+            "morning stiffness"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "neck pain",
+        "synonyms": [
+            "sore neck",
+            "neck hurts",
+            "stiff neck",
+            "cervical pain"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "bone pain",
+        "synonyms": [
+            "bones hurt",
+            "deep ache in bone",
+            "shin splints"
+        ],
+        "category": "musculoskeletal"
+    },
+    {
+        "canonical": "rash",
+        "synonyms": [
+            "breakout",
+            "red skin",
+            "hives",
+            "spots on skin",
+            "blisters",
+            "skin eruption"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "pruritus",
+        "synonyms": [
+            "itching",
+            "itchy",
+            "scratchy",
+            "need to scratch"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "jaundice",
+        "synonyms": [
+            "yellow skin",
+            "yellow eyes",
+            "icterus",
+            "skin is turning yellow"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "erythema",
+        "synonyms": [
+            "redness",
+            "flushed skin",
+            "red patch",
+            "skin redness"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "alopecia",
+        "synonyms": [
+            "hair loss",
+            "losing hair",
+            "bald spots",
+            "hair falling out"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "ulcer",
+        "synonyms": [
+            "sore",
+            "open wound",
+            "skin breakdown",
+            "lesion"
+        ],
+        "category": "dermatological"
+    },
+    {
+        "canonical": "fever",
+        "synonyms": [
+            "high temperature",
+            "running a temperature",
+            "hot",
+            "feverish",
+            "pyrexia",
+            "burning up"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "chills",
+        "synonyms": [
+            "shivering",
+            "cold sweats",
+            "shivers",
+            "rigors",
+            "feeling cold"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "fatigue",
+        "synonyms": [
+            "tired",
+            "exhausted",
+            "worn out",
+            "lethargic",
+            "no energy",
+            "drained",
+            "sluggish"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "weight loss",
+        "synonyms": [
+            "losing weight",
+            "dropped pounds",
+            "thinning",
+            "unintentional weight loss"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "night sweats",
+        "synonyms": [
+            "sweating at night",
+            "waking up drenched",
+            "soaking bedclothes",
+            "heavy sweating in sleep"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "malaise",
+        "synonyms": [
+            "feeling unwell",
+            "under the weather",
+            "feeling sick",
+            "general discomfort",
+            "blah"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "polydipsia",
+        "synonyms": [
+            "excessive thirst",
+            "always thirsty",
+            "drinking a lot of water"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "polyphagia",
+        "synonyms": [
+            "excessive hunger",
+            "always hungry",
+            "eating a lot"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "polyuria",
+        "synonyms": [
+            "frequent urination",
+            "peeing a lot",
+            "always going to the bathroom"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "anxiety",
+        "synonyms": [
+            "anxious",
+            "nervous",
+            "panic",
+            "worried",
+            "panicking",
+            "feeling on edge"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "depression",
+        "synonyms": [
+            "depressed",
+            "sad",
+            "hopeless",
+            "feeling down",
+            "crying a lot",
+            "low mood"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "insomnia",
+        "synonyms": [
+            "can't sleep",
+            "awake all night",
+            "trouble sleeping",
+            "sleeplessness",
+            "waking up early"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "hallucinations",
+        "synonyms": [
+            "seeing things",
+            "hearing voices",
+            "delusions",
+            "visualizing things"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "suicidal ideation",
+        "synonyms": [
+            "wanting to die",
+            "thoughts of self-harm",
+            "ending it all",
+            "suicidal thoughts"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "mood swings",
+        "synonyms": [
+            "emotional",
+            "up and down",
+            "bipolar",
+            "volatile mood"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "irritability",
+        "synonyms": [
+            "angry",
+            "short tempered",
+            "snappy",
+            "irritable"
+        ],
+        "category": "psychiatric"
+    }
+]
