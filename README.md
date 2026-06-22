@@ -6,15 +6,33 @@ Welcome to the **CareBridge AI** project! This repository contains the foundatio
 
 ## Tech Stack
 
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
-<br>
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![OpenAI](https://img.shields.io/badge/OpenAI-412991.svg?style=for-the-badge&logo=OpenAI&logoColor=white)
+<div align="left">
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="TailwindCSS" />
+  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
+  <img src="https://img.shields.io/badge/WebRTC-333333.svg?style=for-the-badge&logo=WebRTC&logoColor=white" alt="WebRTC" />
+  <br>
+  <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" alt="Python" />
+  <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" alt="Postgres" />
+  <img src="https://img.shields.io/badge/Docker-2496ED.svg?style=for-the-badge&logo=Docker&logoColor=white" alt="Docker" />
+  <img src="https://img.shields.io/badge/OpenAI-412991.svg?style=for-the-badge&logo=OpenAI&logoColor=white" alt="OpenAI" />
+</div>
+
+## Application Previews
+
+### 🏠 User Dashboard
+**Description:** The central hub for authenticated users. This clean, macOS-inspired dashboard utilizes glassmorphism design principles to give patients and doctors a serene, distraction-free environment to view upcoming appointments, pending triage results, and quick actions.
+![Dashboard Preview](./frontend/public/images/dashboard-preview.png)
+
+### 🤖 Intelligent Triage Chat
+**Description:** Our flagship AI-powered symptom extraction engine. Users converse naturally with the AI, which automatically maps their symptoms to a canonical medical vocabulary, checks for emergency red flags, and determines a structured medical risk assessment.
+![Triage Chat](./frontend/public/images/triage-preview.png)
+
+### 👨‍⚕️ Specialist Discovery
+**Description:** A dedicated marketplace connecting patients with verified medical professionals. Doctors are dynamically filtered based on the AI's triage recommendations, allowing patients to instantly request appointments or initiate a secure WebRTC video consultation.
+![Doctors Directory](./frontend/public/images/doctors-preview.png)
 
 ## Current Progress (Phases 1-10 Completed)
 

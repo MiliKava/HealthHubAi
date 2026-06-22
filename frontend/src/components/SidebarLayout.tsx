@@ -52,14 +52,26 @@ export default function SidebarLayout({ children, noPadding = false }: { childre
       <div className="fixed top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-400/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
       <div className="fixed bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-400/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
 
-      <div className="sticky top-0 z-50 pt-6 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-3 items-center">
+      <div className="sticky top-0 z-50 pt-6 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-4 items-center">
+        {/* CareBridge Logo */}
+        <div 
+          onClick={() => navigate(role === 'doctor' ? '/doctor/dashboard' : '/')} 
+          className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-blue-400 cursor-pointer shadow-lg shadow-indigo-200 hover:scale-105 transition-transform"
+          title="Home"
+        >
+          <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+
+        {/* Navigation Links */}
         <div className="flex gap-2 p-1.5 glass-panel rounded-2xl mac-shadow">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
               className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${location.pathname === link.path
-                  ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                  ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-md'
                   : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                 }`}
             >

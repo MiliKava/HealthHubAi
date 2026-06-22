@@ -2,13 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @layer base {
   html {
     @apply antialiased text-slate-800 selection:bg-indigo-500/30;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   body {
-    /* Subtle, clean mac-like gradient background */
-    background: linear-gradient(135deg, #f6f8fd 0%, #f1f5f9 100%);
+    /* Beautiful calm futuristic white gradient */
+    background: radial-gradient(circle at 50% 0%, #ffffff 0%, #f4f7fb 50%, #eef2f6 100%);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -16,9 +19,13 @@
 
 @layer utilities {
   .glass-panel {
-    @apply bg-white/80 backdrop-blur-md border border-white/50 shadow-sm;
+    @apply bg-white/70 backdrop-blur-xl border border-white/60;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.03);
   }
   .mac-shadow {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 20px 25px -5px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+  }
+  .glow-effect {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
   }
 }

@@ -171,8 +171,8 @@ export default function TriageChat() {
             <div key={msg.id || index} className={`flex max-w-[70%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
               <div className={`px-5 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm whitespace-pre-wrap ${
                 msg.sender === 'user' 
-                  ? 'bg-sky-500 text-white rounded-tr-sm' 
-                  : 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm'
+                  ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-tr-sm shadow-md' 
+                  : 'bg-white/80 backdrop-blur-sm border border-slate-200 text-slate-800 rounded-tl-sm'
               }`}>
                 {msg.content}
               </div>
@@ -181,7 +181,7 @@ export default function TriageChat() {
           
           {isLoading && (
             <div className="flex max-w-[70%] self-start">
-              <div className="px-5 py-4 rounded-2xl bg-white border border-slate-200 rounded-tl-sm flex gap-1.5 shadow-sm">
+              <div className="px-5 py-4 rounded-2xl bg-white/80 backdrop-blur-sm border border-slate-200 rounded-tl-sm flex gap-1.5 shadow-sm">
                 <div className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                 <div className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }} />
                 <div className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -190,19 +190,19 @@ export default function TriageChat() {
           )}
           
           {result && (
-            <div className="self-start max-w-lg bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mt-2" data-element-id="result-card">
+            <div className="self-start max-w-lg glass-panel mac-shadow rounded-2xl p-6 mt-2" data-element-id="result-card">
               {result.emergency_flag ? (
                 <div className="mb-4">
-                  <span className="inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-red-100 text-red-800" data-element-id="risk-badge">
+                  <span className="inline-block px-4 py-1.5 rounded-full text-sm font-bold bg-red-100 text-red-800 shadow-sm" data-element-id="risk-badge">
                     🚨 EMERGENCY ALERT
                   </span>
                 </div>
               ) : (
                 <div className="mb-4">
-                  <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold ${
+                  <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-bold shadow-sm ${
                     result.risk_level === 'high' ? 'bg-red-100 text-red-800' : 
                     result.risk_level === 'medium' ? 'bg-amber-100 text-amber-800' : 
-                    'bg-green-100 text-green-800'
+                    'bg-emerald-100 text-emerald-800'
                   }`} data-element-id="risk-badge">
                     {result.risk_level === 'high' ? '⚠️ High Risk' : 
                      result.risk_level === 'medium' ? '⚠️ Medium Risk' : 
@@ -231,7 +231,7 @@ export default function TriageChat() {
                   {result.citations.map((c, i) => (
                     <React.Fragment key={i}>
                       {i > 0 && ' · '}
-                      <a href={c.url || '#'} target="_blank" rel="noopener noreferrer" className="hover:text-sky-600 hover:underline">
+                      <a href={c.url || '#'} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">
                         {c.source}
                       </a>
                     </React.Fragment>
@@ -242,7 +242,7 @@ export default function TriageChat() {
               {!result.emergency_flag && (
                 <Link 
                   to={`/doctors?specialty=${encodeURIComponent(result.recommended_specialist || '')}${sessionId ? `&triage_session_id=${sessionId}` : ''}`}
-                  className="w-full bg-sky-500 hover:bg-sky-600 text-white font-semibold py-3 px-4 rounded-xl transition-colors shadow-sm block text-center" 
+                  className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg block text-center" 
                   data-element-id="talk-to-doctor-btn"
                 >
                   🩺 Talk to a Doctor
@@ -254,7 +254,7 @@ export default function TriageChat() {
           <div ref={messagesEndRef} />
         </div>
         
-        <div className="p-4 bg-white border-t border-slate-200 shrink-0">
+        <div className="p-4 bg-white/70 backdrop-blur-xl border-t border-slate-200/50 shrink-0">
           <form 
             onSubmit={(e) => { e.preventDefault(); handleSendMessage(); }}
             className="flex gap-3 max-w-4xl mx-auto w-full"
@@ -265,13 +265,13 @@ export default function TriageChat() {
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Type your response..."
               disabled={isLoading || isCompleted}
-              className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-5 py-3.5 text-[15px] focus:outline-none focus:border-sky-500 focus:ring-2 focus:ring-sky-200 transition-all disabled:opacity-60 disabled:bg-slate-100"
+              className="flex-1 bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl px-5 py-3.5 text-[15px] focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 transition-all disabled:opacity-60 disabled:bg-slate-100"
               data-element-id="message-input"
             />
             <button 
               type="submit"
               disabled={!inputValue.trim() || isLoading || isCompleted}
-              className="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+              className="bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
               data-element-id="send-btn"
             >
               Send
