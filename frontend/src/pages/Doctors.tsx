@@ -159,13 +159,22 @@ export default function Doctors() {
                     <p className="text-sm text-slate-600 leading-relaxed max-w-3xl italic">{doc.cv_summary}</p>
                   )}
                 </div>
-                <button 
-                  className="px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors whitespace-nowrap mt-2 sm:mt-0 shadow-sm"
-                  data-element-id={`request-btn-${index + 1}`}
-                  onClick={() => handleRequestAppointment(doc.id)}
-                >
-                  Request Appointment
-                </button>
+                {triageSessionId ? (
+                  <button 
+                    className="px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors whitespace-nowrap mt-2 sm:mt-0 shadow-sm"
+                    data-element-id={`request-btn-${index + 1}`}
+                    onClick={() => handleRequestAppointment(doc.id)}
+                  >
+                    Request Appointment
+                  </button>
+                ) : (
+                  <button 
+                    className="px-5 py-2.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium rounded-lg transition-colors whitespace-nowrap mt-2 sm:mt-0 shadow-sm"
+                    onClick={() => navigate('/triage')}
+                  >
+                    Start Triage to Request
+                  </button>
+                )}
               </div>
             ))}
           </div>

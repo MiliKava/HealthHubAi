@@ -17,15 +17,33 @@ export default function SidebarLayout({ children, noPadding = false }: { childre
     }
   };
 
-  const navLinks = [
-    { name: 'Triage Chat', path: '/triage' },
-    { name: 'My Profile', path: '/profile' },
-    { name: 'Session History', path: '/history' },
-    { name: 'Appointments', path: '/appointments' },
-  ];
-
-  if (role === 'admin') {
-    navLinks.push({ name: 'Admin Panel', path: '/admin' });
+  let navLinks: { name: string, path: string }[] = [];
+  
+  if (role === 'patient') {
+    navLinks = [
+      { name: 'Dashboard', path: '/' },
+      { name: 'Triage Chat', path: '/triage' },
+      { name: 'Session History', path: '/history' },
+      { name: 'My Appointments', path: '/appointments' },
+      { name: 'Find a Doctor', path: '/doctors' },
+      { name: 'My Profile', path: '/profile' },
+    ];
+  } else if (role === 'doctor') {
+    navLinks = [
+      { name: 'Dashboard', path: '/doctor/dashboard' },
+      { name: 'My Profile', path: '/profile' },
+    ];
+  } else if (role === 'admin') {
+    navLinks = [
+      { name: 'Dashboard', path: '/' },
+      { name: 'Admin Panel', path: '/admin' },
+      { name: 'My Profile', path: '/profile' },
+    ];
+  } else {
+    navLinks = [
+      { name: 'Dashboard', path: '/' },
+      { name: 'My Profile', path: '/profile' },
+    ];
   }
 
   return (

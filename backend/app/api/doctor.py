@@ -18,7 +18,7 @@ def get_approved_doctors(
     current_user: Optional[User] = Depends(get_current_user_optional)
 ):
     query = db.query(DoctorProfile).filter(
-        DoctorProfile.approval_status == ApprovalStatus.APPROVED,
+        DoctorProfile.approval_status.in_(["approved", "APPROVED"]),
         DoctorProfile.user.has(User.is_active == True)
     )
     if specialty:
@@ -32,7 +32,7 @@ def get_approved_doctors(
             summary = profile.cv_keywords.get("summary", "")
             
         results.append(DoctorPublic(
-            id=profile.id,
+            id=profile.user_id,
             full_name=profile.user.full_name or "Unknown Doctor",
             specialty=profile.specialty,
             bio=profile.bio,
@@ -179,7 +179,7 @@ def get_doctor_requests(
     current_user: User = Depends(require_role([UserRole.DOCTOR]))
 ):
     profile = current_user.doctor_profile
-    if not profile or profile.approval_status != ApprovalStatus.APPROVED:
+    if not profile or profile.approval_status not in ["approved", "APPROVED", ApprovalStatus.APPROVED]:
         raise HTTPException(status_code=403, detail="Doctor is not approved to access this resource")
 
     requests = db.query(AppointmentRequest).filter(
@@ -234,7 +234,7 @@ def get_doctor_appointments(
     current_user: User = Depends(require_role([UserRole.DOCTOR]))
 ):
     profile = current_user.doctor_profile
-    if not profile or profile.approval_status != ApprovalStatus.APPROVED:
+    if not profile or profile.approval_status not in ["approved", "APPROVED", ApprovalStatus.APPROVED]:
         raise HTTPException(status_code=403, detail="Doctor is not approved to access this resource")
 
     # Confirmed appointments

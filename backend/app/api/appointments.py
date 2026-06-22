@@ -19,10 +19,10 @@ def create_appointment_request(
     current_user: User = Depends(require_role([UserRole.PATIENT]))
 ):
     # Verify doctor exists and is approved
-    doctor = db.query(User).join(DoctorProfile).filter(
+    doctor = db.query(User).join(DoctorProfile, User.id == DoctorProfile.user_id).filter(
         User.id == request_in.doctor_id,
         User.role == UserRole.DOCTOR,
-        DoctorProfile.approval_status == "approved"
+        DoctorProfile.approval_status.in_(["approved", "APPROVED"])
     ).first()
     if not doctor:
         raise HTTPException(status_code=404, detail="Doctor not found or not approved")
