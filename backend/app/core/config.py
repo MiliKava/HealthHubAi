@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY_TWO: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     RESEND_API_KEY: Optional[str] = None
+    EMAIL_FROM: str = "noreply@carebridge.ai"
     DAILY_API_KEY: Optional[str] = None
     
     class Config:

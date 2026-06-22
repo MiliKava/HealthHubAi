@@ -8,6 +8,7 @@ from app.db.database import get_db
 from app.db.models import User, UserRole, AppointmentRequest, AppointmentRequestStatus, TriageSession, TriageResultModel, ExtractedSymptomModel, DoctorProfile
 from app.api.deps import get_current_user, require_role
 from app.schemas.appointment import AppointmentRequestCreate, AppointmentRequestResponse, AppointmentRequestWithSummary, AppointmentRequestAccept
+from app.services.notification_service import notification_service
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -57,6 +58,31 @@ def create_appointment_request(
 
     # Log intent for notification email (Phase 20)
     logger.info(f"Notification intent: Send appointment request email to doctor {doctor.email} for request {new_request.id}")
+    
+    triage_result = db.query(TriageResultModel).filter(TriageResultModel.session_id == request_in.triage_session_id).first()
+    symptoms = db.query(ExtractedSymptomModel).filter(ExtractedSymptomModel.session_id == request_in.triage_session_id).all()
+    
+    triage_summary = ""
+    if triage_result:
+        symptom_list = [s.symptom_name for s in symptoms]
+        triage_summary = f"""
+        <p><strong>Risk Level:</strong> {triage_result.risk_level}</p>
+        <p><strong>Symptoms:</strong> {", ".join(symptom_list)}</p>
+        """
+
+    html_body = f"""
+    <p>Hello Dr. {doctor.full_name},</p>
+    <p>You have a new appointment request from {current_user.full_name}.</p>
+    {triage_summary}
+    <p><a href="http://localhost:5173/doctor-dashboard">View Dashboard</a></p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=doctor.email,
+        subject=f"New appointment request from {current_user.full_name}",
+        html_body=html_body
+    )
 
     return new_request
 
@@ -182,6 +208,22 @@ def accept_appointment_request(
     db.commit()
     db.refresh(req)
 
+    patient = db.query(User).filter(User.id == req.patient_id).first()
+    
+    html_body = f"""
+    <p>Hello {patient.full_name},</p>
+    <p>Dr. {current_user.full_name} has proposed a time slot for your appointment:</p>
+    <p><strong>Proposed Slot:</strong> {req.proposed_slot}</p>
+    <p><a href="http://localhost:5173/appointments">Accept or Reject this slot</a></p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=patient.email,
+        subject=f"Dr. {current_user.full_name} proposed a time slot",
+        html_body=html_body
+    )
+
     return req
 
 @router.post("/requests/{request_id}/decline", response_model=AppointmentRequestResponse)
@@ -205,7 +247,19 @@ def decline_appointment_request(
     db.commit()
     db.refresh(req)
 
-    # Note: Trigger patient notification logic here
+    patient = db.query(User).filter(User.id == req.patient_id).first()
+    html_body = f"""
+    <p>Hello {patient.full_name},</p>
+    <p>Your appointment request with Dr. {current_user.full_name} was declined.</p>
+    <p>Please log in to CareBridge AI to find and request an appointment with another doctor.</p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=patient.email,
+        subject="Your appointment request was declined",
+        html_body=html_body
+    )
 
     return req
 
@@ -241,6 +295,38 @@ def confirm_appointment_request(
     
     db.commit()
     db.refresh(req)
+
+    doctor = db.query(User).filter(User.id == req.doctor_id).first()
+    
+    # Notify Patient
+    patient_body = f"""
+    <p>Hello {current_user.full_name},</p>
+    <p>Your appointment with Dr. {doctor.full_name} is confirmed.</p>
+    <p><strong>Time:</strong> {req.proposed_slot}</p>
+    <p>Don't forget to join the call at the scheduled time.</p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=current_user.email,
+        subject=f"Your appointment is confirmed — {req.proposed_slot}",
+        html_body=patient_body
+    )
+
+    # Notify Doctor
+    doctor_body = f"""
+    <p>Hello Dr. {doctor.full_name},</p>
+    <p>Your appointment with {current_user.full_name} is confirmed.</p>
+    <p><strong>Time:</strong> {req.proposed_slot}</p>
+    <p>Don't forget to join the call at the scheduled time.</p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=doctor.email,
+        subject=f"Your appointment is confirmed — {req.proposed_slot}",
+        html_body=doctor_body
+    )
 
     return req
 
