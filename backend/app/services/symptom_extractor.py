@@ -101,7 +101,8 @@ def _extract_symptoms_llm(text: str) -> List[ExtractedSymptom]:
                     {"role": "user", "content": prompt}
                 ],
                 response_format={"type": "json_object"},
-                temperature=0.0
+                temperature=0.0,
+                timeout=5.0
             )
             
             result_json_str = response.choices[0].message.content

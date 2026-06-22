@@ -11,7 +11,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
     symptoms_set = set(sym.lower() for sym in symptoms)
     
     # RF-01: Possible cardiac emergency
-    if "chest_pain" in symptoms_set and any(s in symptoms_set for s in ["dyspnea", "left_arm_pain", "jaw_pain"]):
+    if "chest pain" in symptoms_set and any(s in symptoms_set for s in ["dyspnea", "left arm pain", "jaw pain"]):
         return EmergencyResult(
             emergency=True,
             rule_id="RF-01",
@@ -20,7 +20,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-02: Possible stroke (FAST signs)
-    if any(s in symptoms_set for s in ["face_drooping", "arm_weakness", "sudden_speech_difficulty"]):
+    if any(s in symptoms_set for s in ["face drooping", "arm weakness", "sudden speech difficulty"]):
         return EmergencyResult(
             emergency=True,
             rule_id="RF-02",
@@ -29,7 +29,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-03: Severe bleeding emergency
-    if any(s in symptoms_set for s in ["severe_bleeding", "uncontrolled_hemorrhage"]):
+    if any(s in symptoms_set for s in ["severe bleeding", "uncontrolled hemorrhage"]):
         return EmergencyResult(
             emergency=True,
             rule_id="RF-03",
@@ -38,7 +38,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-04: Possible anaphylaxis
-    if "throat_swelling" in symptoms_set and any(s in symptoms_set for s in ["hives", "dyspnea"]):
+    if "throat swelling" in symptoms_set and any(s in symptoms_set for s in ["hives", "dyspnea", "rash"]):
         return EmergencyResult(
             emergency=True,
             rule_id="RF-04",
@@ -47,7 +47,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-05: Mental health crisis
-    if any(s in symptoms_set for s in ["suicidal_ideation", "self_harm_intent"]):
+    if any(s in symptoms_set for s in ["suicidal ideation", "self harm intent"]):
         return EmergencyResult(
             emergency=True,
             rule_id="RF-05",
@@ -56,7 +56,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-06: Unconsciousness emergency
-    if "loss_of_consciousness" in symptoms_set:
+    if "loss of consciousness" in symptoms_set or "syncope" in symptoms_set:
         return EmergencyResult(
             emergency=True,
             rule_id="RF-06",
@@ -65,7 +65,7 @@ def check_emergency(symptoms: List[str]) -> EmergencyResult:
         )
 
     # RF-07: Head injury emergency
-    if "severe_head_trauma" in symptoms_set:
+    if "severe head trauma" in symptoms_set:
         return EmergencyResult(
             emergency=True,
             rule_id="RF-07",

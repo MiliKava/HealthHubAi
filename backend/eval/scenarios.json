@@ -1,0 +1,302 @@
+[
+    {
+        "id": "SC-01",
+        "description": "Severe cardiac emergency",
+        "symptoms_text": "I have severe chest pain that radiates to my left arm, and I can barely breathe.",
+        "severity": 10,
+        "duration": "1 hour",
+        "expected_risk_level": "high",
+        "expected_specialist": "Cardiologist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-02",
+        "description": "Possible stroke",
+        "symptoms_text": "My face is drooping on one side and I have sudden speech difficulty.",
+        "severity": 9,
+        "duration": "2 hours",
+        "expected_risk_level": "high",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-03",
+        "description": "Severe bleeding",
+        "symptoms_text": "I have uncontrolled hemorrhage from a deep cut.",
+        "severity": 10,
+        "duration": "10 minutes",
+        "expected_risk_level": "high",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-04",
+        "description": "Anaphylaxis",
+        "symptoms_text": "I have hives all over and my throat is swelling, I have dyspnea.",
+        "severity": 10,
+        "duration": "30 minutes",
+        "expected_risk_level": "high",
+        "expected_specialist": "Pulmonologist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-05",
+        "description": "Mental health crisis",
+        "symptoms_text": "I am experiencing suicidal ideation and self harm intent.",
+        "severity": 10,
+        "duration": "1 day",
+        "expected_risk_level": "high",
+        "expected_specialist": "Psychiatrist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-06",
+        "description": "Unconsciousness",
+        "symptoms_text": "He experienced a loss of consciousness.",
+        "severity": 10,
+        "duration": "5 minutes",
+        "expected_risk_level": "high",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-07",
+        "description": "Head trauma",
+        "symptoms_text": "I suffered severe head trauma after a fall.",
+        "severity": 10,
+        "duration": "1 hour",
+        "expected_risk_level": "high",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": true
+    },
+    {
+        "id": "SC-08",
+        "description": "High fever with neuro symptoms",
+        "symptoms_text": "I have a high fever, stiff neck, and photophobia.",
+        "severity": 8,
+        "duration": "1 day",
+        "expected_risk_level": "high",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-09",
+        "description": "Severe persistent headache",
+        "symptoms_text": "I have a sudden severe headache that's the worst I've ever had, along with nausea.",
+        "severity": 9,
+        "duration": "2 days",
+        "expected_risk_level": "high",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-10",
+        "description": "Asthma exacerbation",
+        "symptoms_text": "I have wheezing, persistent cough, and shortness of breath that won't go away.",
+        "severity": 7,
+        "duration": "1 day",
+        "expected_risk_level": "high",
+        "expected_specialist": "Pulmonologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-11",
+        "description": "Severe abdominal pain",
+        "symptoms_text": "I have sharp abdominal pain in my lower right side, with vomiting.",
+        "severity": 8,
+        "duration": "1 day",
+        "expected_risk_level": "high",
+        "expected_specialist": "Gastroenterologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-12",
+        "description": "Moderate chest discomfort",
+        "symptoms_text": "I have mild chest discomfort and a persistent cough for a few days.",
+        "severity": 5,
+        "duration": "3 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Cardiologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-13",
+        "description": "Gastric reflux",
+        "symptoms_text": "I have heartburn, mild nausea, and burping a lot.",
+        "severity": 5,
+        "duration": "1 week",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Gastroenterologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-14",
+        "description": "Mild depression",
+        "symptoms_text": "I feel tired all the time and have a loss of appetite and low mood.",
+        "severity": 6,
+        "duration": "2 months",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Psychiatrist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-15",
+        "description": "Moderate back pain",
+        "symptoms_text": "My lower back hurts and I feel some muscle spasms.",
+        "severity": 6,
+        "duration": "3 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Orthopedist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-16",
+        "description": "Moderate allergic reaction",
+        "symptoms_text": "I have hives and itching all over my arms, but I can breathe fine.",
+        "severity": 6,
+        "duration": "2 hours",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Dermatologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-17",
+        "description": "Sinusitis",
+        "symptoms_text": "I have sinus pressure, headache, and a runny nose.",
+        "severity": 5,
+        "duration": "4 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-18",
+        "description": "Joint swelling",
+        "symptoms_text": "My knee is swollen and hurts when I walk.",
+        "severity": 5,
+        "duration": "2 weeks",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Orthopedist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-19",
+        "description": "Skin rash",
+        "symptoms_text": "I have a spreading red rash on my legs that is very itchy.",
+        "severity": 6,
+        "duration": "3 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Dermatologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-20",
+        "description": "Mild flu",
+        "symptoms_text": "I have a low-grade fever, body aches, and fatigue.",
+        "severity": 5,
+        "duration": "2 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-21",
+        "description": "Mild skin irritation",
+        "symptoms_text": "I have a mild rash on my forearm, no other symptoms.",
+        "severity": 2,
+        "duration": "3 days",
+        "expected_risk_level": "low",
+        "expected_specialist": "Dermatologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-22",
+        "description": "Common cold",
+        "symptoms_text": "I have a runny nose and a slight cough.",
+        "severity": 3,
+        "duration": "2 days",
+        "expected_risk_level": "medium",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-23",
+        "description": "Minor muscle ache",
+        "symptoms_text": "My shoulder feels a bit sore after lifting boxes.",
+        "severity": 3,
+        "duration": "1 day",
+        "expected_risk_level": "medium",
+        "expected_specialist": "Orthopedist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-24",
+        "description": "Mild headache",
+        "symptoms_text": "I have a slight headache since this morning.",
+        "severity": 2,
+        "duration": "5 hours",
+        "expected_risk_level": "low",
+        "expected_specialist": "Neurologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-25",
+        "description": "Minor cut",
+        "symptoms_text": "I got a small paper cut on my finger.",
+        "severity": 1,
+        "duration": "1 hour",
+        "expected_risk_level": "medium",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-26",
+        "description": "Slight fatigue",
+        "symptoms_text": "I just feel a bit tired today.",
+        "severity": 2,
+        "duration": "1 day",
+        "expected_risk_level": "low",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-27",
+        "description": "Mild indigestion",
+        "symptoms_text": "I ate too much and have a bit of stomach discomfort.",
+        "severity": 2,
+        "duration": "2 hours",
+        "expected_risk_level": "low",
+        "expected_specialist": "Gastroenterologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-28",
+        "description": "Dry skin",
+        "symptoms_text": "My hands are dry and peeling slightly.",
+        "severity": 1,
+        "duration": "1 month",
+        "expected_risk_level": "low",
+        "expected_specialist": "Dermatologist",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-29",
+        "description": "Mild eye irritation",
+        "symptoms_text": "My left eye is a little itchy.",
+        "severity": 2,
+        "duration": "1 day",
+        "expected_risk_level": "low",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    },
+    {
+        "id": "SC-30",
+        "description": "Small bruise",
+        "symptoms_text": "I have a small bruise on my leg.",
+        "severity": 1,
+        "duration": "2 days",
+        "expected_risk_level": "low",
+        "expected_specialist": "General Practitioner",
+        "expected_emergency": false
+    }
+]

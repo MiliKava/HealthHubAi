@@ -17,6 +17,8 @@ const VideoCall: React.FC = () => {
   const [connected, setConnected] = useState(false);
   const connectedRef = useRef(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [notes, setNotes] = useState("");
 
   useEffect(() => {
     const initCall = async () => {
@@ -115,11 +117,17 @@ const VideoCall: React.FC = () => {
       peerRef.current.destroy();
     }
     if (roomData?.role === 'doctor') {
-      try {
-        await api.post(`/appointments/requests/${id}/end-call`);
-      } catch (err) {
-        console.error("Failed to end call", err);
-      }
+      setShowNotesModal(true);
+      return;
+    }
+    navigate('/dashboard');
+  };
+
+  const submitNotes = async () => {
+    try {
+      await api.post(`/appointments/requests/${id}/complete`, { notes });
+    } catch (err) {
+      console.error("Failed to end call", err);
     }
     navigate('/dashboard');
   };
@@ -240,6 +248,30 @@ const VideoCall: React.FC = () => {
                   <span className="text-lg">{roomData.role === 'doctor' ? "End Consultation" : "Leave Call"}</span>
                 </div>
               </button>
+            </div>
+          </div>
+        )}
+
+        {/* Post-Call Modal for Doctor */}
+        {showNotesModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm">
+            <div className="bg-white rounded-2xl shadow-xl max-w-lg w-full p-6 animate-in fade-in zoom-in duration-200">
+              <h2 className="text-xl font-bold text-slate-800 mb-2">Consultation Completed</h2>
+              <p className="text-slate-600 mb-4 text-sm">Please add any consultation notes. These will be securely stored.</p>
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Add optional consultation notes here..."
+                className="w-full h-32 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none transition-all text-sm mb-6 bg-slate-50"
+              ></textarea>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => submitNotes()}
+                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all shadow-md active:scale-95"
+                >
+                  Save & Exit
+                </button>
+              </div>
             </div>
           </div>
         )}

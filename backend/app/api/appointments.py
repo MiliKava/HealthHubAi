@@ -410,8 +410,67 @@ def end_appointment_call(
         raise HTTPException(status_code=404, detail="Appointment not found")
 
     appointment.meeting_link_active = False
-    appointment.status = AppointmentStatus.COMPLETED
+    # Not setting status to completed here, done in complete route
     db.commit()
     db.refresh(appointment)
 
     return {"detail": "Meeting ended successfully"}
+
+from pydantic import BaseModel
+class CompleteAppointmentRequest(BaseModel):
+    notes: str | None = None
+
+@router.post("/requests/{request_id}/complete")
+def complete_appointment(
+    request_id: UUID,
+    data: CompleteAppointmentRequest,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.DOCTOR]))
+):
+    from app.db.models import Appointment, AppointmentStatus
+    appointment = db.query(Appointment).filter(
+        Appointment.request_id == request_id,
+        Appointment.doctor_id == current_user.id
+    ).first()
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    appointment.status = AppointmentStatus.COMPLETED
+    appointment.notes = data.notes
+    appointment.completed_at = datetime.utcnow()
+    appointment.meeting_link_active = False
+    db.commit()
+    db.refresh(appointment)
+    
+    patient = db.query(User).filter(User.id == appointment.patient_id).first()
+    
+    # Notify Patient
+    patient_body = f"""
+    <p>Hello {patient.full_name},</p>
+    <p>Your appointment with Dr. {current_user.full_name} has been marked as completed.</p>
+    <p>Thank you for using CareBridge AI.</p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=patient.email,
+        subject=f"Appointment Completed — Dr. {current_user.full_name}",
+        html_body=patient_body
+    )
+
+    # Notify Doctor
+    doctor_body = f"""
+    <p>Hello Dr. {current_user.full_name},</p>
+    <p>You have successfully completed the appointment with {patient.full_name}.</p>
+    <p>Your consultation notes have been saved.</p>
+    <hr>
+    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    """
+    notification_service.send_email(
+        to=current_user.email,
+        subject=f"Appointment Completed — {patient.full_name}",
+        html_body=doctor_body
+    )
+
+    return {"detail": "Appointment marked as completed"}

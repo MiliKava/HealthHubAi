@@ -183,6 +183,8 @@ class Appointment(Base):
     status = Column(Enum(AppointmentStatus), nullable=False, default=AppointmentStatus.SCHEDULED)
     meeting_room_id = Column(String, nullable=True, unique=True)
     meeting_link_active = Column(Boolean, default=True)
+    notes = Column(String, nullable=True)
+    completed_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

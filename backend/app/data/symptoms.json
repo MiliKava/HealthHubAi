@@ -675,5 +675,67 @@
             "irritable"
         ],
         "category": "psychiatric"
+    },
+    {
+        "canonical": "severe bleeding",
+        "synonyms": [
+            "uncontrolled hemorrhage",
+            "bleeding heavily"
+        ],
+        "category": "systemic"
+    },
+    {
+        "canonical": "throat swelling",
+        "synonyms": [
+            "throat closing"
+        ],
+        "category": "respiratory"
+    },
+    {
+        "canonical": "suicidal ideation",
+        "synonyms": [
+            "self harm intent"
+        ],
+        "category": "psychiatric"
+    },
+    {
+        "canonical": "loss of consciousness",
+        "synonyms": [
+            "passed out",
+            "blacked out"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "severe head trauma",
+        "synonyms": [
+            "head injury"
+        ],
+        "category": "neurological"
+    },
+    {
+        "canonical": "face drooping",
+        "synonyms": [],
+        "category": "neurological"
+    },
+    {
+        "canonical": "arm weakness",
+        "synonyms": [],
+        "category": "neurological"
+    },
+    {
+        "canonical": "sudden speech difficulty",
+        "synonyms": [],
+        "category": "neurological"
+    },
+    {
+        "canonical": "left arm pain",
+        "synonyms": [],
+        "category": "cardiac"
+    },
+    {
+        "canonical": "jaw pain",
+        "synonyms": [],
+        "category": "cardiac"
     }
 ]
