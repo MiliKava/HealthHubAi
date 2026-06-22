@@ -21,7 +21,12 @@ def run(playwright):
     page.fill("input[name='email']", unique_email)
     page.fill("input[name='password']", "password123")
     page.click("button[type='submit']")
-    time.sleep(3) # Wait for dashboard to load
+    time.sleep(2)
+    
+    print("Navigating to dashboard...")
+    page.goto("http://localhost:5173/dashboard")
+    page.wait_for_selector("text=Dashboard") # Wait for dashboard to actually load
+    time.sleep(2)
     
     print("Taking dashboard screenshot...")
     page.screenshot(path="../frontend/public/images/dashboard-preview.png")

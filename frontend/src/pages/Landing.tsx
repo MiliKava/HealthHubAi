@@ -200,6 +200,81 @@ const Landing: React.FC = () => {
         </div>
       </section>
 
+      {/* Dashboard Preview Section */}
+      <section className="bg-white py-24 relative z-10 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col-reverse lg:flex-row items-center gap-16">
+            <div className="lg:w-1/2 w-full">
+              <div className="bg-white/60 backdrop-blur-xl border border-slate-200/60 shadow-2xl rounded-3xl p-3 transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                <div className="w-full bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                  <div className="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                    <div className="ml-2 text-[10px] font-medium text-slate-400">HealthHub AI Dashboard</div>
+                  </div>
+                  <img 
+                    src="/images/dashboard-preview.png" 
+                    alt="HealthHub AI Patient Dashboard" 
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="lg:w-1/2">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold mb-6">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
+                All-in-one Hub
+              </div>
+              <h2 className="text-4xl font-bold text-slate-800 mb-6 leading-tight">Your complete health command center.</h2>
+              <p className="text-lg text-slate-500 mb-8 leading-relaxed">
+                Everything you need is organized in one beautifully designed, distraction-free dashboard. Track your past AI triage assessments, manage upcoming appointments, and access your secure video calls instantly.
+              </p>
+              <ul className="space-y-4 mb-10">
+                {[
+                  'Real-time appointment status updates',
+                  'Comprehensive medical history tracking',
+                  'One-click secure video call access',
+                  'Personalized health recommendations'
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
+                    <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
+                    </div>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Statistics Section */}
+      <section className="bg-gradient-to-br from-indigo-600 to-blue-700 py-20 relative z-10 text-white">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
+              <span className="text-4xl font-extrabold mb-2">98%</span>
+              <span className="text-indigo-100 font-medium">Triage Accuracy</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
+              <span className="text-4xl font-extrabold mb-2">&lt; 2m</span>
+              <span className="text-indigo-100 font-medium">Avg. Wait Time</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
+              <span className="text-4xl font-extrabold mb-2">500+</span>
+              <span className="text-indigo-100 font-medium">Verified Specialists</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
+              <span className="text-4xl font-extrabold mb-2">24/7</span>
+              <span className="text-indigo-100 font-medium">Instant Support</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Trust & Security Banner */}
       <section className="bg-slate-900 py-16 relative z-10 overflow-hidden">
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-400 via-slate-900 to-slate-900"></div>
