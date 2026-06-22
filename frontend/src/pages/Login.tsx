@@ -48,7 +48,7 @@ export default function Login() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">CareBridge AI</h2>
+          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">HealthHub AI</h2>
           <p className="text-sm text-slate-500 mt-1">Sign in to your account</p>
         </div>
         

@@ -1,8 +1,8 @@
-# CareBridge AI 🩺
+# HealthHub AI 🩺
 
 > ⚠️ **Note:** This application is currently under active development. Features and endpoints may change frequently as we continue building out the core platform.
 
-Welcome to the **CareBridge AI** project! This repository contains the foundation for an intelligent Triage and Doctor Marketplace platform, designed to accurately evaluate patient symptoms using AI and connect them with the right specialists.
+Welcome to the **HealthHub AI** project! This repository contains the foundation for an intelligent Triage and Doctor Marketplace platform, designed to accurately evaluate patient symptoms using AI and connect them with the right specialists.
 
 ## Tech Stack
 
@@ -172,9 +172,9 @@ This application has been fully containerized using Docker, making it incredibly
 ### Accessing the Application
 
 - **Frontend Interface:** Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
-  - **Admin Access:** You can log in using `admin@carebridge.ai` and `admin123` to access the Admin Panel to approve doctor applications.
+  - **Admin Access:** You can log in using `admin@healthhub.ai` and `admin123` to access the Admin Panel to approve doctor applications.
 - **Backend API Docs:** The FastAPI interactive documentation is available at [http://localhost:8000/docs](http://localhost:8000/docs).
-- **Database Access:** The PostgreSQL database is mapped to your local port `5433` (to avoid conflicts with local installations). You can connect via pgAdmin using `localhost:5433`, user `postgres`, password `password`, and database `carebridge`.
+- **Database Access:** The PostgreSQL database is mapped to your local port `5433` (to avoid conflicts with local installations). You can connect via pgAdmin using `localhost:5433`, user `postgres`, password `password`, and database `healthhub`.
 
 ---
 

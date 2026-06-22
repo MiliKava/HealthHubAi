@@ -15,7 +15,7 @@ export default function Dashboard() {
           <div className="text-red-500 text-4xl mb-4">✗</div>
           <h2 className="text-xl font-bold text-slate-900 mb-2">Application Rejected</h2>
           <p className="text-slate-600 mb-6">
-            We're sorry, but your application to join CareBridge AI as a doctor has been rejected. You cannot access the doctor dashboard.
+            We're sorry, but your application to join HealthHub AI as a doctor has been rejected. You cannot access the doctor dashboard.
           </p>
         </div>
       </div>
@@ -49,9 +49,9 @@ export default function Dashboard() {
             </svg>
           </div>
           
-          <h3 className="text-xl font-bold text-slate-800 mb-3">Your CareBridge Portal</h3>
+          <h3 className="text-xl font-bold text-slate-800 mb-3">Your HealthHub AI Portal</h3>
           <p className="text-slate-600 mb-6 leading-relaxed">
-            Welcome to the CareBridge AI ecosystem. From here, you can access the Triage Chat to get an immediate AI assessment, view your appointment history, or browse available doctors.
+            Welcome to the HealthHub AI ecosystem. From here, you can access the Triage Chat to get an immediate AI assessment, view your appointment history, or browse available doctors.
           </p>
           
           {role === 'patient' && (

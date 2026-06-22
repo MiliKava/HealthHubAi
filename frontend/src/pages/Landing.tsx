@@ -24,7 +24,7 @@ const Landing: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
             </div>
-            <span className="text-xl font-bold tracking-tight text-slate-800">CareBridge</span>
+            <span className="text-xl font-bold tracking-tight text-slate-800">HealthHub AI</span>
           </div>
 
           <div className="flex items-center gap-4 font-medium">
@@ -90,11 +90,19 @@ const Landing: React.FC = () => {
         <div className="mt-24 w-full max-w-5xl relative animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
           <div className="absolute inset-0 bg-gradient-to-t from-[#fcfdfd] via-transparent to-transparent z-10 top-1/2"></div>
           <div className="bg-white/60 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-4 sm:p-6 overflow-hidden">
-            <img 
-              src="/images/triage-preview.png" 
-              alt="CareBridge AI Triage Preview" 
-              className="w-full h-auto object-cover object-top rounded-2xl border border-slate-100 shadow-inner max-h-[500px]"
-            />
+            <div className="w-full bg-white rounded-2xl overflow-hidden shadow-2xl border border-slate-200">
+              <div className="bg-slate-100 px-4 py-3 border-b border-slate-200 flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                <div className="w-3 h-3 rounded-full bg-emerald-400"></div>
+                <div className="ml-2 text-xs font-medium text-slate-400">HealthHub AI Triage</div>
+              </div>
+              <img 
+                src="/images/triage-preview.png" 
+                alt="HealthHub AI Triage Preview" 
+                className="w-full h-auto object-cover object-top max-h-[500px]"
+              />
+            </div>
           </div>
         </div>
       </main>
@@ -173,11 +181,19 @@ const Landing: React.FC = () => {
             </div>
             <div className="lg:w-1/2 w-full">
               <div className="bg-white/60 backdrop-blur-xl border border-slate-200/60 shadow-2xl rounded-3xl p-3 transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                <img 
-                  src="/images/doctors-preview.png" 
-                  alt="CareBridge Specialists Directory" 
-                  className="w-full h-auto object-cover rounded-2xl border border-slate-100 shadow-sm"
-                />
+                <div className="w-full bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                  <div className="bg-slate-100 px-4 py-2 border-b border-slate-200 flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400"></div>
+                    <div className="ml-2 text-[10px] font-medium text-slate-400">HealthHub AI Network</div>
+                  </div>
+                  <img 
+                    src="/images/doctors-preview.png" 
+                    alt="HealthHub AI Specialists Directory" 
+                    className="w-full h-auto object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -53,7 +53,7 @@ export default function SidebarLayout({ children, noPadding = false }: { childre
       <div className="fixed bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-400/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
 
       <div className="sticky top-0 z-50 pt-6 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-4 items-center">
-        {/* CareBridge Logo */}
+        {/* HealthHub AI Logo */}
         <div 
           onClick={() => navigate(role === 'doctor' ? '/doctor/dashboard' : '/')} 
           className="flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-500 to-blue-400 cursor-pointer shadow-lg shadow-indigo-200 hover:scale-105 transition-transform"

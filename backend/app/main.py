@@ -6,7 +6,7 @@ from app.db.database import get_db, engine, Base
 # Don't create tables here, use alembic, but we can do this for quick tests.
 # Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="CareBridge AI Backend")
+app = FastAPI(title="HealthHub AI Backend")
 
 # CORS middleware
 app.add_middleware(

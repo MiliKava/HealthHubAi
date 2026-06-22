@@ -104,7 +104,7 @@ export default function Register() {
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Create an Account</h2>
-          <p className="text-sm text-slate-500 mt-1">Join CareBridge AI</p>
+          <p className="text-sm text-slate-500 mt-1">Join HealthHub AI</p>
         </div>
         
         <div className="flex bg-slate-100/60 backdrop-blur-md p-1 rounded-xl mb-8 border border-slate-200/50">

@@ -11,7 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from app.core.config import settings
 from app.services.notification_service import notification_service
 
-print("--- CareBridge AI Email Diagnostics ---")
+print("--- HealthHub AI Email Diagnostics ---")
 print(f"Loaded RESEND_API_KEY: {'Yes' if settings.RESEND_API_KEY else 'No'}")
 if settings.RESEND_API_KEY:
     print(f"Key starts with: {settings.RESEND_API_KEY[:5]}...")
@@ -28,8 +28,8 @@ print(f"\nAttempting to send a test email to: {test_email} ...\n")
 
 notification_service.send_email(
     to=test_email,
-    subject="CareBridge AI - Infrastructure Test",
-    html_body="<h2>Success!</h2><p>If you are reading this, your Resend API configuration is working perfectly inside the CareBridge AI backend.</p>"
+    subject="HealthHub AI - Infrastructure Test",
+    html_body="<h2>Success!</h2><p>If you are reading this, your Resend API configuration is working perfectly inside the HealthHub AI backend.</p>"
 )
 
 print("\nFinished! Check the logs above. If it says 'Email sent successfully', please check your inbox (and spam folder).")

@@ -78,7 +78,7 @@ def create_appointment_request(
     {triage_summary}
     <p><a href="http://localhost:5173/doctor-dashboard">View Dashboard</a></p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=doctor.email,
@@ -218,7 +218,7 @@ def accept_appointment_request(
     <p><strong>Proposed Slot:</strong> {req.proposed_slot}</p>
     <p><a href="http://localhost:5173/appointments">Accept or Reject this slot</a></p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=patient.email,
@@ -253,9 +253,9 @@ def decline_appointment_request(
     html_body = f"""
     <p>Hello {patient.full_name},</p>
     <p>Your appointment request with Dr. {current_user.full_name} was declined.</p>
-    <p>Please log in to CareBridge AI to find and request an appointment with another doctor.</p>
+    <p>Please log in to HealthHub AI to find and request an appointment with another doctor.</p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=patient.email,
@@ -308,7 +308,7 @@ def confirm_appointment_request(
     <p><strong>Time:</strong> {req.proposed_slot}</p>
     <p>Don't forget to join the call at the scheduled time.</p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=current_user.email,
@@ -323,7 +323,7 @@ def confirm_appointment_request(
     <p><strong>Time:</strong> {req.proposed_slot}</p>
     <p>Don't forget to join the call at the scheduled time.</p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=doctor.email,
@@ -449,9 +449,9 @@ def complete_appointment(
     patient_body = f"""
     <p>Hello {patient.full_name},</p>
     <p>Your appointment with Dr. {current_user.full_name} has been marked as completed.</p>
-    <p>Thank you for using CareBridge AI.</p>
+    <p>Thank you for using HealthHub AI.</p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=patient.email,
@@ -465,7 +465,7 @@ def complete_appointment(
     <p>You have successfully completed the appointment with {patient.full_name}.</p>
     <p>Your consultation notes have been saved.</p>
     <hr>
-    <p><small>Medical Disclaimer: CareBridge AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
+    <p><small>Medical Disclaimer: HealthHub AI provides preliminary triage and is not a substitute for professional medical advice, diagnosis, or treatment.</small></p>
     """
     notification_service.send_email(
         to=current_user.email,

@@ -6,7 +6,7 @@ from typing import Optional
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "CareBridge AI"
+    PROJECT_NAME: str = "HealthHub AI"
     DATABASE_URL: str
     SECRET_KEY: str
     ALGORITHM: str = "HS256"
@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     GROQ_API_KEY_TWO: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     RESEND_API_KEY: Optional[str] = None
-    EMAIL_FROM: str = "noreply@carebridge.ai"
+    EMAIL_FROM: str = "noreply@healthhub.ai"
     DAILY_API_KEY: Optional[str] = None
     
     class Config:
