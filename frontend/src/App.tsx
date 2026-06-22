@@ -16,6 +16,7 @@ import Doctors from './pages/Doctors';
 import Appointments from './pages/Appointments';
 import RequestAppointment from './pages/RequestAppointment';
 import DoctorDashboard from './pages/DoctorDashboard';
+import UserRoleBadge from './components/UserRoleBadge';
 
 function App() {
   const setUser = useAuthStore(state => state.setUser);
@@ -43,6 +44,7 @@ function App() {
 
   return (
     <BrowserRouter>
+      <UserRoleBadge />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
