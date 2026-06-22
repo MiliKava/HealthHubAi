@@ -181,6 +181,8 @@ class Appointment(Base):
     doctor_id = Column(UUID(as_uuid=True), sqlalchemy.ForeignKey("users.id"), nullable=False)
     scheduled_time = Column(DateTime, nullable=False)
     status = Column(Enum(AppointmentStatus), nullable=False, default=AppointmentStatus.SCHEDULED)
+    meeting_room_id = Column(String, nullable=True, unique=True)
+    meeting_link_active = Column(Boolean, default=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 

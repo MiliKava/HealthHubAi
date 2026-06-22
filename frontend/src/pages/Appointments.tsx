@@ -69,7 +69,8 @@ export default function Appointments() {
 
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
+    const utcStr = dateString.endsWith('Z') ? dateString : `${dateString}Z`;
+    return new Date(utcStr).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric'
@@ -77,7 +78,8 @@ export default function Appointments() {
   };
 
   const formatSlot = (dateString: string) => {
-    return new Date(dateString).toLocaleString('en-US', {
+    const utcStr = dateString.endsWith('Z') ? dateString : `${dateString}Z`;
+    return new Date(utcStr).toLocaleString('en-US', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
@@ -163,9 +165,12 @@ export default function Appointments() {
 
                 {req.status === 'confirmed' && (
                   <div className="mt-4">
-                    <button disabled className="px-4 py-2 bg-indigo-500 text-white rounded-lg text-sm font-medium opacity-50 cursor-not-allowed">
+                    <a 
+                      href={`/video-call/${req.id}`}
+                      className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    >
                       Join Call
-                    </button>
+                    </a>
                   </div>
                 )}
               </div>

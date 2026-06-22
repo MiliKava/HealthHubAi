@@ -73,7 +73,8 @@ const DoctorDashboard = () => {
     }
 
     try {
-      await api.post(`/appointments/requests/${id}/accept`, { proposed_slot: slot });
+      const utcSlot = new Date(slot).toISOString();
+      await api.post(`/appointments/requests/${id}/accept`, { proposed_slot: utcSlot });
       fetchData();
     } catch (err) {
       console.error(err);
@@ -94,6 +95,12 @@ const DoctorDashboard = () => {
 
   const handleSlotChange = (id: string, value: string) => {
     setProposedSlots(prev => ({ ...prev, [id]: value }));
+  };
+
+  const formatDateTime = (dateString: string) => {
+    if (!dateString) return 'TBD';
+    const utcStr = dateString.endsWith('Z') ? dateString : `${dateString}Z`;
+    return new Date(utcStr).toLocaleString();
   };
 
   return (
@@ -158,7 +165,7 @@ const DoctorDashboard = () => {
                       Patient: {req.patient_details?.name || 'Unknown'}
                     </h3>
                     <p className="text-sm text-slate-500 mt-1">
-                      Requested: {new Date(req.created_at).toLocaleString()}
+                      Requested: {formatDateTime(req.created_at)}
                     </p>
                   </div>
                   <span className={`px-3 py-1 text-xs font-medium rounded-full ${req.status === 'requested' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
@@ -214,7 +221,7 @@ const DoctorDashboard = () => {
 
                 {req.status === 'proposed' && (
                   <div className="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
-                    You have proposed a slot for <span className="font-medium text-slate-900">{new Date(req.proposed_slot!).toLocaleString()}</span>. Waiting for patient confirmation.
+                    You have proposed a slot for <span className="font-medium text-slate-900">{formatDateTime(req.proposed_slot!)}</span>. Waiting for patient confirmation.
                   </div>
                 )}
               </div>
@@ -229,7 +236,7 @@ const DoctorDashboard = () => {
                     </h3>
                     <p className="text-sm font-medium text-emerald-600 mt-1 flex items-center gap-1.5">
                       <span className="text-xs">📅</span>
-                      {req.proposed_slot ? new Date(req.proposed_slot).toLocaleString() : 'TBD'}
+                      {formatDateTime(req.proposed_slot!)}
                     </p>
                   </div>
                   <span className="bg-emerald-100 text-emerald-700 px-3 py-1 text-xs font-medium rounded-full">
@@ -243,6 +250,15 @@ const DoctorDashboard = () => {
                     <p className="mt-1"><span className="font-medium text-slate-700">Risk Level:</span> {req.triage_summary.risk_level}</p>
                   </div>
                 )}
+                
+                <div className="mt-4">
+                  <a 
+                    href={`/video-call/${req.id}`}
+                    className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+                  >
+                    Join Call
+                  </a>
+                </div>
               </div>
             ))}
           </div>

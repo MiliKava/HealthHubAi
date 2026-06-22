@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 from uuid import UUID
+import uuid
+from datetime import datetime, timedelta, timezone
 import logging
 
 from app.db.database import get_db
@@ -289,7 +291,8 @@ def confirm_appointment_request(
         patient_id=req.patient_id,
         doctor_id=req.doctor_id,
         scheduled_time=req.proposed_slot,
-        status=AppointmentStatus.SCHEDULED
+        status=AppointmentStatus.SCHEDULED,
+        meeting_room_id=str(uuid.uuid4())
     )
     db.add(appointment)
     
@@ -353,3 +356,62 @@ def reject_appointment_request_slot(
     db.refresh(req)
 
     return req
+
+@router.post("/requests/{request_id}/join-token")
+def get_appointment_join_token(
+    request_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    from app.db.models import Appointment
+    appointment = db.query(Appointment).filter(Appointment.request_id == request_id).first()
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    if current_user.id not in [appointment.patient_id, appointment.doctor_id]:
+        raise HTTPException(status_code=403, detail="Not a participant in this appointment")
+
+    if not appointment.meeting_link_active:
+        raise HTTPException(status_code=403, detail="Meeting link is no longer active")
+
+    # Frontend now sends correct UTC timestamps, so we just use utcnow
+    now = datetime.utcnow()
+    
+    # allow joining 15 minutes before and up to 2 hours after
+    time_diff = appointment.scheduled_time - now
+    if time_diff > timedelta(minutes=15):
+        raise HTTPException(status_code=403, detail=f"Too early to join the meeting. Current time is {now.strftime('%I:%M %p')}, scheduled for {appointment.scheduled_time.strftime('%I:%M %p')}.")
+    
+    if now - appointment.scheduled_time > timedelta(hours=2):
+        raise HTTPException(status_code=403, detail="Meeting time has expired.")
+
+    # Generate a unique session token for this participant
+    participant_token = str(uuid.uuid4())
+    
+    return {
+        "room_id": appointment.meeting_room_id,
+        "token": participant_token,
+        "role": current_user.role
+    }
+
+@router.post("/requests/{request_id}/end-call")
+def end_appointment_call(
+    request_id: UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(require_role([UserRole.DOCTOR]))
+):
+    from app.db.models import Appointment, AppointmentStatus
+    appointment = db.query(Appointment).filter(
+        Appointment.request_id == request_id,
+        Appointment.doctor_id == current_user.id
+    ).first()
+
+    if not appointment:
+        raise HTTPException(status_code=404, detail="Appointment not found")
+
+    appointment.meeting_link_active = False
+    appointment.status = AppointmentStatus.COMPLETED
+    db.commit()
+    db.refresh(appointment)
+
+    return {"detail": "Meeting ended successfully"}

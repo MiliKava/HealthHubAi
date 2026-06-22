@@ -16,6 +16,7 @@ import Doctors from './pages/Doctors';
 import Appointments from './pages/Appointments';
 import RequestAppointment from './pages/RequestAppointment';
 import DoctorDashboard from './pages/DoctorDashboard';
+import VideoCall from './pages/VideoCall';
 import UserRoleBadge from './components/UserRoleBadge';
 
 function App() {
@@ -129,6 +130,15 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={['doctor']}>
               <DoctorDashboard />
+            </ProtectedRoute>
+          } 
+        />
+
+        <Route 
+          path="/video-call/:id" 
+          element={
+            <ProtectedRoute>
+              <VideoCall />
             </ProtectedRoute>
           } 
         />
