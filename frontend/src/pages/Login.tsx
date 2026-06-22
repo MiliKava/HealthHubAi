@@ -37,13 +37,13 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center p-4 font-sans relative overflow-hidden">
       {/* Decorative background blur elements */}
-      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
-      <div className="absolute top-[20%] right-[-10%] w-96 h-96 bg-indigo-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
-      <div className="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-sky-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
+      <div className="absolute top-[-10%] left-[-10%] w-96 h-96 bg-red-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
+      <div className="absolute top-[20%] right-[-10%] w-96 h-96 bg-rose-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
+      <div className="absolute bottom-[-20%] left-[20%] w-96 h-96 bg-pink-400/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
 
       <div className="w-full max-w-[420px] glass-panel mac-shadow rounded-2xl p-10 z-10 relative">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-indigo-500 to-blue-400 shadow-lg shadow-indigo-200 mb-4 hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate('/')}>
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-red-400 shadow-lg shadow-rose-200 mb-4 hover:scale-105 transition-transform cursor-pointer" onClick={() => navigate('/')}>
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
             </svg>
@@ -66,7 +66,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Email</label>
             <input 
               type="email" 
-              className="w-full px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none transition-all text-sm placeholder:text-slate-400"
+              className="w-full px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl focus:ring-4 focus:ring-rose-500/10 focus:border-rose-400 outline-none transition-all text-sm placeholder:text-slate-400"
               value={email} onChange={e => setEmail(e.target.value)} required 
               placeholder="jane@example.com"
             />
@@ -75,7 +75,7 @@ export default function Login() {
             <label className="block text-sm font-medium text-slate-600 mb-1.5 ml-1">Password</label>
             <input 
               type="password" 
-              className="w-full px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none transition-all text-sm placeholder:text-slate-400"
+              className="w-full px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl focus:ring-4 focus:ring-rose-500/10 focus:border-rose-400 outline-none transition-all text-sm placeholder:text-slate-400"
               value={password} onChange={e => setPassword(e.target.value)} required 
               placeholder="••••••••"
             />
@@ -83,14 +83,14 @@ export default function Login() {
 
           <button 
             type="submit" 
-            className="w-full mt-2 py-3 bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white font-medium rounded-xl transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5"
+            className="w-full mt-2 py-3 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-medium rounded-xl transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5"
           >
             Sign in
           </button>
         </form>
 
         <div className="text-center mt-8 text-sm text-slate-500">
-          Don't have an account? <Link to="/register" className="text-indigo-500 font-semibold hover:text-indigo-600 transition-colors">Create one</Link>
+          Don't have an account? <Link to="/register" className="text-rose-500 font-semibold hover:text-rose-600 transition-colors">Create one</Link>
         </div>
       </div>
     </div>

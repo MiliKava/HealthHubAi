@@ -132,10 +132,10 @@ export default function AdminPanel() {
           <div className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Keywords</div>
           <div className="flex flex-wrap gap-1.5">
             {doctor.doctor_profile.cv_keywords.qualifications?.map((q, i) => (
-              <span key={`q-${i}`} className="bg-sky-50 text-sky-700 border border-sky-100 px-2 py-0.5 rounded-md text-[10px] font-medium">{q}</span>
+              <span key={`q-${i}`} className="bg-pink-50 text-pink-700 border border-pink-100 px-2 py-0.5 rounded-md text-[10px] font-medium">{q}</span>
             ))}
             {doctor.doctor_profile.cv_keywords.certifications?.map((c, i) => (
-              <span key={`c-${i}`} className="bg-indigo-50 text-indigo-700 border border-indigo-100 px-2 py-0.5 rounded-md text-[10px] font-medium">{c}</span>
+              <span key={`c-${i}`} className="bg-rose-50 text-rose-700 border border-rose-100 px-2 py-0.5 rounded-md text-[10px] font-medium">{c}</span>
             ))}
           </div>
         </div>
@@ -171,7 +171,7 @@ export default function AdminPanel() {
         {column !== 'pending' && !doctor.is_active && (
           <button
             onClick={() => handleActivate(doctor.id)}
-            className="flex-1 py-1.5 bg-sky-500 hover:bg-sky-600 text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
+            className="flex-1 py-1.5 bg-pink-500 hover:bg-pink-600 text-white rounded-lg text-sm font-medium transition-colors shadow-sm"
           >
             Re-Activate Access
           </button>
@@ -196,7 +196,7 @@ export default function AdminPanel() {
         {loading ? (
           <div className="flex items-center justify-center h-64 text-slate-500">
             <div className="animate-pulse flex flex-col items-center">
-              <div className="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <div className="w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin mb-4"></div>
               <p>Loading applications...</p>
             </div>
           </div>

@@ -37,19 +37,19 @@ Welcome to the **HealthHub AI** project! This repository contains the foundation
   <img src="https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
 </div>
 
-## Application Previews
+## Platform Overview
 
-### 🏠 User Dashboard
-**Description:** The central hub for authenticated users. This clean, macOS-inspired dashboard utilizes glassmorphism design principles to give patients and doctors a serene, distraction-free environment to view upcoming appointments, pending triage results, and quick actions.
-![Dashboard Preview](./frontend/public/images/dashboard-preview.png)
+![HealthHub AI Landing Page](./frontend/public/images/landing-preview.png)
 
-### 🤖 Intelligent Triage Chat
-**Description:** Our flagship AI-powered symptom extraction engine. Users converse naturally with the AI, which automatically maps their symptoms to a canonical medical vocabulary, checks for emergency red flags, and determines a structured medical risk assessment.
-![Triage Chat](./frontend/public/images/triage-preview.png)
+HealthHub AI is a comprehensive, production-ready medical platform designed to revolutionize remote healthcare. By combining state-of-the-art Artificial Intelligence with a secure, verified network of medical professionals, we provide an unparalleled patient experience.
 
-### 👨‍⚕️ Specialist Discovery
-**Description:** A dedicated marketplace connecting patients with verified medical professionals. Doctors are dynamically filtered based on the AI's triage recommendations, allowing patients to instantly request appointments or initiate a secure WebRTC video consultation.
-![Doctors Directory](./frontend/public/images/doctors-preview.png)
+### Core Features
+
+*   **🏠 Centralized Patient Dashboard**: A clean, macOS-inspired hub utilizing glassmorphism design principles. It gives patients and doctors a serene, distraction-free environment to view upcoming appointments, pending triage results, and quick actions.
+*   **🤖 Intelligent Symptom Triage**: Our flagship AI-powered symptom extraction engine. Users converse naturally with the AI, which automatically maps their symptoms to a canonical medical vocabulary, checks for emergency red flags, and determines a structured medical risk assessment using advanced RAG (Retrieval-Augmented Generation).
+*   **👨‍⚕️ Specialist Discovery Network**: A dedicated marketplace connecting patients with verified medical professionals. Doctors are dynamically filtered based on the AI's triage recommendations.
+*   **📹 Secure Video Consultations**: Direct, end-to-end encrypted WebRTC peer-to-peer video calling integrated seamlessly into the platform, ensuring full HIPAA compliance for telehealth appointments.
+*   **🔐 Enterprise-grade Security**: Built from the ground up with data privacy in mind, featuring role-based access control (RBAC), JWT authentication, and secure document handling.
 
 ## Current Progress (Phases 1-10 Completed)
 

@@ -7,10 +7,10 @@ const Landing: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-[#fcfdfd] text-slate-800 font-sans selection:bg-indigo-100 relative overflow-hidden flex flex-col">
+    <div className="min-h-screen bg-[#fcfdfd] text-slate-800 font-sans selection:bg-rose-100 relative overflow-hidden flex flex-col">
       {/* Background ambient light */}
       <div className="absolute top-0 inset-x-0 h-full overflow-hidden -z-10 pointer-events-none flex justify-center">
-        <div className="absolute top-[-10%] w-[800px] h-[500px] bg-gradient-to-br from-indigo-100/40 via-blue-50/40 to-emerald-50/20 rounded-full blur-3xl opacity-70"></div>
+        <div className="absolute top-[-10%] w-[800px] h-[500px] bg-gradient-to-br from-rose-100/40 via-red-50/40 to-emerald-50/20 rounded-full blur-3xl opacity-70"></div>
         <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-gradient-to-tr from-rose-50/40 via-transparent to-transparent rounded-full blur-3xl opacity-60"></div>
       </div>
 
@@ -19,7 +19,7 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
             {/* Rounded '+' Symbol */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-blue-400 flex items-center justify-center shadow-md shadow-indigo-200">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-rose-500 to-red-400 flex items-center justify-center shadow-md shadow-rose-200">
               <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
               </svg>
@@ -51,17 +51,17 @@ const Landing: React.FC = () => {
 
       {/* Hero Section */}
       <main className="flex-1 flex flex-col items-center justify-center px-6 pt-32 pb-20 text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-sm font-semibold tracking-wide mb-8 animate-fade-in-up">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 border border-rose-100 text-rose-700 text-sm font-semibold tracking-wide mb-8 animate-fade-in-up">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
           </span>
           AI-Powered Medical Triage
         </div>
 
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 max-w-4xl mb-6 leading-[1.1] animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
           Calm, intelligent care.<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-blue-500">Right when you need it.</span>
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-red-500">Right when you need it.</span>
         </h1>
 
         <p className="text-xl text-slate-500 max-w-2xl mb-12 animate-fade-in-up leading-relaxed" style={{ animationDelay: '0.2s' }}>
@@ -117,7 +117,7 @@ const Landing: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="glass-panel mac-shadow p-8 rounded-3xl hover:-translate-y-1 transition-transform">
-              <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mb-6">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>
               <h3 className="text-xl font-bold text-slate-800 mb-3">AI Symptom Triage</h3>
@@ -133,7 +133,7 @@ const Landing: React.FC = () => {
             </div>
 
             <div className="glass-panel mac-shadow p-8 rounded-3xl hover:-translate-y-1 transition-transform">
-              <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6">
+              <div className="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
               </div>
               <h3 className="text-xl font-bold text-slate-800 mb-3">Secure Video Calls</h3>
@@ -148,7 +148,7 @@ const Landing: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center gap-16">
             <div className="lg:w-1/2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-sm font-semibold mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-700 text-sm font-semibold mb-6">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                 Curated Medical Network
               </div>
@@ -222,7 +222,7 @@ const Landing: React.FC = () => {
               </div>
             </div>
             <div className="lg:w-1/2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 text-indigo-700 text-sm font-semibold mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-rose-50 text-rose-700 text-sm font-semibold mb-6">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                 All-in-one Hub
               </div>
@@ -238,7 +238,7 @@ const Landing: React.FC = () => {
                   'Personalized health recommendations'
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-slate-700 font-medium">
-                    <div className="w-6 h-6 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 flex-shrink-0">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>
                     </div>
                     {item}
@@ -251,25 +251,25 @@ const Landing: React.FC = () => {
       </section>
 
       {/* Statistics Section */}
-      <section className="bg-gradient-to-br from-indigo-600 to-blue-700 py-20 relative z-10 text-white">
+      <section className="bg-gradient-to-br from-rose-600 to-red-700 py-20 relative z-10 text-white">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
               <span className="text-4xl font-extrabold mb-2">98%</span>
-              <span className="text-indigo-100 font-medium">Triage Accuracy</span>
+              <span className="text-rose-100 font-medium">Triage Accuracy</span>
             </div>
             <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
               <span className="text-4xl font-extrabold mb-2">&lt; 2m</span>
-              <span className="text-indigo-100 font-medium">Avg. Wait Time</span>
+              <span className="text-rose-100 font-medium">Avg. Wait Time</span>
             </div>
             <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
               <span className="text-4xl font-extrabold mb-2">500+</span>
-              <span className="text-indigo-100 font-medium">Verified Specialists</span>
+              <span className="text-rose-100 font-medium">Verified Specialists</span>
             </div>
             <div className="flex flex-col items-center justify-center p-6 bg-white/10 rounded-3xl backdrop-blur-sm border border-white/20">
               <span className="text-4xl font-extrabold mb-2">24/7</span>
-              <span className="text-indigo-100 font-medium">Instant Support</span>
+              <span className="text-rose-100 font-medium">Instant Support</span>
             </div>
           </div>
         </div>
@@ -277,7 +277,7 @@ const Landing: React.FC = () => {
 
       {/* Trust & Security Banner */}
       <section className="bg-slate-900 py-16 relative z-10 overflow-hidden">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-400 via-slate-900 to-slate-900"></div>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-rose-400 via-slate-900 to-slate-900"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-20 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="md:w-1/2">
             <h2 className="text-3xl font-bold text-white mb-4">Enterprise-grade security.</h2>
@@ -289,7 +289,7 @@ const Landing: React.FC = () => {
               <span className="text-white font-semibold">End-to-End Encrypted</span>
             </div>
             <div className="glass-panel bg-white/10 border-white/10 px-6 py-4 rounded-2xl flex items-center gap-3">
-              <svg className="w-8 h-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <svg className="w-8 h-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               <span className="text-white font-semibold">HIPAA Compliant Design</span>
             </div>
           </div>

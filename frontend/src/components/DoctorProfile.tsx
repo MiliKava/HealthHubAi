@@ -199,7 +199,7 @@ export default function DoctorProfile() {
                 <span className="block text-xs font-medium text-slate-500 mb-2">Qualifications</span>
                 <div className="flex flex-wrap gap-2">
                   {cvKeywords.qualifications.map((q, i) => (
-                    <span key={i} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-xs font-medium border border-sky-100">{q}</span>
+                    <span key={i} className="bg-pink-50 text-pink-700 px-3 py-1 rounded-full text-xs font-medium border border-pink-100">{q}</span>
                   ))}
                   {cvKeywords.qualifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
                 </div>
@@ -265,7 +265,7 @@ export default function DoctorProfile() {
               name="specialty"
               value={formData.specialty}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none text-sm"
               data-element-id="specialty"
             />
           </div>
@@ -276,7 +276,7 @@ export default function DoctorProfile() {
               name="license_number"
               value={formData.license_number}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none text-sm"
               data-element-id="license"
             />
           </div>
@@ -287,7 +287,7 @@ export default function DoctorProfile() {
               name="years_experience"
               value={formData.years_experience}
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none text-sm"
               data-element-id="years-exp"
             />
           </div>
@@ -298,14 +298,14 @@ export default function DoctorProfile() {
               value={formData.bio}
               onChange={handleChange}
               rows={3}
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none text-sm"
               data-element-id="bio"
             />
           </div>
           <button
             type="submit"
             disabled={saving}
-            className="px-6 py-2 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
+            className="px-6 py-2 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
             data-element-id="save-profile"
           >
             {saving ? 'Saving...' : 'Save Profile'}
@@ -323,7 +323,7 @@ export default function DoctorProfile() {
               <label className="block text-xs font-medium text-slate-500 mb-2">Qualifications</label>
               <div className="flex flex-wrap gap-2" data-element-id="qualifications-tags">
                 {cvKeywords.qualifications.map((q, i) => (
-                  <span key={i} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-xs font-medium border border-sky-100">{q}</span>
+                  <span key={i} className="bg-pink-50 text-pink-700 px-3 py-1 rounded-full text-xs font-medium border border-pink-100">{q}</span>
                 ))}
                 {cvKeywords.qualifications.length === 0 && <span className="text-xs text-slate-400">None extracted</span>}
               </div>
@@ -352,14 +352,14 @@ export default function DoctorProfile() {
                 value={cvSummary}
                 onChange={(e) => setCvSummary(e.target.value)}
                 rows={3}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 outline-none text-sm"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 outline-none text-sm"
                 data-element-id="cv-summary"
               />
             </div>
             <button
               onClick={handleSaveCv}
               disabled={savingCv}
-              className="px-4 py-2 border border-sky-500 text-sky-600 hover:bg-sky-50 font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
+              className="px-4 py-2 border border-pink-500 text-pink-600 hover:bg-pink-50 font-medium rounded-lg text-sm transition-colors disabled:opacity-70"
               data-element-id="save-cv"
             >
               {savingCv ? 'Saving...' : 'Save CV Keywords'}
@@ -379,11 +379,11 @@ export default function DoctorProfile() {
           />
           <div 
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center cursor-pointer hover:border-sky-400 hover:bg-sky-50 transition-colors"
+            className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center cursor-pointer hover:border-pink-400 hover:bg-pink-50 transition-colors"
             data-element-id="cv-reupload"
           >
             {uploading ? (
-              <span className="text-sm text-sky-600 font-medium">Processing PDF...</span>
+              <span className="text-sm text-pink-600 font-medium">Processing PDF...</span>
             ) : (
               <span className="text-sm text-slate-500 font-medium">📄 Re-upload CV PDF to re-extract keywords</span>
             )}

@@ -111,7 +111,7 @@ const DoctorDashboard = () => {
           <button
             onClick={() => setActiveTab('requests')}
             className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'requests'
-                ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md'
                 : 'text-slate-500 hover:text-slate-900'
               }`}
           >
@@ -120,7 +120,7 @@ const DoctorDashboard = () => {
           <button
             onClick={() => setActiveTab('calendar')}
             className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'calendar'
-                ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md'
                 : 'text-slate-500 hover:text-slate-900'
               }`}
           >
@@ -168,16 +168,16 @@ const DoctorDashboard = () => {
                       Requested: {formatDateTime(req.created_at)}
                     </p>
                   </div>
-                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${req.status === 'requested' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${req.status === 'requested' ? 'bg-amber-100 text-amber-700' : 'bg-red-100 text-red-700'
                     }`}>
                     {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
                   </span>
                 </div>
 
                 {req.triage_summary && (
-                  <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-5">
+                  <div className="bg-red-50 border border-red-100 rounded-lg p-4 mb-5">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="font-semibold text-blue-900 flex items-center gap-1.5">
+                      <span className="font-semibold text-red-900 flex items-center gap-1.5">
                         <span className="text-base">⚠️</span>
                         {req.triage_summary.risk_level} Risk
                       </span>
@@ -195,7 +195,7 @@ const DoctorDashboard = () => {
                   <div className="flex flex-col sm:flex-row gap-3 items-center mt-6 pt-6 border-t border-slate-200/50">
                     <input
                       type="datetime-local"
-                      className="flex-1 sm:max-w-xs px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none transition-all"
+                      className="flex-1 sm:max-w-xs px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-rose-500/10 focus:border-rose-400 outline-none transition-all"
                       data-element-id="slot-picker"
                       value={proposedSlots[req.id] || ''}
                       onChange={(e) => handleSlotChange(req.id, e.target.value)}
@@ -203,7 +203,7 @@ const DoctorDashboard = () => {
                     <button
                       onClick={() => handlePropose(req.id)}
                       data-element-id="propose-btn"
-                      className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)]"
+                      className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)]"
                     >
                       <span className="text-sm">✓</span>
                       Propose Slot

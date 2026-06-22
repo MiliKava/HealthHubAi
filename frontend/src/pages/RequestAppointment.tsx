@@ -54,7 +54,7 @@ export default function RequestAppointment() {
               <button 
                 onClick={handleSubmit}
                 disabled={loading}
-                className="px-6 py-2.5 bg-sky-500 hover:bg-sky-600 disabled:bg-sky-300 text-white font-medium rounded-lg transition-colors"
+                className="px-6 py-2.5 bg-pink-500 hover:bg-pink-600 disabled:bg-pink-300 text-white font-medium rounded-lg transition-colors"
                 data-element-id="confirm-request-btn"
               >
                 {loading ? 'Submitting...' : 'Confirm Request'}

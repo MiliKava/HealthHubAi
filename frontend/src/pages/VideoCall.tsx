@@ -175,7 +175,7 @@ const VideoCall: React.FC = () => {
           </div>
         ) : !roomData ? (
           <div className="glass-panel p-16 rounded-3xl mac-shadow flex flex-col items-center justify-center min-h-[60vh]">
-            <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-4" />
+            <div className="w-8 h-8 border-4 border-rose-200 border-t-rose-600 rounded-full animate-spin mb-4" />
             <div className="text-slate-500 font-medium text-lg">Connecting to secure room...</div>
           </div>
         ) : (
@@ -194,7 +194,7 @@ const VideoCall: React.FC = () => {
               ) : (
                 <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900">
                   <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mb-6">
-                     <div className="w-8 h-8 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin" />
+                     <div className="w-8 h-8 border-4 border-rose-500/30 border-t-rose-500 rounded-full animate-spin" />
                   </div>
                   <p className="text-white/90 bg-white/5 backdrop-blur-md px-6 py-3 rounded-full font-medium tracking-wide text-sm border border-white/10">
                     {roomData.role === 'doctor' ? "Waiting for Patient to connect..." : "Connecting to Doctor..."}
@@ -262,12 +262,12 @@ const VideoCall: React.FC = () => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Add optional consultation notes here..."
-                className="w-full h-32 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-none transition-all text-sm mb-6 bg-slate-50"
+                className="w-full h-32 p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-rose-500 focus:border-rose-500 outline-none resize-none transition-all text-sm mb-6 bg-slate-50"
               ></textarea>
               <div className="flex justify-end gap-3">
                 <button
                   onClick={() => submitNotes()}
-                  className="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all shadow-md active:scale-95"
+                  className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white font-medium rounded-xl transition-all shadow-md active:scale-95"
                 >
                   Save & Exit
                 </button>

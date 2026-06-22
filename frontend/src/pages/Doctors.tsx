@@ -98,13 +98,13 @@ export default function Doctors() {
             type="text" 
             placeholder="Search by name..." 
             data-element-id="search-input"
-            className="flex-1 px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm"
+            className="flex-1 px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 shadow-sm"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <select 
             data-element-id="specialty-filter"
-            className="px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 bg-white shadow-sm sm:w-64"
+            className="px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 bg-white shadow-sm sm:w-64"
             value={selectedSpecialty}
             onChange={handleSpecialtyChange}
           >
@@ -142,7 +142,7 @@ export default function Doctors() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="text-lg font-semibold text-slate-900">{doc.full_name}</h3>
-                    <span className="px-2.5 py-0.5 bg-sky-100 text-sky-700 text-xs font-medium rounded-full">
+                    <span className="px-2.5 py-0.5 bg-pink-100 text-pink-700 text-xs font-medium rounded-full">
                       {doc.specialty}
                     </span>
                   </div>
@@ -161,7 +161,7 @@ export default function Doctors() {
                 </div>
                 {triageSessionId ? (
                   <button 
-                    className="px-5 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors whitespace-nowrap mt-2 sm:mt-0 shadow-sm"
+                    className="px-5 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg transition-colors whitespace-nowrap mt-2 sm:mt-0 shadow-sm"
                     data-element-id={`request-btn-${index + 1}`}
                     onClick={() => handleRequestAppointment(doc.id)}
                   >

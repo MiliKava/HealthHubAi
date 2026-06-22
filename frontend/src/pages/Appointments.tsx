@@ -90,7 +90,7 @@ export default function Appointments() {
 
   const getBadgeClass = (status: string) => {
     switch(status) {
-      case 'requested': return 'bg-sky-100 text-sky-700';
+      case 'requested': return 'bg-pink-100 text-pink-700';
       case 'proposed': return 'bg-yellow-100 text-yellow-800';
       case 'confirmed': return 'bg-green-100 text-green-800';
       case 'rejected': return 'bg-red-100 text-red-800';
@@ -114,7 +114,7 @@ export default function Appointments() {
 
         {loading ? (
           <div className="text-center py-16 glass-panel mac-shadow rounded-2xl flex flex-col items-center justify-center gap-3">
-             <div className="w-6 h-6 border-2 border-indigo-200 border-t-indigo-600 rounded-full animate-spin" />
+             <div className="w-6 h-6 border-2 border-rose-200 border-t-rose-600 rounded-full animate-spin" />
              <p className="text-slate-500 font-medium">Loading appointments...</p>
           </div>
         ) : requests.length === 0 ? (
@@ -131,14 +131,14 @@ export default function Appointments() {
               <div key={req.id} className="glass-panel mac-shadow rounded-2xl p-6 sm:p-8 transition-all hover:translate-y-[-2px] mb-4" data-element-id={`request-${req.id}`}>
                 <div className="flex flex-col sm:flex-row justify-between items-start mb-6 gap-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-sky-400 to-indigo-500 shadow-sm flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-pink-400 to-rose-500 shadow-sm flex items-center justify-center shrink-0">
                        <span className="text-white font-bold text-lg">{req.doctor_details?.name?.charAt(0) || 'D'}</span>
                     </div>
                     <div>
                       <div className="text-lg font-bold text-slate-800 tracking-tight">
                         {req.doctor_details?.name || 'Unknown Doctor'}
                       </div>
-                      <div className="text-sm text-indigo-600 font-medium">
+                      <div className="text-sm text-rose-600 font-medium">
                         {req.doctor_details?.specialty || 'General Practitioner'}
                       </div>
                       <div className="text-xs text-slate-400 mt-1">
@@ -156,14 +156,14 @@ export default function Appointments() {
                     <span className="text-xl">🩺</span>
                     <div>
                       <p className="font-semibold text-slate-800 mb-0.5">Triage Summary</p>
-                      <p><span className="font-medium text-indigo-600">{req.triage_summary.risk_level} Risk</span> · {req.triage_summary.symptoms}</p>
+                      <p><span className="font-medium text-rose-600">{req.triage_summary.risk_level} Risk</span> · {req.triage_summary.symptoms}</p>
                     </div>
                   </div>
                 )}
                 
                 {req.proposed_slot && req.status !== 'requested' && (
-                  <div className="text-sm text-slate-700 mb-5 font-semibold bg-indigo-50/50 p-3 rounded-xl border border-indigo-100/50 inline-block">
-                    📅 {req.status === 'confirmed' ? 'Confirmed slot:' : 'Proposed slot:'} <span className="text-indigo-700">{formatSlot(req.proposed_slot)}</span>
+                  <div className="text-sm text-slate-700 mb-5 font-semibold bg-rose-50/50 p-3 rounded-xl border border-rose-100/50 inline-block">
+                    📅 {req.status === 'confirmed' ? 'Confirmed slot:' : 'Proposed slot:'} <span className="text-rose-700">{formatSlot(req.proposed_slot)}</span>
                   </div>
                 )}
                 
@@ -188,7 +188,7 @@ export default function Appointments() {
                   <div className="mt-2 pt-5 border-t border-slate-200/50">
                     <a 
                       href={`/video-call/${req.id}`}
-                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5"
+                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
                       Join Video Call

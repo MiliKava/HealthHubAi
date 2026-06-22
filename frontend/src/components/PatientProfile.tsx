@@ -188,7 +188,7 @@ export default function PatientProfile() {
                 name="date_of_birth"
                 value={formData.date_of_birth || ''}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none text-slate-800"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none text-slate-800"
                 data-element-id="dob"
               />
             </div>
@@ -198,7 +198,7 @@ export default function PatientProfile() {
                 name="gender"
                 value={formData.gender || ''}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none text-slate-800"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none text-slate-800"
                 data-element-id="gender"
               >
                 <option value="Male">Male</option>
@@ -217,7 +217,7 @@ export default function PatientProfile() {
               value={formData.phone || ''}
               onChange={handleChange}
               placeholder="+1 555 000 0000"
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none text-slate-800"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none text-slate-800"
               data-element-id="phone"
             />
           </div>
@@ -230,7 +230,7 @@ export default function PatientProfile() {
               onChange={handleChange}
               rows={3}
               placeholder="e.g. Type 2 diabetes, hypertension..."
-              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none text-slate-800"
+              className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none text-slate-800"
               data-element-id="chronic"
             />
           </div>
@@ -242,7 +242,7 @@ export default function PatientProfile() {
                 name="pregnancy_status"
                 value={formData.pregnancy_status || ''}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none text-slate-800"
+                className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none text-slate-800"
                 data-element-id="pregnancy"
               >
                 <option value="Not applicable">Not applicable</option>
@@ -256,7 +256,7 @@ export default function PatientProfile() {
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 bg-sky-500 hover:bg-sky-600 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="px-6 py-2.5 bg-pink-500 hover:bg-pink-600 text-white font-medium rounded-lg transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
               data-element-id="save-profile"
             >
               {saving ? 'Saving...' : 'Save Profile'}

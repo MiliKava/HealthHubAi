@@ -43,7 +43,7 @@ export default function Dashboard() {
         <h2 className="text-3xl font-bold text-slate-800 mb-8 tracking-tight">Welcome back, {user?.full_name}</h2>
         
         <div className="glass-panel mac-shadow p-8 rounded-2xl transition-all hover:translate-y-[-2px]">
-          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-blue-500 shadow-md mb-6 flex items-center justify-center">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-rose-500 to-red-500 shadow-md mb-6 flex items-center justify-center">
             <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -56,7 +56,7 @@ export default function Dashboard() {
           
           {role === 'patient' && (
             <div className="flex gap-4">
-              <a href="/triage" className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5">
+              <a href="/triage" className="px-6 py-2.5 bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5">
                 Start Triage Chat
               </a>
               <a href="/doctors" className="px-6 py-2.5 bg-white/80 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold transition-all shadow-sm">

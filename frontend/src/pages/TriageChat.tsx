@@ -171,7 +171,7 @@ export default function TriageChat() {
             <div key={msg.id || index} className={`flex max-w-[70%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
               <div className={`px-5 py-3 rounded-2xl text-[15px] leading-relaxed shadow-sm whitespace-pre-wrap ${
                 msg.sender === 'user' 
-                  ? 'bg-gradient-to-r from-indigo-500 to-blue-500 text-white rounded-tr-sm shadow-md' 
+                  ? 'bg-gradient-to-r from-rose-500 to-red-500 text-white rounded-tr-sm shadow-md' 
                   : 'bg-white/80 backdrop-blur-sm border border-slate-200 text-slate-800 rounded-tl-sm'
               }`}>
                 {msg.content}
@@ -231,7 +231,7 @@ export default function TriageChat() {
                   {result.citations.map((c, i) => (
                     <React.Fragment key={i}>
                       {i > 0 && ' · '}
-                      <a href={c.url || '#'} target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 hover:underline">
+                      <a href={c.url || '#'} target="_blank" rel="noopener noreferrer" className="hover:text-red-600 hover:underline">
                         {c.source}
                       </a>
                     </React.Fragment>
@@ -242,7 +242,7 @@ export default function TriageChat() {
               {!result.emergency_flag && (
                 <Link 
                   to={`/doctors?specialty=${encodeURIComponent(result.recommended_specialist || '')}${sessionId ? `&triage_session_id=${sessionId}` : ''}`}
-                  className="w-full bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg block text-center" 
+                  className="w-full bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-semibold py-3 px-4 rounded-xl transition-all shadow-md hover:shadow-lg block text-center" 
                   data-element-id="talk-to-doctor-btn"
                 >
                   🩺 Talk to a Doctor
@@ -265,13 +265,13 @@ export default function TriageChat() {
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Type your response..."
               disabled={isLoading || isCompleted}
-              className="flex-1 bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl px-5 py-3.5 text-[15px] focus:outline-none focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/10 transition-all disabled:opacity-60 disabled:bg-slate-100"
+              className="flex-1 bg-white/50 backdrop-blur-sm border border-slate-200 rounded-xl px-5 py-3.5 text-[15px] focus:outline-none focus:border-rose-400 focus:ring-4 focus:ring-rose-500/10 transition-all disabled:opacity-60 disabled:bg-slate-100"
               data-element-id="message-input"
             />
             <button 
               type="submit"
               disabled={!inputValue.trim() || isLoading || isCompleted}
-              className="bg-gradient-to-r from-indigo-500 to-blue-500 hover:from-indigo-600 hover:to-blue-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
+              className="bg-gradient-to-r from-rose-500 to-red-500 hover:from-rose-600 hover:to-red-600 text-white font-semibold px-8 py-3.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
               data-element-id="send-btn"
             >
               Send
