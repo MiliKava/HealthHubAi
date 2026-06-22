@@ -15,6 +15,7 @@ const VideoCall: React.FC = () => {
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
   const peerRef = useRef<Peer | null>(null);
   const [connected, setConnected] = useState(false);
+  const connectedRef = useRef(false);
 
   useEffect(() => {
     const initCall = async () => {
@@ -45,6 +46,7 @@ const VideoCall: React.FC = () => {
                 call.on('stream', (remoteStream) => {
                   setRemoteStream(remoteStream);
                   setConnected(true);
+                  connectedRef.current = true;
                   clearInterval(retryInterval);
                 });
                 call.on('error', (err) => {
@@ -54,7 +56,7 @@ const VideoCall: React.FC = () => {
             };
             connectToDoctor();
             retryInterval = setInterval(() => {
-              if (!peerRef.current?.disconnected && !connected) {
+              if (!peerRef.current?.disconnected && !connectedRef.current) {
                 connectToDoctor();
               }
             }, 3000);
