@@ -107,12 +107,12 @@ const DoctorDashboard = () => {
     <SidebarLayout noPadding>
       <div className="p-6 sm:p-10 max-w-5xl mx-auto w-full">
         {/* Tab Navigation */}
-        <div className="flex items-center gap-3 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-200 w-fit">
+        <div className="flex items-center gap-2 mb-10 glass-panel mac-shadow p-1.5 rounded-2xl w-fit">
           <button
             onClick={() => setActiveTab('requests')}
             className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'requests'
-                ? 'bg-blue-50 text-blue-700 shadow-sm'
-                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+                ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                : 'text-slate-500 hover:text-slate-900'
               }`}
           >
             📥 Incoming Requests
@@ -120,8 +120,8 @@ const DoctorDashboard = () => {
           <button
             onClick={() => setActiveTab('calendar')}
             className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'calendar'
-                ? 'bg-emerald-50 text-emerald-700 shadow-sm'
-                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+                ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                : 'text-slate-500 hover:text-slate-900'
               }`}
           >
             📅 Confirmed Appointments
@@ -158,7 +158,7 @@ const DoctorDashboard = () => {
             )}
 
             {activeTab === 'requests' && requests.map((req, idx) => (
-              <div key={req.id} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow" data-element-id={`request-${idx + 1}`}>
+              <div key={req.id} className="glass-panel mac-shadow rounded-2xl p-6 sm:p-8 transition-all hover:translate-y-[-2px]" data-element-id={`request-${idx + 1}`}>
                 <div className="flex justify-between items-start mb-4">
                   <div>
                     <h3 className="text-lg font-semibold text-slate-900">
@@ -192,10 +192,10 @@ const DoctorDashboard = () => {
                 )}
 
                 {req.status === 'requested' && (
-                  <div className="flex flex-col sm:flex-row gap-3 items-center mt-5 pt-5 border-t border-slate-100">
+                  <div className="flex flex-col sm:flex-row gap-3 items-center mt-6 pt-6 border-t border-slate-200/50">
                     <input
                       type="datetime-local"
-                      className="flex-1 sm:max-w-xs px-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                      className="flex-1 sm:max-w-xs px-4 py-2.5 bg-white/70 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 outline-none transition-all"
                       data-element-id="slot-picker"
                       value={proposedSlots[req.id] || ''}
                       onChange={(e) => handleSlotChange(req.id, e.target.value)}
@@ -203,7 +203,7 @@ const DoctorDashboard = () => {
                     <button
                       onClick={() => handlePropose(req.id)}
                       data-element-id="propose-btn"
-                      className="w-full sm:w-auto px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)]"
                     >
                       <span className="text-sm">✓</span>
                       Propose Slot
@@ -211,7 +211,7 @@ const DoctorDashboard = () => {
                     <button
                       onClick={() => handleDecline(req.id)}
                       data-element-id="decline-btn"
-                      className="w-full sm:w-auto px-5 py-2 bg-white hover:bg-red-50 text-red-600 border border-red-200 hover:border-red-300 text-sm font-medium rounded-lg flex items-center justify-center gap-2 transition-colors"
+                      className="w-full sm:w-auto px-6 py-2.5 bg-white/80 hover:bg-red-50 text-red-600 border border-red-100 hover:border-red-200 text-sm font-semibold rounded-xl flex items-center justify-center gap-2 transition-all shadow-sm"
                     >
                       <span className="text-sm">✕</span>
                       Decline
@@ -228,7 +228,7 @@ const DoctorDashboard = () => {
             ))}
 
             {activeTab === 'calendar' && appointments.map((req, idx) => (
-              <div key={req.id} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm" data-element-id={`appointment-${idx + 1}`}>
+              <div key={req.id} className="glass-panel mac-shadow rounded-2xl p-6 sm:p-8 transition-all hover:translate-y-[-2px]" data-element-id={`appointment-${idx + 1}`}>
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="text-lg font-semibold text-slate-900">
@@ -251,12 +251,13 @@ const DoctorDashboard = () => {
                   </div>
                 )}
                 
-                <div className="mt-4">
+                <div className="mt-6 pt-6 border-t border-slate-200/50">
                   <a 
                     href={`/video-call/${req.id}`}
-                    className="inline-block px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)] hover:-translate-y-0.5"
                   >
-                    Join Call
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+                    Join Video Call
                   </a>
                 </div>
               </div>

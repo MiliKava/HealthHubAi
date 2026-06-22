@@ -47,29 +47,35 @@ export default function SidebarLayout({ children, noPadding = false }: { childre
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
-      <div className="pt-8 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-3 items-center">
-        {navLinks.map((link) => (
-          <Link
-            key={link.path}
-            to={link.path}
-            className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all shadow-sm ${location.pathname === link.path
-                ? 'bg-slate-900 text-white shadow-slate-900/20'
-                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
-              }`}
-          >
-            {link.name}
-          </Link>
-        ))}
+    <div className="min-h-screen bg-transparent font-sans flex flex-col relative overflow-hidden">
+      {/* Decorative background blur elements globally for the app */}
+      <div className="fixed top-[-10%] right-[-5%] w-[600px] h-[600px] bg-blue-400/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+      <div className="fixed bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-sky-400/10 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+
+      <div className="sticky top-0 z-50 pt-6 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-3 items-center">
+        <div className="flex gap-2 p-1.5 glass-panel rounded-2xl mac-shadow">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${location.pathname === link.path
+                  ? 'bg-gradient-to-r from-indigo-500 to-sky-500 text-white shadow-md'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                }`}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
         <button
           onClick={handleLogout}
-          className="ml-auto px-5 py-2.5 rounded-2xl text-sm font-semibold bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition-all shadow-sm"
+          className="ml-auto px-6 py-3 rounded-2xl text-sm font-semibold glass-panel text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-all mac-shadow"
         >
           Logout
         </button>
       </div>
 
-      <div className={`flex-1 flex flex-col ${noPadding ? '' : 'p-6 sm:p-10'} max-w-[1600px] w-full mx-auto`}>
+      <div className={`flex-1 flex flex-col ${noPadding ? '' : 'p-6 sm:p-10'} max-w-[1600px] w-full mx-auto relative z-10`}>
         {children}
       </div>
     </div>

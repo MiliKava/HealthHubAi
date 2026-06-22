@@ -40,14 +40,34 @@ export default function Dashboard() {
           </div>
         )}
 
-        <h2 className="text-2xl font-bold text-slate-900 mb-6">Welcome to your Dashboard, {user?.full_name}</h2>
-        <div className="bg-white p-8 rounded-xl border border-slate-200 shadow-sm">
-          <p className="text-slate-600 mb-4">
-            This is a placeholder for the Phase 2 dashboard. Based on your role ({role}), you'll see specific features here in future phases.
+        <h2 className="text-3xl font-bold text-slate-800 mb-8 tracking-tight">Welcome back, {user?.full_name}</h2>
+        
+        <div className="glass-panel mac-shadow p-8 rounded-2xl transition-all hover:translate-y-[-2px]">
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-tr from-indigo-500 to-sky-400 shadow-md mb-6 flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          
+          <h3 className="text-xl font-bold text-slate-800 mb-3">Your CareBridge Portal</h3>
+          <p className="text-slate-600 mb-6 leading-relaxed">
+            Welcome to the CareBridge AI ecosystem. From here, you can access the Triage Chat to get an immediate AI assessment, view your appointment history, or browse available doctors.
           </p>
-          <div className="mt-6 p-4 bg-slate-50 rounded-lg border border-slate-100">
-            <h3 className="text-sm font-bold text-slate-700 mb-2">Debug Info:</h3>
-            <pre className="text-xs text-slate-500 overflow-auto">
+          
+          {role === 'patient' && (
+            <div className="flex gap-4">
+              <a href="/triage" className="px-6 py-2.5 bg-gradient-to-r from-indigo-500 to-sky-500 hover:from-indigo-600 hover:to-sky-600 text-white rounded-xl text-sm font-semibold transition-all shadow-[0_4px_14px_0_rgba(99,102,241,0.39)] hover:shadow-[0_6px_20px_rgba(99,102,241,0.23)] hover:-translate-y-0.5">
+                Start Triage Chat
+              </a>
+              <a href="/doctors" className="px-6 py-2.5 bg-white/80 border border-slate-200 hover:bg-slate-50 text-slate-700 rounded-xl text-sm font-semibold transition-all shadow-sm">
+                Find a Doctor
+              </a>
+            </div>
+          )}
+          
+          <div className="mt-10 p-5 bg-slate-100/50 backdrop-blur-sm rounded-xl border border-slate-200/50">
+            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">System Profile Data</h4>
+            <pre className="text-xs text-slate-600 overflow-auto font-mono bg-white/50 p-4 rounded-lg border border-slate-200/50">
               {JSON.stringify(user, null, 2)}
             </pre>
           </div>
