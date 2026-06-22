@@ -58,7 +58,7 @@ export default function SessionDetail() {
 
   return (
     <SidebarLayout noPadding>
-      <div className="flex flex-col h-[calc(100vh)] bg-slate-50 relative">
+      <div className="flex flex-col flex-1 min-h-0 bg-slate-50 relative">
         <div className="flex items-center p-4 border-b border-slate-200 bg-white shrink-0 gap-4">
           <button 
             onClick={() => navigate('/history')}

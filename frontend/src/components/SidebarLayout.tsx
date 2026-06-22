@@ -18,63 +18,58 @@ export default function SidebarLayout({ children, noPadding = false }: { childre
   };
 
   let navLinks: { name: string, path: string }[] = [];
-  
+
   if (role === 'patient') {
     navLinks = [
       { name: 'Dashboard', path: '/' },
       { name: 'Triage Chat', path: '/triage' },
-      { name: 'Session History', path: '/history' },
-      { name: 'My Appointments', path: '/appointments' },
-      { name: 'Find a Doctor', path: '/doctors' },
-      { name: 'My Profile', path: '/profile' },
+      { name: 'History', path: '/history' },
+      { name: 'Appointments', path: '/appointments' },
+      { name: 'Doctors', path: '/doctors' },
+      { name: 'Profile', path: '/profile' },
     ];
   } else if (role === 'doctor') {
     navLinks = [
       { name: 'Dashboard', path: '/doctor/dashboard' },
-      { name: 'My Profile', path: '/profile' },
+      { name: 'Profile', path: '/profile' },
     ];
   } else if (role === 'admin') {
     navLinks = [
       { name: 'Dashboard', path: '/' },
       { name: 'Admin Panel', path: '/admin' },
-      { name: 'My Profile', path: '/profile' },
+      { name: 'Profile', path: '/profile' },
     ];
   } else {
     navLinks = [
       { name: 'Dashboard', path: '/' },
-      { name: 'My Profile', path: '/profile' },
+      { name: 'Profile', path: '/profile' },
     ];
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans">
-      <div className="w-64 bg-slate-900 text-white p-6 flex flex-col shrink-0">
-        <h3 className="text-xl font-bold mb-8 tracking-tight">CareBridge AI</h3>
-        <nav className="flex-1 space-y-2">
-          {navLinks.map((link) => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                location.pathname === link.path
-                  ? 'bg-slate-800 text-white'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
+    <div className="min-h-screen bg-slate-50 font-sans flex flex-col">
+      <div className="pt-8 px-6 sm:px-10 max-w-[1600px] w-full mx-auto flex flex-wrap gap-3 items-center">
+        {navLinks.map((link) => (
+          <Link
+            key={link.path}
+            to={link.path}
+            className={`px-5 py-2.5 rounded-2xl text-sm font-semibold transition-all shadow-sm ${location.pathname === link.path
+                ? 'bg-slate-900 text-white shadow-slate-900/20'
+                : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200 hover:border-slate-300'
               }`}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-        <div className="mt-auto pt-6 border-t border-slate-800">
-          <button
-            onClick={handleLogout}
-            className="w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 font-medium"
           >
-            Logout
-          </button>
-        </div>
+            {link.name}
+          </Link>
+        ))}
+        <button
+          onClick={handleLogout}
+          className="ml-auto px-5 py-2.5 rounded-2xl text-sm font-semibold bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition-all shadow-sm"
+        >
+          Logout
+        </button>
       </div>
-      <div className={`flex-1 flex flex-col ${noPadding ? '' : 'p-10'} overflow-hidden`}>
+
+      <div className={`flex-1 flex flex-col ${noPadding ? '' : 'p-6 sm:p-10'} max-w-[1600px] w-full mx-auto`}>
         {children}
       </div>
     </div>

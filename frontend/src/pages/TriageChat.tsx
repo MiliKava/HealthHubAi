@@ -150,7 +150,7 @@ export default function TriageChat() {
 
   return (
     <SidebarLayout noPadding>
-      <div className="flex flex-col h-[calc(100vh)] bg-slate-50 relative">
+      <div className="flex flex-col flex-1 min-h-0 bg-slate-50 relative">
         <div className="bg-amber-100 border-b border-amber-300 px-6 py-3 flex items-center justify-center shrink-0 z-10" data-element-id="disclaimer-banner">
           <span className="text-amber-900 text-sm font-medium text-center">
             ⚠️ This tool is not a diagnostic service. In a medical emergency, call 911 immediately.

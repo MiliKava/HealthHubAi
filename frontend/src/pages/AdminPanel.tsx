@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import api from '../api';
+import SidebarLayout from '../components/SidebarLayout';
 
 interface CVKeywords {
   specialty?: string;
@@ -180,8 +181,8 @@ export default function AdminPanel() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F5F5F7] p-8 font-sans">
-      <div className="max-w-[1600px] mx-auto">
+    <SidebarLayout noPadding>
+      <div className="max-w-[1600px] mx-auto p-6 sm:p-10 pt-4">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">Doctor Applications</h1>
         </div>
@@ -256,6 +257,6 @@ export default function AdminPanel() {
           </div>
         )}
       </div>
-    </div>
+    </SidebarLayout>
   );
 }

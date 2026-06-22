@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import { useAuthStore } from '../store/authStore';
+import SidebarLayout from '../components/SidebarLayout';
 
 interface TriageSummary {
   risk_level: string;
@@ -34,8 +34,7 @@ const DoctorDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [proposedSlots, setProposedSlots] = useState<{ [key: string]: string }>({});
-  
-  const navigate = useNavigate();
+
   const { user } = useAuthStore();
 
   useEffect(() => {
@@ -98,43 +97,30 @@ const DoctorDashboard = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans">
-      {/* Sidebar */}
-      <div className="w-64 bg-slate-900 text-white p-6 shrink-0">
-        <h3 className="text-xl font-bold mb-8 text-white tracking-tight">CareBridge AI</h3>
-        
-        <nav className="space-y-2">
+    <SidebarLayout noPadding>
+      <div className="p-6 sm:p-10 max-w-5xl mx-auto w-full">
+        {/* Tab Navigation */}
+        <div className="flex items-center gap-3 mb-8 bg-white p-2 rounded-2xl shadow-sm border border-slate-200 w-fit">
           <button
             onClick={() => setActiveTab('requests')}
-            data-element-id="nav-requests"
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors ${activeTab === 'requests' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'}`}
+            className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'requests'
+                ? 'bg-blue-50 text-blue-700 shadow-sm'
+                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+              }`}
           >
-            <span className="w-5 h-5 flex items-center justify-center">📥</span>
-            Requests
+            📥 Incoming Requests
           </button>
-          
           <button
             onClick={() => setActiveTab('calendar')}
-            data-element-id="nav-calendar"
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors ${activeTab === 'calendar' ? 'bg-slate-800 text-white font-medium' : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'}`}
+            className={`px-6 py-2.5 rounded-xl text-sm font-semibold transition-all ${activeTab === 'calendar'
+                ? 'bg-emerald-50 text-emerald-700 shadow-sm'
+                : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'
+              }`}
           >
-            <span className="w-5 h-5 flex items-center justify-center">📅</span>
-            Calendar
+            📅 Confirmed Appointments
           </button>
+        </div>
 
-          <button
-            onClick={() => navigate('/profile')}
-            data-element-id="nav-profile"
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-slate-400 hover:bg-slate-800/50 hover:text-white transition-colors mt-4"
-          >
-            <span className="w-5 h-5 flex items-center justify-center">👤</span>
-            My Profile
-          </button>
-        </nav>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-10 max-w-5xl">
         <h2 className="text-2xl font-bold text-slate-900 mb-8">
           {activeTab === 'requests' ? 'Incoming Requests' : 'Confirmed Appointments'}
         </h2>
@@ -156,7 +142,7 @@ const DoctorDashboard = () => {
                 No incoming requests at the moment.
               </div>
             )}
-            
+
             {activeTab === 'calendar' && appointments.length === 0 && (
               <div className="bg-white rounded-xl p-8 text-center text-slate-500 border border-slate-200">
                 <span className="text-4xl mx-auto block mb-3 text-slate-300">📅</span>
@@ -175,9 +161,8 @@ const DoctorDashboard = () => {
                       Requested: {new Date(req.created_at).toLocaleString()}
                     </p>
                   </div>
-                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-                    req.status === 'requested' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                  }`}>
+                  <span className={`px-3 py-1 text-xs font-medium rounded-full ${req.status === 'requested' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                    }`}>
                     {req.status.charAt(0).toUpperCase() + req.status.slice(1)}
                   </span>
                 </div>
@@ -186,7 +171,7 @@ const DoctorDashboard = () => {
                   <div className="bg-blue-50 border border-blue-100 rounded-lg p-4 mb-5">
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-semibold text-blue-900 flex items-center gap-1.5">
-                        <span className="text-base">⚠️</span> 
+                        <span className="text-base">⚠️</span>
                         {req.triage_summary.risk_level} Risk
                       </span>
                     </div>
@@ -226,7 +211,7 @@ const DoctorDashboard = () => {
                     </button>
                   </div>
                 )}
-                
+
                 {req.status === 'proposed' && (
                   <div className="mt-4 pt-4 border-t border-slate-100 text-sm text-slate-600">
                     You have proposed a slot for <span className="font-medium text-slate-900">{new Date(req.proposed_slot!).toLocaleString()}</span>. Waiting for patient confirmation.
@@ -251,7 +236,7 @@ const DoctorDashboard = () => {
                     Confirmed
                   </span>
                 </div>
-                
+
                 {req.triage_summary && (
                   <div className="mt-4 text-sm text-slate-600 border-l-2 border-slate-200 pl-3">
                     <p><span className="font-medium text-slate-700">Symptoms:</span> {req.triage_summary.symptoms}</p>
@@ -263,7 +248,7 @@ const DoctorDashboard = () => {
           </div>
         )}
       </div>
-    </div>
+    </SidebarLayout>
   );
 };
 
